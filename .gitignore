@@ -49,4 +49,13 @@ po/*~
 rsconnect/
 
 #big files
-.zip
+*.zip
+
+#ArcPro files
+*.cpg
+*.dbf
+*.prj
+*.shp
+*.shx
+*.sr.lock
+*.xml
