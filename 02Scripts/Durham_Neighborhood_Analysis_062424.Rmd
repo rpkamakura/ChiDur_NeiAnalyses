@@ -1,0 +1,1111 @@
+---
+title: "Durham Modeling: Neighborhood Data"
+author: "Renata"
+date: "2022-12-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+##Group means for segment data
+library(dplyr)
+
+##Visuals
+library(ggplot2)
+
+##dataframe manipulation
+library(dplyr)
+
+#for your diversity metrics
+library(vegan)
+
+#for beta regressions
+library(betareg)
+library(StepBeta)
+
+#for stepwise poisson
+library(My.stepwise)
+
+```
+
+```{r read in tree lvl data}
+##read in data
+basicDataPath <- c("../../01Data/03DurhamSampling/")
+
+#read in full version of the tree dataset
+TreeLvlCombined <- read.csv("../../01Data/03DurhamSampling/SamplingS23/091523AllYearsCombDurham.csv")
+
+TodayDate <- Sys.Date()
+date <- format(TodayDate, format="%b%d%y")
+
+##get the new data
+BuildingPermits <- read.csv("../../01Data/CityData/Durham/Durham_BuildingPermits_wSeg_clean.csv")
+DemolitionPermits <- read.csv("../../01Data/CityData/Durham/Durham_DemolitionPermits_wSeg.csv")
+BuildingParcels <- read.csv("../../01Data/CityData/Durham/Durham_Parcels_wSeg.csv")
+
+#census
+CensusData <- read.csv("../../01Data/CityData/Durham/DurhamCensusData_bySegment.csv")
+SVIData <- read.csv("../../01Data/CityData/Durham/SVI_Durham.csv")
+
+#zoning
+ZoningDat  <- read.csv("../../01Data/CityData/Durham/Segment_ZoningData.csv")
+
+##temperature - from arcPro layer (NCSU 2021 data collection)
+segnms <- c("H21", "K18", "M19", "M22", "N14", 
+            "O18", "O19", "O21", "P21", "Q18", 
+            "Q21", "Q23", "R21", "R24", "S18", 
+            "S19", "S22", "T18", "U16", "U17", 
+            "U21", "V19", "X15", "X16")
+segAftT50m <- c(83.973885, 83.661774, 84.675644, 83.384377, NA,
+             84.971359, 84.747978, 83.997818, 84.641830, 82.748909,
+             85.188217, 83.595230, 84.245056, 83.710403, 83.596710, 
+             83.451599, 84.264114, 83.135727, 82.739166, 83.804047,
+             83.369415, 84.049667 , NA, NA)
+segAftT10m <- c(84.070175, 83.701942, 84.731026, 83.401512, NA,
+                84.995140, 84.792496, 84.058586, 84.712051, 82.815056, 
+                85.173752, 83.657463, 84.289871, 83.735176, 83.668518, 
+                83.447472, 84.254936, 83.155273, 82.723167, 83.888489, 
+                83.315224, 84.360146, NA, NA)
+
+SegmentTemp <- as.data.frame(matrix(c(segnms, segAftT50m, segAftT10m), ncol=3, byrow = FALSE))
+names(SegmentTemp) <- c("Segment", "AfternoonTemp50m", "AfternoonTemp10m")
+
+SegmentTemp$AfternoonTemp50m <- (as.numeric(SegmentTemp$AfternoonTemp50m) - 32)*5/9
+SegmentTemp$AfternoonTemp10m <- (as.numeric(SegmentTemp$AfternoonTemp10m) - 32)*5/9
+
+```
+
+
+##Useful Functions
+```{r useful funcs}
+sumSquares <- function(predicted, actual){
+  
+  ss <- 0
+  
+  for(s in 1:length(predicted)){
+    
+    ss <- ss + (predicted[s] - actual[s])^2
+    
+    if( is.na(ss)){
+      
+      print(paste("ERROR: at iteration", s, "ss became NA"))
+      
+      break
+      
+    }
+    
+  }
+  
+  return(ss)
+}
+
+basalArea <- function(dbh){
+  
+ dbh_cm <- dbh*2.54
+  ba <- (pi * (dbh_cm/2)^2)/10000
+  return(ba)
+}
+
+#weighted avg function
+weAvg <- function(column1, weights){
+  wa <- sum(column1 * weights)
+  return(wa)
+  
+}
+```
+
+
+#####Manage Census Data
+```{r get census data}
+
+##########################################deal with the census data
+CensusData$SVI <- SVIData$OverallSVI[match(CensusData$GEOID, SVIData$FIPS)]
+
+#set up weighted average
+TotArea <- CensusData %>%
+  group_by(Name_1) %>% summarize_at(vars("Area_m"), sum, na.rm=TRUE)
+
+#so now we have the percent of the area for each segment
+CensusData$PercentArea <- CensusData$Area_m/TotArea$Area_m[match(CensusData$Name_1, TotArea$Name_1)] 
+
+finalCensusCols <- c("Segment", "TotalPop", "PercHispanicLatine", "PercBlack", "PercWhite", 
+                     "MedHouseInc", "PercRent", "PercM19", "PercM15to18", "SVI")
+SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea$Name_1), ncol=length(finalCensusCols)))
+names(SegmentCensusData) <- finalCensusCols
+
+#to be able to average
+CensusData[, c("Total_Population", "Percent_HispanicLatino", "Percent_Black", "Percent_White", "Median_Household_Income", "Percent_Renter_Occ", "Percent_M19", "Percent_M15to18", "SVI")] <- sapply(CensusData[, c("Total_Population", "Percent_HispanicLatino", "Percent_Black", "Percent_White", "Median_Household_Income", "Percent_Renter_Occ", "Percent_M19", "Percent_M15to18", "SVI")], as.numeric)
+
+
+#get the weighted average
+for (s in 1:length(TotArea$Name_1)){
+  
+  sdata <- CensusData[CensusData$Name_1 == TotArea$Name_1[s], ]
+  
+  #deal with potential NAs
+  if (TotArea$Name_1[s] == "O18"){
+    
+    #you will be missing one Median Household Income estimate
+    incdata <- na.omit(sdata$Median_Household_Income)
+    adjustdata <- sdata$PercentArea[!is.na(sdata$Median_Household_Income)]/sum(sdata$PercentArea[!is.na(sdata$Median_Household_Income)])
+    
+    SegmentCensusData$MedHouseInc[s] <- sum(incdata * adjustdata)
+  } else {
+    
+    SegmentCensusData$MedHouseInc[s] <- sum(sdata$Median_Household_Income * sdata$PercentArea)
+  }
+  
+  #get your segment data
+  
+  SegmentCensusData$Segment[s] <- TotArea$Name_1[s]
+  SegmentCensusData$TotalPop[s] <- sum(sdata$Total_Population * sdata$PercentArea)
+  SegmentCensusData$PercBlack[s] <- sum(sdata$Percent_Black * sdata$PercentArea)
+  SegmentCensusData$PercWhite[s] <- sum(sdata$Percent_White * sdata$PercentArea)
+  SegmentCensusData$PercHispanicLatine[s] <- sum(sdata$Percent_HispanicLatino * sdata$PercentArea)
+  SegmentCensusData$PercRent[s] <- sum(sdata$Percent_Renter_Occ * sdata$PercentArea)
+  SegmentCensusData$PercM19[s] <- sum(sdata$Percent_M19 * sdata$PercentArea)
+  SegmentCensusData$PercM15to18[s] <- sum(sdata$Percent_M15to18 * sdata$PercentArea)
+  SegmentCensusData$SVI[s] <- sum(sdata$SVI * sdata$PercentArea)
+}
+```
+
+
+##Get Building and Zoning Averages
+```{r building and zoning averages}
+
+##########################################Building data
+num_noNA <- table(BuildingParcels[!is.na(BuildingParcels$OBJECTID_1), c("Name")])
+
+#permitting information
+BuildingPermits$Year_issued <- format(as.Date(BuildingPermits$PermitIssueDate, "%m/%d/%Y"), "%Y")
+perm_typs <- table(BuildingPermits[,c("Segment", "PermitType")])
+perm_yrs_Reno <- table(BuildingPermits[BuildingPermits$PermitType == "Reno_Alt_add", c("Segment", "Year_issued")])
+perm_yrs_NewCons <- table(BuildingPermits[BuildingPermits$PermitType == "NewConst", c("Segment", "Year_issued")])
+perm_yrs_demo  <- table(BuildingPermits[BuildingPermits$PermitType == "Demo", c("Segment", "Year_issued")])
+
+##start combining
+BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since07", "NumConst_since15", "NumConst_since19", "NumDemo_since07", "NumDemo_since15", "NumDemo_since19", "NumReno_since07", "NumReno_since15", "NumReno_since19")
+Seg_building <- as.data.frame(matrix(0, nrow=24, ncol=length(BuiComb_nms)))
+names(Seg_building) <- BuiComb_nms
+
+Seg_building$Segment <- unique(BuildingParcels$Name)
+Seg_building$NumBuild <- num_noNA
+
+Seg_building$NumConst_since07[match(rownames(perm_yrs_NewCons), Seg_building$Segment)] <- rowSums(perm_yrs_NewCons)
+Seg_building$NumConst_since15[match(rownames(perm_yrs_NewCons), Seg_building$Segment)] <- rowSums(perm_yrs_NewCons[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumConst_since19[match(rownames(perm_yrs_NewCons), Seg_building$Segment)]  <- rowSums(perm_yrs_NewCons[,c("2019", "2020", "2021", "2022", "2023")])
+
+Seg_building$NumDemo_since07[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo)
+Seg_building$NumDemo_since15[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumDemo_since19[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo[,c("2019", "2020", "2021", "2022", "2023")])
+
+Seg_building$NumReno_since07[match(rownames(perm_yrs_Reno), Seg_building$Segment)] <- rowSums(perm_yrs_Reno)
+Seg_building$NumReno_since15[match(rownames(perm_yrs_Reno), Seg_building$Segment)] <- rowSums(perm_yrs_Reno[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumReno_since19[match(rownames(perm_yrs_Reno), Seg_building$Segment)]  <- rowSums(perm_yrs_Reno[,c("2019", "2020", "2021", "2022", "2023")])
+
+#Zoning Data
+TotArea <- ZoningDat %>% 
+  group_by(Name) %>%
+  summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
+
+zoning_cols <- c("Segment", "PercRes_z", "PercComm_z", "PercInst_z")
+Zoning_bySeg <- as.data.frame(matrix(0, nrow=25, ncol=length(zoning_cols)))
+names(Zoning_bySeg) <- zoning_cols
+
+AreaBySimpleZone <- ZoningDat %>% 
+  group_by(Name, SimplifiedZone) %>%
+  summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
+
+AreaBySimpleZone <- AreaBySimpleZone[!is.na(AreaBySimpleZone$SimplifiedZone),]
+
+Zoning_bySeg$Segment <- TotArea$Name
+r1_inds <- match(AreaBySimpleZone$Name[AreaBySimpleZone$SimplifiedZone == "Residential"], TotArea$Name)
+Zoning_bySeg$PercRes_z[r1_inds] <- AreaBySimpleZone$Area_m2[AreaBySimpleZone$SimplifiedZone == "Residential"]/TotArea$Area_m2[r1_inds]
+
+r2_inds <- match(AreaBySimpleZone$Name[AreaBySimpleZone$SimplifiedZone == "Commercial"], TotArea$Name)
+Zoning_bySeg$PercComm_z[r2_inds] <- AreaBySimpleZone$Area_m2[AreaBySimpleZone$SimplifiedZone == "Commercial"]/TotArea$Area_m2[r2_inds]
+
+r3_inds <- match(AreaBySimpleZone$Name[AreaBySimpleZone$SimplifiedZone == "Institutional"], TotArea$Name)
+Zoning_bySeg$PercInst_z[r3_inds] <- AreaBySimpleZone$Area_m2[AreaBySimpleZone$SimplifiedZone == "Institutional"]/TotArea$Area_m2[r3_inds]
+
+```
+
+
+##Multiple Tree Health Variables
+
+Need to add some variables that are otherwise not in here (namely species-level variables)
+
+Need to get info for Quercus muhlenbergii and Magnolia liliiflora from the book, which is at home...
+
+```{r pull in species-lvl data}
+#tree species information
+SppSpecificData <- read.csv(paste(basicDataPath,"ProcessedData/DurhamSpeciesInfo_Dirr.csv", sep=""))
+
+#for ease later
+TreeLvlCombined$GenSpe <- paste(TreeLvlCombined$Genus, TreeLvlCombined$Species, sep="_")
+
+#To line up with species info
+TreeLvlCombined$Species[TreeLvlCombined$Species == "unknown"| TreeLvlCombined$Species == "spp"] <- "spp."
+TreeLvlCombined$DroughtTol <- rep(NA, length(TreeLvlCombined$TreeName))
+TreeLvlCombined$SaltTol <- rep(NA, length(TreeLvlCombined$TreeName))
+TreeLvlCombined$UrbanApp <- rep(NA, length(TreeLvlCombined$TreeName))
+
+names(TreeLvlCombined)[names(TreeLvlCombined) == "CrownVigor"] <- "CrownStress"
+
+##for a few weird species
+TreeLvlCombined$Species[TreeLvlCombined$Species == "sylvatica"] <- "silvatica"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "x gradiflora"| TreeLvlCombined$Species == "grandiflora"| TreeLvlCombined$Species == "gradiflora" |TreeLvlCombined$Species == "grandifolia"] <- "x grandiflora"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "azerdarach"] <- "azedarach"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "indica "] <- "indica"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "buergeranum"|TreeLvlCombined$Species == "buergeranium"] <- "buergerianum"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "serrata" & TreeLvlCombined$Genus == "Prunus"] <- "serrulata"
+TreeLvlCombined$Species[TreeLvlCombined$Species == "serotina"] <- "serrotina"
+
+#row by row
+for (t in 1:length(TreeLvlCombined$X)){
+  YesGen <- SppSpecificData$Genus == TreeLvlCombined$Genus[t]
+  YesSpp <- SppSpecificData$Species == TreeLvlCombined$Species[t]
+  
+  SppInfoInd <- c(1:length(SppSpecificData[,1]))[(YesGen & YesSpp)]
+  
+  #what do you do if you don't have info on this species
+  if(length(SppInfoInd) == 0){
+    print(paste("Error, no species information for", TreeLvlCombined$GenSpe[t], "Tree #", t))
+    
+    ##try to fill it in with the default for the genus
+    Spp2 <- SppSpecificData$Species =="spp."
+    SppInfoInd2 <- c(1:length(SppSpecificData[,1]))[(YesGen & Spp2)]
+    
+    if(length(SppInfoInd2) == 0){
+      print(paste("Error, no generic genus-level information for", TreeLvlCombined$Genus[t], "Tree #", t))
+      next #go to the next tree
+    } else {
+    TreeLvlCombined$DroughtTol[t] <- SppSpecificData$DroughtTol[SppInfoInd2]
+    TreeLvlCombined$SaltTol[t] <- SppSpecificData$SaltTol[SppInfoInd2]
+    TreeLvlCombined$UrbanApp[t] <- SppSpecificData$StreetUrban[SppInfoInd2]
+    }
+  
+  #have a species-level match
+  } else {
+    TreeLvlCombined$DroughtTol[t] <- SppSpecificData$DroughtTol[SppInfoInd]
+    TreeLvlCombined$SaltTol[t] <- SppSpecificData$SaltTol[SppInfoInd]
+    TreeLvlCombined$UrbanApp[t] <- SppSpecificData$StreetUrban[SppInfoInd]
+  } #seeing if there is a match
+  
+}
+
+##Species group adjustment
+TreeLvlCombined$GenSpe[TreeLvlCombined$GenSpe == "Lagerstroemia_unknown"| TreeLvlCombined$GenSpe == "Lagerstroemia_indica"] <- "Lagerstroemia_spp"
+TreeLvlCombined$GenSpe[TreeLvlCombined$Genus == "Prunus"] <- "Prunus_spp"
+SppFreq <- sort(table(TreeLvlCombined$GenSpe),decreasing = TRUE)
+CommonSpp <- SppFreq[SppFreq > 50]
+
+#Create a species group category
+TreeLvlCombined$SppGroup <- rep("Other", length(TreeLvlCombined$TreeName))
+TreeLvlCombined$SppGroup[TreeLvlCombined$GenSpe %in% names(CommonSpp)] <- TreeLvlCombined$GenSpe[TreeLvlCombined$GenSpe %in% names(CommonSpp)]
+
+TreeLvlCombined$SppGroup <- as.factor(TreeLvlCombined$SppGroup) #for model
+TreeLvlCombined$SppGroup <- relevel(TreeLvlCombined$SppGroup, ref = "Other")
+
+##make a genus-lvl grouping 
+TreeLvlCombined$GenusGroup <- TreeLvlCombined$Genus
+GenusFreq <- table(TreeLvlCombined$Genus)
+GenusFreq <- GenusFreq[GenusFreq > 40]
+
+TreeLvlCombined$GenusGroup[!(TreeLvlCombined$GenusGroup %in% names(GenusFreq))] <- "Other"
+TreeLvlCombined$GenusGroup <- as.factor(TreeLvlCombined$GenusGroup )
+TreeLvlCombined$GenusGroup <- relevel(TreeLvlCombined$GenusGroup, ref = "Other")
+
+```
+
+
+
+```{r prep response data}
+#to make it easier to correct mistakes + focus on street trees
+TreeLvlCombined_mod <- TreeLvlCombined[TreeLvlCombined$Segment != "Duke" & TreeLvlCombined$Segment != "Park",]
+
+#Get rid of trees without local site conditions
+TreeLvlCombined_mod <- TreeLvlCombined_mod[!is.na(TreeLvlCombined_mod$Gardenscape),]
+
+#calculate basal area
+TreeLvlCombined_mod$BasalArea <- sapply(TreeLvlCombined_mod$DBHTot, basalArea)
+TreeLvlCombined_mod <- TreeLvlCombined_mod[TreeLvlCombined_mod$BasalArea > 0, ] #because we need some kind of BA
+
+#get segment as a factor
+TreeLvlCombined_mod$Segment <- as.factor(TreeLvlCombined_mod$Segment)
+
+#Year
+TreeLvlCombined_mod$Year <- as.factor(TreeLvlCombined_mod$Year)
+
+
+###########################################Cues to care
+
+###########create Mulch categories
+TreeLvlCombined_mod$Mulch[TreeLvlCombined_mod$Mulch == 1] <- "Mulch"
+TreeLvlCombined_mod$Mulch[TreeLvlCombined_mod$Mulch == FALSE] <- "None"
+TreeLvlCombined_mod$Mulch[TreeLvlCombined_mod$MulchVolcano == 1] <- "Volcano"
+
+TreeLvlCombined_mod$Mulch <- as.factor(TreeLvlCombined_mod$Mulch)
+TreeLvlCombined_mod$Mulch <- relevel(TreeLvlCombined_mod$Mulch, ref = "None")
+
+##put a correctly mulched metric in place
+TreeLvlCombined_mod$CorrMulch <- TreeLvlCombined_mod$Mulch
+TreeLvlCombined_mod$CorrMulch <- as.character(TreeLvlCombined_mod$CorrMulch)
+TreeLvlCombined_mod$CorrMulch[TreeLvlCombined_mod$CorrMulch == "Mulch"] <- 1
+TreeLvlCombined_mod$CorrMulch[TreeLvlCombined_mod$CorrMulch != 1] <- 0
+
+########Translate Gardenscape
+TreeLvlCombined_mod$Gardenscape[TreeLvlCombined_mod$Gardenscape==""] <- "None"
+h1 <- c("None", "Minimal", "Moderate", "Extensive")
+h2 <- c(1:4)
+GDict <- as.data.frame(matrix(c(h1,h2), nrow=4, ncol=2, byrow=FALSE))
+names(GDict) <- c("Original", "Simplified")
+
+TreeLvlCombined_mod$Gardenscape <- GDict$Simplified[match(TreeLvlCombined_mod$Gardenscape, GDict$Original)]
+
+TreeLvlCombined_mod$Gardenscape <- as.character(TreeLvlCombined_mod$Gardenscape)
+TreeLvlCombined_mod$Gardenscape[TreeLvlCombined_mod$Gardenscape == 3] <- 4
+TreeLvlCombined_mod$Gardenscape[TreeLvlCombined_mod$Gardenscape == 2] <- 3
+TreeLvlCombined_mod$Gardenscape[TreeLvlCombined_mod$Gardenscape == 1] <- 2
+TreeLvlCombined_mod$Gardenscape[TreeLvlCombined_mod$Gardenscape == 2 & TreeLvlCombined_mod$Mowing %in% c("old", "potentially never")] <- 1
+TreeLvlCombined_mod$Gardenscape <- as.factor(TreeLvlCombined_mod$Gardenscape)
+
+#######Pruning
+TreeLvlCombined_mod$PrunedCorrect <-TreeLvlCombined_mod$Pruned
+TreeLvlCombined_mod$PrunedCorrect[TreeLvlCombined_mod$HatrackPrune == 1 | TreeLvlCombined_mod$FlushCutPrune == 1] <- 0
+
+
+
+#######################################################################Site conditions
+##Group Land Use categories
+TreeLvlCombined_mod$LandUse <- as.character(TreeLvlCombined_mod$LandUse)
+TreeLvlCombined_mod$LandUse[TreeLvlCombined_mod$LandUse == "SFR-A" | TreeLvlCombined_mod$LandUse == "SFR-D" | TreeLvlCombined_mod$LandUse == "MFR"] <- "Res"
+TreeLvlCombined_mod$LandUse[TreeLvlCombined_mod$LandUse == "COMM" | TreeLvlCombined_mod$LandUse == "MIX"] <- "COMM_Mx"
+TreeLvlCombined_mod$LandUse[is.null(TreeLvlCombined_mod$LandUse) |TreeLvlCombined_mod$LandUse == "V" | TreeLvlCombined_mod$LandUse == "IND" | TreeLvlCombined_mod$LandUse == "UT" | TreeLvlCombined_mod$LandUse == "TR" | TreeLvlCombined_mod$LandUse == "AG" | TreeLvlCombined_mod$LandUse == ""| TreeLvlCombined_mod$LandUse == "MP" | TreeLvlCombined_mod$LandUse == "NAT"] <- "Other"
+TreeLvlCombined_mod$LandUse <- as.factor(TreeLvlCombined_mod$LandUse)
+TreeLvlCombined_mod$LandUse <- relevel(TreeLvlCombined_mod$LandUse, ref="Res")
+
+
+##SiteType
+#Site type
+TreeLvlCombined_mod$SiteType <- as.character(TreeLvlCombined_mod$SiteType)
+TreeLvlCombined_mod$SiteType[TreeLvlCombined_mod$SiteType == "FY" | TreeLvlCombined_mod$SiteType == "SY"] <- "Yard"
+TreeLvlCombined_mod$SiteType[TreeLvlCombined_mod$SiteType == "OM" | TreeLvlCombined_mod$SiteType == "OH"| TreeLvlCombined_mod$SiteType == "PB"] <- "OMH"
+TreeLvlCombined_mod$SiteType[is.null(TreeLvlCombined_mod$SiteType) |TreeLvlCombined_mod$SiteType== ""| TreeLvlCombined_mod$SiteType== "NAT"] <- "Other"
+TreeLvlCombined_mod$SiteType <- as.factor(TreeLvlCombined_mod$SiteType)
+TreeLvlCombined_mod$SiteType <- relevel(TreeLvlCombined_mod$SiteType, ref="SC")
+
+
+#Crown Light
+TreeLvlCombined_mod$CrownLight <- as.numeric(TreeLvlCombined_mod$CrownLight)
+TreeLvlCombined_mod$CrownLight <- round(TreeLvlCombined_mod$CrownLight)
+TreeLvlCombined_mod$CrownLight[TreeLvlCombined_mod$CrownLight == 0] <- 1
+TreeLvlCombined_mod$CrownLight[is.na(TreeLvlCombined_mod$CrownLight)] <- 3 #just give it a moderate value
+TreeLvlCombined_mod$CrownLight <- as.factor(TreeLvlCombined_mod$CrownLight)
+
+
+##Need to modify the Percent Imperv because some of the categories are very low
+names(TreeLvlCombined_mod)[names(TreeLvlCombined_mod) == "PercImperv"] <- "PercentImperv"
+TreeLvlCombined_mod$PercentImperv <- as.numeric(TreeLvlCombined_mod$PercentImperv)
+TreeLvlCombined_mod$PercentImperv[TreeLvlCombined_mod$PercentImperv <=2] <- 1 #less than 26% imperv
+TreeLvlCombined_mod$PercentImperv[TreeLvlCombined_mod$PercentImperv ==3] <- 2 #26-50
+TreeLvlCombined_mod$PercentImperv[TreeLvlCombined_mod$PercentImperv ==4] <- 3 #51-75
+TreeLvlCombined_mod$PercentImperv[TreeLvlCombined_mod$PercentImperv ==5] <- 4 #76-100
+TreeLvlCombined_mod$PercentImperv <- as.factor(TreeLvlCombined_mod$PercentImperv)
+
+##############################Tree Health
+#collapsing the categories here for ease
+TreeLvlCombined_mod$Dieback[((TreeLvlCombined_mod$Dieback > 3) & (TreeLvlCombined_mod$Dieback <= 6))] <- 4 #11-25%
+TreeLvlCombined_mod$Dieback[(TreeLvlCombined_mod$Dieback > 6)] <- 5 #25%+
+TreeLvlCombined_mod$Dieback[TreeLvlCombined_mod$CrownStress >= 5] <- 5 #trees are dead
+
+##because there are not enough categories
+TreeLvlCombined_mod$Defoliation[TreeLvlCombined_mod$Defoliation > 3] <- 3
+TreeLvlCombined_mod$Discoloration[TreeLvlCombined_mod$Discoloration > 4] <- 4
+
+#Get rid of 0.5
+TreeLvlCombined_mod$Discoloration <- round(TreeLvlCombined_mod$Discoloration)
+TreeLvlCombined_mod$Defoliation <- round(TreeLvlCombined_mod$Defoliation)
+TreeLvlCombined_mod$Dieback <- round(TreeLvlCombined_mod$Dieback)
+
+
+```
+
+
+###Look at segment-level response
+
+```{r pull in tree data}
+
+##first need to get just one entry per tree
+colsSto <- names(TreeLvlCombined_mod)
+uniTrees <- unique(TreeLvlCombined_mod$TreeName)
+UniqueTreeData <- as.data.frame(matrix(0, ncol=length(colsSto), nrow = length(uniTrees)))
+names(UniqueTreeData) <- colsSto
+
+TreeData_SegLvl <- TreeLvlCombined_mod
+
+TreeData_SegLvl$Year <- as.numeric(as.character(TreeData_SegLvl$Year))
+TreeData_SegLvl$LandUse <- as.character(TreeData_SegLvl$LandUse)
+TreeData_SegLvl$SiteType <- as.character(TreeData_SegLvl$SiteType)
+
+MatInd <- 1
+
+#get one row per tree
+for (u in 1:length(uniTrees)){
+  
+  treeName <- uniTrees[u]
+  treedata <- TreeData_SegLvl[na.omit(TreeData_SegLvl$TreeName == treeName),]
+  treedata <- treedata[!is.na(treedata$TreeName),]
+  
+  mostRecYr <- max(na.omit(as.numeric(treedata$Year)))
+  
+  Dat2Use <- treedata[treedata$Year == mostRecYr, ]
+  
+  UniqueTreeData[MatInd,] <- Dat2Use[1,]
+  
+  MatInd <- MatInd + 1
+  
+}
+
+#UniqueTreeData <- UniqueTreeData[, c(3:10, 13:37,41, 45:51)]
+
+#for diversity, I think you the number of trees of a given species for each segment
+UniqueTreeData$Segment <- levels(TreeData_SegLvl$Segment)[as.numeric(UniqueTreeData$Segment)]
+
+SppSeg <- table(UniqueTreeData[, c("Segment", "GenSpe")])
+simpsonDivSegs <- diversity(SppSeg, index="simpson")
+
+GenSeg <- table(UniqueTreeData[, c("Segment", "Genus")])
+simpsonDivSegs_gen <- diversity(GenSeg, index="simpson")
+
+##need things to be numeric in order for it to work
+UniqueTreeData$CorrMulch <- as.numeric(UniqueTreeData$CorrMulch)
+
+SegAvg_UniqueDat <- UniqueTreeData %>%
+  group_by(Segment) %>%
+  summarize_at(vars("BasalArea", "CorrMulch", "PrunedCorrect", "UrbanApp"), mean, na.rm=TRUE)
+
+TotalSegTrees <- table(UniqueTreeData$Segment)
+
+#Site Type
+Seg_SiteType_Counts <- table(UniqueTreeData[,c("Segment", "SiteType")])
+Perc_SegST <- sweep(Seg_SiteType_Counts, 1, TotalSegTrees, FUN='/')
+#from this, probably most useful to look at percent SC or SP and then Percent FY or SY
+#with mod, use SP, SC, Yard
+
+#Land Use
+Seg_LandUse_Counts <- table(UniqueTreeData[,c("Segment", "LandUse")])
+Perc_SegLU <- sweep(Seg_LandUse_Counts, 1, TotalSegTrees, FUN='/')
+#here, look at SFR-A and SFR-D versus MFR vs COMM vs INST vs Other?
+#Res, MP_INST
+
+#Percent Impervious
+Seg_PI_Counts <- table(UniqueTreeData[,c("Segment", "PercentImperv")])
+Perc_SegPI <- sweep(Seg_PI_Counts, 1, TotalSegTrees, FUN='/')
+#kind of like your analyses, maybe combine 1 and 2, then 3, then 4 and 5 combined
+
+#Gardenscape
+Seg_Gardenscape_Counts <- table(UniqueTreeData[,c("Segment", "Gardenscape")])
+Perc_SegGard <- sweep(Seg_Gardenscape_Counts, 1, TotalSegTrees, FUN='/')
+#use whatever you used in the analyses above
+#do 1, 2, 3+?, or maybe do 1 and 4/5 and leave the rest to be moderate?
+
+#Tree Health
+#should use the same groupings as I did for the analyses above
+#for these it is probably worth pulling in all the cateories to start with and adjust as needed
+#maybe ignore defoliation because you only have 2 categories?
+Seg_Discol_Counts <- table(UniqueTreeData[,c("Segment", "Discoloration")])
+Perc_SegDisc <- sweep(Seg_Discol_Counts, 1, TotalSegTrees, FUN='/')
+Seg_Defol_Counts <- table(UniqueTreeData[,c("Segment", "Defoliation")])
+Perc_SegDef <- sweep(Seg_Defol_Counts, 1, TotalSegTrees, FUN='/')
+Seg_DBK_Counts <- table(UniqueTreeData[,c("Segment", "Dieback")])
+Perc_SegDBK <- sweep(Seg_DBK_Counts, 1, TotalSegTrees, FUN='/')
+Seg_CS_Counts <- table(UniqueTreeData[,c("Segment", "CrownStress")])
+Perc_SegCS <- sweep(Seg_CS_Counts, 1, TotalSegTrees, FUN='/')
+
+
+##Get the total number of trees
+totNumTreesSegment <- table(UniqueTreeData[,c("Segment")])
+
+```
+
+
+
+```{r combine data}
+##################################################Combine all the data
+nrows <- length(SegAvg_UniqueDat$Segment)
+SegDatCols <- c("Segment", "PopnDensity", "PercentRenter", "MedianHouseholdIncome", "PercWhite", "PercentBlack", "PercHispLat", "SVI", "MovL5Yrs", "AvgBA", "PercCorrMulch", "PercUrbanApp", "PercResTree", "PercCOMM_MxTree", "PercSC", "PercGar3o4", "PercDisc3o4", "PercDBK5", "PercCS4o5", "SimpsonsDivSpp", "SimpsonsDivGen", "totNumTrees")
+SegmentLvlDat <- as.data.frame(matrix(NA, nrow=nrows, ncol=length(SegDatCols)))
+names(SegmentLvlDat) <- SegDatCols
+
+SegNms <- na.omit(unique(SegAvg_UniqueDat$Segment))
+
+
+##Add census data to empty df
+for(s in 1:length(SegNms)){
+  
+  seg <- SegNms[s]
+  SegmentLvlDat$Segment[s] <- seg
+  
+  seg_ind <- match(seg, SegmentCensusData$Segment)
+  
+  SegmentLvlDat$PopnDensity[s] <- SegmentCensusData$TotalPop[seg_ind]
+  SegmentLvlDat$PercentRenter[s] <- SegmentCensusData$PercRent[seg_ind]
+  SegmentLvlDat$MedianHouseholdIncome[s] <- SegmentCensusData$MedHouseInc[seg_ind]
+  SegmentLvlDat$PercWhite[s] <- SegmentCensusData$PercWhite[seg_ind]
+  SegmentLvlDat$PercentBlack[s] <- SegmentCensusData$PercBlack[seg_ind]
+  SegmentLvlDat$PercHispLat[s] <- SegmentCensusData$PercHispanicLatine[seg_ind]
+  SegmentLvlDat$MovL5Yrs[s] <- as.numeric(SegmentCensusData$PercM19[seg_ind]) + as.numeric(SegmentCensusData$PercM15to18[seg_ind])
+  SegmentLvlDat$SVI[s] <- SegmentCensusData$SVI[seg_ind]
+  
+  ####Pull in the non-census data
+  SegInd_treed <- match(seg, SegAvg_UniqueDat$Segment)
+  
+  SegmentLvlDat$AvgBA[s] <- SegAvg_UniqueDat$BasalArea[SegInd_treed]
+  SegmentLvlDat$PercCorrMulch[s] <- SegAvg_UniqueDat$CorrMulch[SegInd_treed]
+  #SegmentLvlDat$PercPrunedCorrect[s] <- SegAvg_UniqueDat$PrunedCorrect[SegInd_treed]
+  SegmentLvlDat$PercUrbanApp[s] <- SegAvg_UniqueDat$UrbanApp[SegInd_treed]
+  
+  ##have to pull from other summaries
+  segInd_Sum <- match(seg, rownames(Perc_SegLU))
+  
+  SegmentLvlDat$PercResTree[s] <- Perc_SegLU[segInd_Sum, match("Res", colnames(Perc_SegLU))]
+  SegmentLvlDat$PercCOMM_MxTree[s] <- Perc_SegLU[segInd_Sum, match("COMM_Mx", colnames(Perc_SegLU))]
+  SegmentLvlDat$PercSC[s] <- Perc_SegST[segInd_Sum, match("SC", colnames(Perc_SegST))]
+  SegmentLvlDat$PercGar3o4[s] <- Perc_SegGard[segInd_Sum,match("3", colnames(Perc_SegGard))] + Perc_SegGard[SegInd_treed,match("4", colnames(Perc_SegGard))]
+  
+  #tree health outcomes
+  SegmentLvlDat$PercDisc3o4[s] <- Perc_SegDisc[segInd_Sum, match("3", colnames(Perc_SegDisc))] + Perc_SegDisc[SegInd_treed, match("4", colnames(Perc_SegDisc))]
+  SegmentLvlDat$PercDBK5[s] <- Perc_SegDBK[segInd_Sum, match("5", colnames(Perc_SegDBK))]
+  SegmentLvlDat$PercCS4o5[s] <- Perc_SegCS[segInd_Sum, match("4", colnames(Perc_SegCS))] + Perc_SegCS[SegInd_treed, match("5", colnames(Perc_SegCS))]
+  
+  ##Diversity
+  SegmentLvlDat$SimpsonsDivSpp[s] <- as.vector(simpsonDivSegs[match(seg, names(simpsonDivSegs))])
+  SegmentLvlDat$SimpsonsDivGen[s] <- as.vector(simpsonDivSegs_gen[match(seg, names(simpsonDivSegs_gen))])
+  
+  #basic info
+  SegmentLvlDat$totNumTrees[s] <- totNumTreesSegment[match(seg, names(totNumTreesSegment))]
+  
+}
+
+SegmentLvlDat <- SegmentLvlDat[!is.na(SegmentLvlDat$Segment),]
+
+
+```
+
+
+
+##Turn into Segment-level data
+
+```{r seg from sum}
+
+##should probably just not use the "other" segments?
+##or should do the segments separately for some of these, no?
+#worth going back and thinking about segment vs segmentMod, for some of these analyses, segment is probably better?
+Zoning_bySeg <- Zoning_bySeg[Zoning_bySeg$Segment %in% unique(SegmentLvlDat$Segment),]
+
+
+Seg_allData <- cbind(SegmentLvlDat, Zoning_bySeg, Seg_building)
+Seg_allData$AftTemp50m <- SegmentTemp$AfternoonTemp50m[match(Seg_allData$Segment, SegmentTemp$Segment)]
+Seg_allData$AftTemp10m <- SegmentTemp$AfternoonTemp10m[match(Seg_allData$Segment, SegmentTemp$Segment)]
+
+##missing temperature data for some of them because they are outside the temperature measurement area
+#nothing you can do about it, just have to exclude them
+
+AnalysisCols <- c("PercSC", "PercGar3o4", "SimpsonsDivSpp", "SimpsonsDivGen", "PercCorrMulch","AvgBA", "PercUrbanApp", "PercDBK5", "PercDisc3o4", "PercCS4o5")
+
+#go through and slightly adjust the variables that will be modeled with a beta distribution
+for(c in 1:length(AnalysisCols)){
+  
+  v <- AnalysisCols[c]
+  v_ind <- match(v, names(Seg_allData))
+  
+  Seg_allData[(Seg_allData[,v_ind] == 0) ,v_ind] <- 0.0001
+  Seg_allData[(Seg_allData[,v_ind] == 1) ,v_ind] <- 0.9999
+  
+}
+
+
+```
+
+
+##start looking at some basic regressions
+
+Notes from correlations
+* PercComm_z is fine with everything
+* num construction is correlated to num reno
+* num reno is als correlated to income
+* movelast5 years is fine with everything besides percent res
+* percComm_MxTree just can't be with per res zone
+* race is al correlated, but per hisplat can be with everything besides SVI
+* SVi is correlated to all the racial groupings and borderline income
+
+
+```{r basic regressions}
+##try combining percHL with percBlack
+Seg_allData$PercBlack_HL <- Seg_allData$PercentBlack + Seg_allData$PercHispLat
+
+##for all but the number of trees, get rid of segments with < 10 trees
+SegM10Trees <- Seg_allData[Seg_allData$totNumTrees >= 10, ]
+SegM10Trees_wTemp <- SegM10Trees[!is.na(SegM10Trees$AftTemp50m),]
+
+wts <- SegM10Trees$totNumTrees
+wts_wTemp <- SegM10Trees_wTemp$totNumTrees
+
+corVars <- cor(Seg_allData[c("PercComm_z", "PercRes_z","NumConst_since15","NumReno_since15", "NumBuild", "MedianHouseholdIncome", 
+                  "MovL5Yrs", "PercCOMM_MxTree", "PercWhite", "PercentBlack", "PercHispLat", "PercBlack_HL", "SVI")])
+
+#to more easily examine correlations
+#write.csv(corVars, "../../01Data/CityData/Durham/Durham_Predictor_corrs.csv")
+
+f1 <- "PercCOMM_MxTree + PercBlack_HL + NumBuild + MovL5Yrs"
+f2 <- "PercCOMM_MxTree + MedianHouseholdIncome + NumBuild + MovL5Yrs"
+f3 <- "PercCOMM_MxTree + SVI + NumBuild + MovL5Yrs"
+f4 <- "PercCOMM_MxTree + NumConst_since15 + NumBuild + MovL5Yrs"
+f5 <- "PercCOMM_MxTree + NumReno_since15 + NumBuild + MovL5Yrs"
+
+#############################Sidewalk cutout
+mods_m1 <- paste(rep("PercSC ~", 5), c(f1, f2, f3, f4, f5))
+
+f1mod.1 <- betareg(mods_m1[1], data=SegM10Trees, weights=wts)
+bestf1mod.1 <- StepBeta(f1mod.1)
+f1sum.1 <- summary(bestf1mod.1)
+
+f1mod.2 <- betareg(mods_m1[2], data=SegM10Trees, weights=wts)
+bestf1mod.2 <- StepBeta(f1mod.2)
+f1sum.2 <- summary(bestf1mod.2)
+
+f1mod.3 <- betareg(mods_m1[3], data=SegM10Trees, weights=wts)
+bestf1mod.3 <- StepBeta(f1mod.3)
+f1sum.3 <- summary(bestf1mod.3)
+
+f1mod.4 <- betareg(mods_m1[4], data=SegM10Trees, weights=wts)
+bestf1mod.4 <- StepBeta(f1mod.4)
+f1sum.4 <- summary(bestf1mod.4)
+
+f1mod.5 <- betareg(mods_m1[5], data=SegM10Trees, weights=wts)
+bestf1mod.5 <- StepBeta(f1mod.5)
+f1sum.5 <- summary(bestf1mod.5)
+
+
+AIC(bestf1mod.1, bestf1mod.2, bestf1mod.3, bestf1mod.4, bestf1mod.5)
+
+#             df       AIC
+# bestf1mod.1  6 -3393.082
+# bestf1mod.2  4 -3382.474
+# bestf1mod.3  5 -3383.630
+# bestf1mod.4  6 -3453.450**
+# bestf1mod.5  5 -3393.374
+
+#write.csv(f1sum.4$coefficients$mean, "../../05Outputs/ModelRuns062824/Dur_SC_Best_m4.csv")
+
+
+###################################Afternoon Temperature - linreg
+mods_m2 <- paste(rep("AftTemp10m ~", 5), c(f1, f2, f3, f4, f5))
+
+f2mod.1 <- lm(mods_m2[1], data=SegM10Trees_wTemp, weights=wts_wTemp)
+bestf2mod.1 <- step(f2mod.1, direction="both")
+f2sum.1 <- summary(bestf2mod.1)
+
+f2mod.2 <- lm(mods_m2[2], data=SegM10Trees_wTemp, weights=wts_wTemp)
+bestf2mod.2 <- step(f2mod.2, direction="both")
+f2sum.2 <- summary(bestf2mod.2)
+
+f2mod.3 <- lm(mods_m2[3], data=SegM10Trees_wTemp, weights=wts_wTemp)
+bestf2mod.3 <- step(f2mod.3, direction="both")
+f2sum.3 <- summary(bestf2mod.3)
+
+f2mod.4 <- lm(mods_m2[4], data=SegM10Trees_wTemp, weights=wts_wTemp)
+bestf2mod.4 <- step(f2mod.4, direction="both")
+f2sum.4 <- summary(bestf2mod.4)
+
+f2mod.5 <- lm(mods_m2[5], data=SegM10Trees_wTemp, weights=wts_wTemp)
+bestf2mod.5 <- step(f2mod.5, direction="both")
+f2sum.5 <- summary(bestf2mod.5)
+
+AIC(bestf2mod.1, bestf2mod.2, bestf2mod.3, bestf2mod.4, bestf2mod.5)
+
+#             df        AIC
+# bestf2mod.1  5 -0.5926377
+# bestf2mod.2  5 -0.5926377
+# bestf2mod.3  5 -0.5926377
+# bestf2mod.4  5 -0.5926377
+# bestf2mod.5  6 -0.6866489 **
+
+
+#write.csv(f2sum.5$coefficients, "../../05Outputs/ModelRuns062824/Dur_Temperature_Best_m5.csv")
+
+###########################Percent Gardenscape 3 or 4
+mods_m3 <- paste(rep("PercGar3o4 ~", 5), c(f1, f2, f3, f4, f5))
+
+
+f3mod.1 <- betareg(mods_m3[1], data=SegM10Trees, weights=wts)
+bestf3mod.1 <- StepBeta(f3mod.1)
+f3sum.1 <- summary(bestf3mod.1)
+
+f3mod.2 <- betareg(mods_m3[2], data=SegM10Trees, weights=wts)
+bestf3mod.2 <- StepBeta(f3mod.2)
+f3sum.2 <- summary(bestf3mod.2)
+
+f3mod.3 <- betareg(mods_m3[3], data=SegM10Trees, weights=wts)
+bestf3mod.3 <- StepBeta(f3mod.3)
+f3sum.3 <- summary(bestf3mod.3)
+
+f3mod.4 <- betareg(mods_m3[4], data=SegM10Trees, weights=wts)
+bestf3mod.4 <- StepBeta(f3mod.4)
+f3sum.4 <- summary(bestf3mod.4)
+
+f3mod.5 <- betareg(mods_m3[5], data=SegM10Trees, weights=wts)
+bestf3mod.5 <- StepBeta(f3mod.5)
+f3sum.5 <- summary(bestf3mod.5)
+
+
+AIC(bestf3mod.1, bestf3mod.2, bestf3mod.3, bestf3mod.4, bestf3mod.5)
+
+#             df       AIC
+# bestf3mod.1  5 -1628.615 **
+# bestf3mod.2  6 -1572.620
+# bestf3mod.3  5 -1547.741
+# bestf3mod.4  5 -1585.934
+# bestf3mod.5  4 -1531.198
+
+#write.csv(f3sum.1$coefficients$mean, "../../05Outputs/ModelRuns062824/Dur_Gardenscape_Best_m1.csv")
+
+
+########################### Simpson Diversity - species
+mods_m4 <- paste(rep("SimpsonsDivSpp ~", 5), c(f1, f2, f3, f4, f5))
+
+
+f4mod.1 <- betareg(mods_m4[1], data=SegM10Trees, weights=wts)
+bestf4mod.1 <- StepBeta(f4mod.1)
+f4sum.1 <- summary(bestf4mod.1)
+
+f4mod.2 <- betareg(mods_m4[2], data=SegM10Trees, weights=wts)
+bestf4mod.2 <- StepBeta(f4mod.2)
+f4sum.2 <- summary(bestf4mod.2)
+
+f4mod.3 <- betareg(mods_m4[3], data=SegM10Trees, weights=wts)
+bestf4mod.3 <- StepBeta(f4mod.3)
+f4sum.3 <- summary(bestf4mod.3)
+
+f4mod.4 <- betareg(mods_m4[4], data=SegM10Trees, weights=wts)
+bestf4mod.4 <- StepBeta(f4mod.4)
+f4sum.4 <- summary(bestf4mod.4)
+
+f4mod.5 <- betareg(mods_m4[5], data=SegM10Trees, weights=wts)
+bestf4mod.5 <- StepBeta(f4mod.5)
+f4sum.5 <- summary(bestf4mod.5)
+
+
+AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3, bestf4mod.4, bestf4mod.5)
+
+#             df       AIC
+# bestf4mod.1  5 -1132.433
+# bestf4mod.2  6 -1145.396
+# bestf4mod.3  6 -1175.437
+# bestf4mod.4  6 -1179.637
+# bestf4mod.5  5 -1335.659**
+
+
+#write.csv(f4sum.5$coefficients$mean, "../../05Outputs/ModelRuns062824/Dur_SimpsonSpp_Best_m5.csv")
+
+############################ Simpson Diversity - genus
+mods_m5 <- paste(rep("SimpsonsDivGen ~", 5), c(f1, f2, f3, f4, f5))
+
+f5mod.1 <- betareg(mods_m5[1], data=SegM10Trees, weights=wts)
+bestf5mod.1 <- StepBeta(f5mod.1)
+f5sum.1 <- summary(bestf5mod.1)
+
+f5mod.2 <- betareg(mods_m5[2], data=SegM10Trees, weights=wts)
+bestf5mod.2 <- StepBeta(f5mod.2)
+f5sum.2 <- summary(bestf5mod.2)
+
+f5mod.3 <- betareg(mods_m5[3], data=SegM10Trees, weights=wts)
+bestf5mod.3 <- StepBeta(f5mod.3)
+f5sum.3 <- summary(bestf5mod.3)
+
+f5mod.4 <- betareg(mods_m5[4], data=SegM10Trees, weights=wts)
+bestf5mod.4 <- StepBeta(f5mod.4)
+f5sum.4 <- summary(bestf5mod.4)
+
+f5mod.5 <- betareg(mods_m5[5], data=SegM10Trees, weights=wts)
+bestf5mod.5 <- StepBeta(f5mod.5)
+f5sum.5 <- summary(bestf5mod.5)
+
+
+AIC(bestf5mod.1, bestf5mod.2, bestf5mod.3, bestf5mod.4, bestf5mod.5)
+
+#             df       AIC
+# bestf5mod.1  6 -1223.191
+# bestf5mod.2  6 -1205.566
+# bestf5mod.3  6 -1215.189
+# bestf5mod.4  5 -1205.194
+# bestf5mod.5  6 -1291.657**
+
+#write.csv(f5sum.5$coefficients$mean, "../../05Outputs/ModelRuns062824/Dur_SimpsonGen_Best_m5.csv")
+
+
+###AvgBA
+mods_m6 <- paste(rep("AvgBA ~", 5), c(f1, f2, f3, f4, f5))
+
+f6mod.1 <- lm(mods_m6[1], data=SegM10Trees, weights=wts)
+bestf6mod.1 <- step(f6mod.1, direction="both")
+f6sum.1 <- summary(bestf6mod.1)
+
+f6mod.2 <- lm(mods_m6[2], data=SegM10Trees, weights=wts)
+bestf6mod.2 <- step(f6mod.2, direction="both")
+f6sum.2 <- summary(bestf6mod.2)
+
+f6mod.3 <- lm(mods_m6[3], data=SegM10Trees, weights=wts)
+bestf6mod.3 <- step(f6mod.3, direction="both")
+f6sum.3 <- summary(bestf6mod.3)
+
+f6mod.4 <- lm(mods_m6[4], data=SegM10Trees, weights=wts)
+bestf6mod.4 <- step(f6mod.4, direction="both")
+f6sum.4 <- summary(bestf6mod.4)
+
+f6mod.5 <- lm(mods_m6[5], data=SegM10Trees, weights=wts)
+bestf6mod.5 <- step(f6mod.5, direction="both")
+f6sum.5 <- summary(bestf6mod.5)
+
+
+AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3, bestf6mod.4, bestf6mod.5)
+
+#all the same
+#             df      AIC
+# bestf6mod.1  2 -30.3788
+# bestf6mod.2  2 -30.3788
+# bestf6mod.3  2 -30.3788
+# bestf6mod.4  2 -30.3788
+# bestf6mod.5  2 -30.3788
+
+
+#write.csv(f6sum.1$coefficients, "../../05Outputs/ModelRuns062824/Dur_AvgBA_Best_m1.csv")
+
+##Number of Trees
+mods_m7 <- paste(rep("totNumTrees ~", 5), c(f1, f2, f3, f4, f5))
+
+f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
+f7sum.1 <- summary(f7mod.1)
+
+f7mod.2 <- step(glm(mods_m7[2], family="poisson", data=Seg_allData))
+f7sum.2 <- summary(f7mod.2)
+
+f7mod.3 <- step(glm(mods_m7[3], family="poisson", data=Seg_allData))
+f7sum.3 <- summary(f7mod.3)
+
+f7mod.4 <- step(glm(mods_m7[4], family="poisson", data=Seg_allData))
+f7sum.4 <- summary(f7mod.4)
+
+f7mod.5 <- step(glm(mods_m7[5], family="poisson", data=Seg_allData))
+f7sum.5 <- summary(f7mod.5)
+
+AIC(f7mod.1, f7mod.2, f7mod.3, f7mod.4, f7mod.5)
+
+#         df      AIC
+# f7mod.1  5 440.6897
+# f7mod.2  5 443.9701
+# f7mod.3  5 422.6874 **
+# f7mod.4  4 448.2904
+# f7mod.5  4 448.2904
+
+
+#write.csv(f7sum.3$coefficients, "../../05Outputs/ModelRuns062824/Dur_NumTrees_Best_m3.csv")
+
+###Urban Tolerance
+mods_m8 <- paste(rep("PercUrbanApp ~", 5), c(f1, f2, f3, f4, f5))
+
+f8mod.1 <- betareg(mods_m8[1], data=SegM10Trees, weights=wts)
+bestf8mod.1 <- StepBeta(f8mod.1)
+f8sum.1 <- summary(bestf8mod.1)
+
+f8mod.2 <- betareg(mods_m8[2], data=SegM10Trees, weights=wts)
+bestf8mod.2 <- StepBeta(f8mod.2)
+f8sum.2 <- summary(bestf8mod.2)
+
+f8mod.3 <- betareg(mods_m8[3], data=SegM10Trees, weights=wts)
+bestf8mod.3 <- StepBeta(f8mod.3)
+f8sum.3 <- summary(bestf8mod.3)
+
+f8mod.4 <- betareg(mods_m8[4], data=SegM10Trees, weights=wts)
+bestf8mod.4 <- StepBeta(f8mod.4)
+f8sum.4 <- summary(bestf8mod.4)
+
+f8mod.5 <- betareg(mods_m8[5], data=SegM10Trees, weights=wts)
+bestf8mod.5 <- StepBeta(f8mod.5)
+f8sum.5 <- summary(bestf8mod.5)
+
+
+AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3, bestf8mod.4, bestf8mod.5)
+
+#             df       AIC
+# bestf8mod.1  5 -606.0292
+# bestf8mod.2  5 -537.8112
+# bestf8mod.3  5 -620.5565 **
+# bestf8mod.4  4 -536.9308
+# bestf8mod.5  6 -582.5949
+
+
+#write.csv(f8sum.3$coefficients, "../../05Outputs/ModelRuns062824/Dur_UrbanApp_Best_m3.csv")
+##########################################################Tree Health
+
+###########################PercDisc3o4
+mods_m9 <- paste(rep("PercDisc3o4 ~", 5), c(f1, f2, f3, f4, f5))
+
+f9mod.1 <- betareg(mods_m9[1], data=SegM10Trees, weights=wts)
+bestf9mod.1 <- StepBeta(f9mod.1)
+f9sum.1 <- summary(bestf9mod.1)
+
+f9mod.2 <- betareg(mods_m9[2], data=SegM10Trees, weights=wts)
+bestf9mod.2 <- StepBeta(f9mod.2)
+f9sum.2 <- summary(bestf9mod.2)
+
+f9mod.3 <- betareg(mods_m9[3], data=SegM10Trees, weights=wts)
+bestf9mod.3 <- StepBeta(f9mod.3)
+f9sum.3 <- summary(bestf9mod.3)
+
+f9mod.4 <- betareg(mods_m9[4], data=SegM10Trees, weights=wts)
+bestf9mod.4 <- StepBeta(f9mod.4)
+f9sum.4 <- summary(bestf9mod.4)
+
+f9mod.5 <- betareg(mods_m9[5], data=SegM10Trees, weights=wts)
+bestf9mod.5 <- StepBeta(f9mod.5)
+f9sum.5 <- summary(bestf9mod.5)
+
+AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3, bestf9mod.4, bestf9mod.5)
+
+#             df       AIC
+# bestf9mod.1  5 -727.7988 **
+# bestf9mod.2  6 -551.5069
+# bestf9mod.3  5 -614.6760
+# bestf9mod.4  6 -557.9723
+# bestf9mod.5  6 -576.8839
+
+
+#write.csv(f9sum.1$coefficients, "../../05Outputs/ModelRuns062824/Dur_Discol_Best_m1.csv")
+
+###########################PercDBK5
+mods_m10 <- paste(rep("PercDBK5 ~", 5), c(f1, f2, f3, f4, f5))
+
+f10mod.1 <- betareg(mods_m10[1], data=SegM10Trees, weights=wts)
+bestf10mod.1 <- StepBeta(f10mod.1)
+f10sum.1 <- summary(bestf10mod.1)
+
+f10mod.2 <- betareg(mods_m10[2], data=SegM10Trees, weights=wts)
+bestf10mod.2 <- StepBeta(f10mod.2)
+f10sum.2 <- summary(bestf10mod.2)
+
+f10mod.3 <- betareg(mods_m10[3], data=SegM10Trees, weights=wts)
+bestf10mod.3 <- StepBeta(f10mod.3)
+f10sum.3 <- summary(bestf10mod.3)
+
+f10mod.4 <- betareg(mods_m10[4], data=SegM10Trees, weights=wts)
+bestf10mod.4 <- StepBeta(f10mod.4)
+f10sum.4 <- summary(bestf10mod.4)
+
+f10mod.5 <- betareg(mods_m10[5], data=SegM10Trees, weights=wts)
+bestf10mod.5 <- StepBeta(f10mod.5)
+f10sum.5 <- summary(bestf10mod.5)
+
+AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3, bestf10mod.4, bestf10mod.5)
+
+#              df       AIC
+# bestf10mod.1  6 -1410.309 **
+# bestf10mod.2  4 -1335.315
+# bestf10mod.3  4 -1335.315
+# bestf10mod.4  4 -1335.315
+# bestf10mod.5  5 -1347.930
+
+#write.csv(f10sum.1$coefficients, "../../05Outputs/ModelRuns062824/Dur_DBK_Best_m1.csv")
+
+###########################PercCS4o5
+mods_m11 <- paste(rep("PercCS4o5 ~", 5), c(f1, f2, f3, f4, f5))
+
+f11mod.1 <- betareg(mods_m11[1], data=SegM10Trees, weights=wts)
+bestf11mod.1 <- StepBeta(f11mod.1)
+f11sum.1 <- summary(bestf11mod.1)
+
+f11mod.2 <- betareg(mods_m11[2], data=SegM10Trees, weights=wts)
+bestf11mod.2 <- StepBeta(f11mod.2)
+f11sum.2 <- summary(bestf11mod.2)
+
+f11mod.3 <- betareg(mods_m11[3], data=SegM10Trees, weights=wts)
+bestf11mod.3 <- StepBeta(f11mod.3)
+f11sum.3 <- summary(bestf11mod.3)
+
+f11mod.4 <- betareg(mods_m11[4], data=SegM10Trees, weights=wts)
+bestf11mod.4 <- StepBeta(f11mod.4)
+f11sum.4 <- summary(bestf11mod.4)
+
+f11mod.5 <- betareg(mods_m11[5], data=SegM10Trees, weights=wts)
+bestf11mod.5 <- StepBeta(f11mod.5)
+f11sum.5 <- summary(bestf11mod.5)
+
+AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3, bestf11mod.4, bestf11mod.5)
+
+#              df       AIC
+# bestf11mod.1  5 -922.3514 **
+# bestf11mod.2  5 -756.1941
+# bestf11mod.3  5 -759.3894
+# bestf11mod.4  5 -764.1299
+# bestf11mod.5  6 -792.8433
+
+
+#write.csv(f11sum.1$coefficients, "../../05Outputs/ModelRuns062824/Dur_CS_Best_m1.csv")
+
+
+
+##store data from the "best" models
+cnms <- c("ModelType", "DepVar", "model", "R2")
+ModOverview <- as.data.frame(matrix(0, nrow=11, ncol=length(cnms)))
+names(ModOverview) <- cnms
+
+modList <- list(f1sum.4, f2sum.5, f3sum.1, f4sum.5, f5sum.5, f6sum.1, f7sum.3, f8sum.3, f9sum.1, f10sum.1, f11sum.1)
+modTyps <- c("beta","lin", "beta", "beta", "beta", "lin", "pois", "beta", "beta", "beta", "beta")
+modDep <- c("PercSC", "AftTemp", "PercGar3o4", "SimpDivSpp", "SimpDivGen", "AvgBA", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
+
+for (m in 1:11){
+
+  mod <- modList[[m]]
+  modT <- modTyps[m]
+
+  ModOverview$ModelType[m] <- modT
+  ModOverview$DepVar[m] <- modDep[m]
+
+  #store data for diff model types
+  if(modT == "beta"){
+
+    ModOverview$model[m] <- as.character(mod$call)
+    ModOverview$R2[m] <- mod$pseudo.r.squared
+
+    pm <- mod$coefficients$mean
+
+  } else if (modT == "lin"){
+
+    ModOverview$model[m] <- as.character(mod$call)[2]
+    ModOverview$R2[m] <- mod$adj.r.squared
+
+    pm <- mod$coefficients
+
+  }else if (modT == "pois"){
+    ModOverview$model[m] <- as.character(mod$call)[2]
+    ModOverview$R2[m] <- with(mod, 1-deviance/null.deviance)
+
+    pm <- mod$coefficients
+
+  }
+
+  ##printout the coefficient values
+
+ # write.csv(pm, paste("../../01Data/CityData/Durham/BetaVals", modDep[m], "since15_062824.csv", sep=""))
+
+
+}
+
+#write.csv(ModOverview, "../../01Data/CityData/Durham/Dur_ModelOverviewResults_Since15_062824.csv")
+
+
+
+
+```
