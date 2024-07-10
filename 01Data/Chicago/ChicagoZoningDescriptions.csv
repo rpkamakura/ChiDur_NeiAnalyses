@@ -1,0 +1,31 @@
+zone_class,Category,FineCategory,SimplifiedCategory,MaxFAR
+B1-1,Business,Neighborhood Shopping,Commercial,1.2
+B1-2,Business,Neighborhood Shopping,Commercial,2.2
+B1-3,Business,Neighborhood Shopping,Commercial,3
+B2-3,Business,Neighborhood Mixed-Use,Commercial,3
+B3-1,Business,Community Shopping,Commercial,1.2
+B3-2,Business,Community Shopping,Commercial,2.2
+C1-1,Commercial,Neighborhood Commercial,Commercial,1.2
+C1-2,Commercial,Neighborhood Commercial,Commercial,2.2
+C1-3,Commercial,Neighborhood Commercial,Commercial,3
+C2-1,Commercial,Motor Vehicle-Related Commercial,Commercial,1.2
+C2-2,Commercial,Motor Vehicle-Related Commercial,Commercial,2.2
+M1-2,Manufacturing,Limited Manufacturing,Industrial,1.2
+PD 1145,Planned Development,Residential Multi-Unit,Residential,2
+PD 155,Planned Development,Residential Multi-Unit,Residential,1
+PD 251,Planned Development,Residential Multi-Unit,Residential,1
+PD 30,Planned Development,Residential Multi-Unit,Residential,0.9
+PD 373,Planned Development,Institutional,Institutional,1.07
+PD 407,Planned Development,Limited Manufacturing,Industrial,0.397
+PD 535,Planned Development,Institutional,Institutional,0.08
+PD 549,Planned Development,Residential Multi-Unit,Residential,1
+PD 864,Planned Development,Institutional,Institutional,0.9
+PD 896,Planned Development,Institutional,Institutional,1.1
+PD 971,Planned Development,Residential Multi-Unit,Residential,3
+POS-1,Parks and Open Space,Parks and Open Space,Institutional,0
+RM-4.5,Residential,Residential Multi-Unit,Residential,1.7
+RM-5,Residential,Residential Multi-Unit,Residential,2
+RM-5.5,Residential,Residential Multi-Unit,Residential,2.5
+RS-3,Residential,Residential Single-use,Residential,0.9
+RT-3.5,Residential,Residential Multi-Unit,Residential,1.05
+RT-4,Residential,Residential Multi-Unit,Residential,1.2
