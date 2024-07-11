@@ -1,0 +1,97 @@
+PLANTS,SUB_NAME,SUB_GENUS,SUB_SPECIES,Genus,Species,City parkway,Sidewalk cut out,Median,Private property,Under wires,Salt tolerant,Spring planting best,Promotes Diversity,Hardiness,Ease of transplant,Native to Illinois,Height_low,Height_height,DroughtTol,SaltTol,StreetUrban
+ACGR14,paperbark maple,Acer,griseum,Acer,griseum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,20,30,0,0,0
+,,Acer,negundo,Acer,negundo,,,,,,,,,,,,30,50,0,0,0
+ACPA2,Japanese maple,Acer,palmatum,Acer,palmatum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,15,25,0,0,0
+ACPL,Norway maple,Acer,platanoides,Acer,platanoides,1,0,0,1,0,0,1,0,GD,GD,N,40,50,1,1,1
+ACRU,red maple,Acer,rubrum,Acer,rubrum,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,40,60,0,0,0
+ACSA2,silver maple,Acer,saccharinum,Acer,saccharinum,1,0,1,1,0,0,1,0,GD,GD,Y,50,70,0,1,0
+ACSA3,sugar maple,Acer,saccharum,Acer,saccharum,1,0,0,1,0,0,1,0,GD,AV,Y,60,75,0,0,0
+,,Acer,spp.,Acer,spp.,,,,,,,,,,,,15,75,0,0,0
+ACFR,Freeman maple,Acer,x freemanii,Acer,x freemanii,1,0,1,1,0,0,0,0,GD,GD,Y - H,40,60,0,0,0
+AEFL,yellow buckeye,Aesculus,flava,Aesculus,flava,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,60,75,0,0,0
+AEGL,Ohio buckeye,Aesculus,glabra,Aesculus,glabra,1,1,0,1,0,0,0,1,GD,AV,Y,20,40,0,0,0
+,,Aesculus,hippocastanum,Aesculus,hippocastanum,,,,,,,,,,,,50,75,0,1,0
+AE,Buckeye spp,Aesculus,spp.,Aesculus,spp.,1,0,0,1,0,0,0,0,GD,AV,,20,75,0,0,0
+AESY,painted buckeye,Aesculus,sylvatica,Aesculus,silvatica,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,6,15,0,0,0
+AIAL,tree-of-heaven,Ailanthus,altissima,Ailanthus,altissima,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,40,60,0,1,0
+ALGL2,European black alder,Alnus,glutinosa,Alnus,glutinosa,0,0,0,1,0,0,0,1,GD,GD,N,40,60,0,0,0
+BENI,river birch,Betula,nigra,Betula,nigra,1,0,0,1,0,0,1,1,GD,AV,Y,40,70,0,0,0
+BEPA,paper birch,Betula,papyrifera,Betula,papyrifera,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,70,0,0,0
+,,Carpinus,betulus,Carpinus,betulus,,,,,,,,,,,,40,60,0,0,0
+CACA,American hornbeam,Carpinus,caroliniana,Carpinus,caroliniana,1,0,1,1,0,1,1,AV,GD,DIF,Y,20,30,0,0,0
+CASP8,northern catalpa,Catalpa,speciosa,Catalpa,speciosa,1,1,1,1,0,1,0,1,GD,GD,Y,40,60,1,1,1
+CATUN,,Catalpa,spp.,Catalpa,spp.,,,,,,,,,,,,40,60,1,1,1
+CEOC,common hackberry,Celtis,occidentalis,Celtis,occidentalis,1,1,1,1,0,0,0,1,GD,GD,Y,40,60,1,0,1
+,,Celtis,laevigata,Celtus,laevigata,,,,,,,,,,,,40,50,1,0,1
+CECA4,eastern redbud,Cercis,canadensis,Cercis,canadensis,1,0,0,1,1,0,1,1,AV,AV,Y,20,30,0,0,0
+,,Cornus,alternifolia,Cornus,alternifolia,,,,,,,,,,,,30,35,0,0,0
+,,Cornus,sericea,Cornus,sericea,,,,,,,,,,,,8,12,0,0,0
+CRCR2,cockspur hawthorn,Crataegus,crus-galli,Crataegus,crus-galli,1,0,1,1,1,0,1,1,GD,GD,Y-H,20,30,0,1,1
+,,Crataegus,spp.,Crataegus,spp.,,,,,,,,,,,,20,30,1,0,0
+DIVI5,common persimmon,Diospyros,virginiana,Diospyros,virginiana,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,35,60,1,0,0
+FRAM2,white ash,Fraxinus,americana,Fraxinus,americana,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,80,0,0,0
+FRPE,green ash,Fraxinus,pennsylvanica,Fraxinus,pennsylvanica,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,60,0,0,0
+FRAXI,ash,Fraxinus,spp.,Fraxinus,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,80,0,0,0
+GIBI2,ginkgo,Ginkgo,biloba,Ginkgo,biloba,1,1,1,1,0,0,0,1,GD,GD,N,50,80,1,0,1
+GLTR,honeylocust,Gleditsia,triacanthos,Gleditsia,triacanthos,1,1,1,1,0,1,0,0,GD,GD,Y-H,30,70,0,1,1
+GYDI,Kentucky coffeetree,Gymnocladus,dioicus,Gymnocladus,dioicus,1,1,1,1,0,1,0,0,GD,GD,Y-H,60,75,0,0,1
+HISY,Rose-of-sharon,Hibiscus,syriacus,Hibiscus,syriacus,0,0,0,0,0,0,0,0,,,,8,12,0,0,0
+JU,Juniper unknown,Juniperus,spp.,Juniperus,spp.,0,0,0,0,0,0,0,0,,,,20,50,1,1,1
+JUVI,unknown plant,Juniperus,virginiana,Juniperus,virginiana,0,0,0,1,0,1,1,1,GD,GD,Y-H,40,50,1,1,1
+LIST2,sweetgum,Liquidambar,styraciflua,Liquidambar,styraciflua,1,0,0,1,0,0,0,1,AV-PR,DIF,Y-H,60,75,0,0,0
+LITU,yellow-poplar,Liriodendron,tulipifera,Liriodendron,tulipfera,0,0,0,1,0,0,1,1,AV-PR,DIF,Y-H,70,90,0,0,0
+MAGNO,magnolia,Magnolia,spp.,Magnolia,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,6,80,0,0,0
+MABA,Siberian crabapple,Malus,baccata,Malus,baccata,0,0,0,1,1,0,1,1,GD,GD,N,10,25,0,0,0
+,,Malus,domestica,Malus,domestica,,,,,,,,,,,,8,30,0,0,0
+MAPR,plumleaf crabapple,Malus,prunifolia,Malus,prunifolia,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,10,25,0,0,0
+MALUS,crabapple and apple,Malus,spp.,Malus,unknown,0,0,0,1,1,0,1,1,GD,GD,N,10,25,0,0,0
+MEGL8,dawn redwood,Metasequoia,glyptostroboides,Metasequoia,glyptostroboides,1,1,1,1,0,0,1,1,AV,AV,N,70,100,0,0,0
+MOAL,white mulberry,Morus,alba,Morus,alba,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,30,50,1,0,1
+,,Morus,spp.,Morus,spp.,,,,,,,,,,,,30,50,1,0,1
+NYSY,blackgum,Nyssa,silvatica,Nyssa,silvatica,0,0,0,1,0,0,1,1,AV-PR,AV,Y,30,50,0,0,0
+,,Ostrya,virginiana,Ostrya,virginiana,,,,,,,,,,,,25,40,0,0,0
+,,Picea,abies,Picea,abies,,,,,,,,,,,,40,60,0,0,0
+PIPU,blue spruce,Picea,pungens,Picea,pungens,0,0,0,1,0,0,0,0,GD,GD,N,30,60,0,1,0
+PICEA,spruce,Picea,spp.,Picea,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,30,100,0,0,0
+PINI,Austrian pine,Pinus,nigra,Pinus,nigra,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,60,0,1,0
+PINUS,pine,Pinus,spp.,Pinus,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,10,100,0,1,0
+PIST,Eastern white pine,Pinus,strobus,Pinus,strobus,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,80,0,0,0
+PLUN,,Platanus,spp.,Platanus,spp.,,,,,,,,,,,,70,100,0,0,0
+PLHY3,London planetree,Platanus,x hispanica,Platanus,x acerifolia,1,1,0,1,0,1,1,1,AV,GD,N,70,100,0,0,0
+PODE3,eastern cottonwood,Populus,deltoides,Populus,deltoides,1,0,0,1,0,1,1,1,AV,GD,Y,75,100,0,1,0
+POPUN,,Populus,spp.,Populus,spp.,,,,,,,,,,,,40,100,0,1,0
+POTR5,quaking aspen,Populus,tremuloides,Populus,tremuloides,0,0,0,1,0,1,1,1,AV,GD,Y,40,50,0,1,0
+PRCE2,cherry plum,Prunus,cerasifera,Prunus,cerasifera,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,15,30,0,0,0
+PRSE3,Japanese flowering cherry,Prunus,serrulata,Prunus,serrulata,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,20,30,0,0,0
+PRUNU,plum/cherry,Prunus,spp.,Prunus,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,15,30,0,0,0
+,,Prunus,virginiana,Prunus,virginiana,,,,,,,,,,,,20,35,0,1,0
+PYCA80,Callery pear (Bradford pear),Pyrus,calleryana,Pyrus,calleryana,1,1,0,1,0,0,1,0,GD,GD,N,40,40,1,0,1
+PYUN,,Pyrus,spp.,Pyrus,spp.,,,,,,,,,,,,40,40,1,0,1
+QUAL,white oak,Quercus,alba,Quercus,alba,0,0,1,1,0,0,1,1,GD,DIF,Y,50,80,0,1,0
+QUBI,swamp white oak,Quercus,bicolor,Quercus,bicolor,1,1,1,1,0,0,1,1,GD,GD,Y,50,60,0,0,1
+QUIM,shingle oak,Quercus,imbricaria,Quercus,imbricaria,1,1,1,1,0,0,1,1,AV,AV,Y,50,60,0,0,0
+QUMA2,bur oak,Quercus,macrocarpa,Quercus,macrocarpa,1,0,1,1,0,0,1,1,AV,DIF,Y,70,80,0,1,0
+QURU,northern red oak,Quercus,rubra,Quercus,rubra,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,60,75,0,1,0
+QUERC,oak,Quercus,spp.,Quercus,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,80,0,0,0
+ROPS,black locust,Robinia,pseudoacacia,Robinia,unknown,1,1,1,1,0,1,1,1,AV,AV,Y-H,30,50,0,1,0
+ROSP2,Robinia spp,Robinia,spp.,Robinia,spp.,1,1,1,1,0,1,1,1,AV,AV,Y-H,10,50,0,1,0
+,,Sorbus,americana,Sorbus,americana,,,,,,,,,,,,10,30,0,0,0
+SYRE2,Japanese tree lilac,Syringa,reticulata,Syringa,reticulata,1,1,0,1,1,1,0,1,GD,GD,N,20,30,0,0,0
+SYRE,,Syringa,spp.,Syringa,spp.,1,1,0,1,1,1,0,1,GD,GD,N,20,30,0,0,0
+TADI2,bald cypress,Taxodium,distichum,Taxodium,distichum,1,1,1,1,0,1,1,1,GD,GD,Y,50,70,0,0,1
+THOC2,northern white cedar,Thuja,occidentalis,Thuja,occidentalis,0,0,0,1,0,0,0,1,GD,GD,Y,40,60,0,0,1
+THUJA,arborvitae,Thuja,spp.,Thuja,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,10,60,0,0,0
+TIAM,American basswood,Tilia,americana,Tilia,americana,1,0,0,1,0,0,0,0,GD,GD,Y,60,80,0,0,0
+TICO2,littleleaf linden,Tilia,cordata,Tilia,cordata,1,0,1,1,0,0,0,0,GD,GD,N,60,70,0,0,0
+TILUN,,Tilia,spp.,Tilia,spp.,,,,,,,,,,,,60,80,0,0,0
+ULAM,American elm,Ulmus,americana,Ulmus,americana,1,1,0,1,0,0,0,1,GD,GD,Y-H,60,80,0,1,0
+ULPU,Siberian elm,Ulmus,pumila,Ulmus,pumila,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,50,70,1,1,1
+ULMUS,elm,Ulmus,spp.,Ulmus,unknown,1,1,1,1,0,0,0,0,GD,GD,N,20,80,1,1,0
+ZESE,,Zelkova,serrata,Zelkova,serrata,,,,,,,,,,,,50,80,0,0,1
+NA,Unknown,,spp.,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,6,100,0,0,0
+MALI,Lily Magnolia,Magnolia,liliiflora,Magnolia,liliiflora,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,N,8,20,0,0,0
+QUMU,Chinkapin oak,Quercus,muhlenbergii,Quercus,muhlenbergii,1,,1,1,,,1,1,GD,AV,Y,40,50,0,0,1
+TITO,Silver linden,Tilia,tomentosa,Tilia,tomentosa,1,,,1,,,,1,GD,GD,N,50,70,0,0,0
+AMGR,Autumn Brilliance Serviceberry,Amelanchier,x grandiflora,Amelanchier,x grandiflora,1,,1,1,1,,,1,GD,GD,Y,20,25,0,0,0
+TA,Yew spp,Taxus,spp.,Taxus,spp.,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,40,60,0,0,0
+PLOC,American sycamore,Platanus,occidentalis,Platanus,occidentalis,1,,,1,,,1,,AV,GD,Y,75,100,0,0,0

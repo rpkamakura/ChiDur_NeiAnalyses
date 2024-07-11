@@ -145,7 +145,7 @@ CensusTracts2020$PercWhiteNonHisp <- HispLat2021$Estimate..Total...Not.Hispanic.
 CensusTracts2020$PercBlack <- (HispLat2021$Estimate..Total...Not.Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)] + HispLat2021$Estimate..Total...Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)])/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
 CensusTracts2020$MedHouseIncome <- MedHouseInc2021$Estimate..Median.household.income.in.the.past.12.months..in.2021.inflation.adjusted.dollars.[match(CensusTracts2020$GEOID, MedHouseInc2021$geoid10)]
 CensusTracts2020$PercRenter <- HousingTenure2021$Estimate..Total...Renter.occupied.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
-CensusTracts2020$PercMovL5Years <- c(HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)])/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
+CensusTracts2020$PercMovL5Years <- c(HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2015.to.2018[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] +  HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2015.to.2018[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)])/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
 
 ##########################################deal with the census data
 CensusTracts2020$SVI <- SVIData$OverallSVI[match(CensusTracts2020$GEOID, SVIData$FIPS)]
@@ -214,9 +214,6 @@ SegmentCensusData$Segment[SegmentCensusData$Segment == "260/275"] <- "275"
 ##Get Building and Zoning Averages
 
 ```{r building and zoning averages}
-######the building data has a segment 268 for some reason
-
-
 ##########################################Building data
 #permitting information
 BPerm$Year_issued <- format(as.Date(BPerm$PermitIssueDate, "%m/%d/%Y"), "%Y")
@@ -229,7 +226,7 @@ perm_yrs_reno <- table(BPerm[BPerm$PermitType == "Reno_Alt_add", c("Segment", "Y
 
 ##create data frame to combine them all
 BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since06", "NumReno_since06", "NumConst_since15", "NumReno_since15", "NumDemo")
-Seg_building <- as.data.frame(matrix(0, nrow=13, ncol=length(BuiComb_nms)))
+Seg_building <- as.data.frame(matrix(0, nrow=14, ncol=length(BuiComb_nms)))
 names(Seg_building) <- BuiComb_nms
 
 ##building counts
@@ -240,7 +237,7 @@ Seg_building$Segment <- names(BuiCount)
 Seg_building$NumBuild <- BuiCount[match(Seg_building$Segment, names(BuiCount))]
 Seg_building$NumConst_since06[match(rownames(perm_yrs_const), Seg_building$Segment)] <- rowSums(perm_yrs_const)
 Seg_building$NumReno_since06[match(rownames(perm_yrs_reno), Seg_building$Segment)] <- rowSums(perm_yrs_reno)
-Seg_building$NumConst_since15[match(rownames(perm_yrs_const), Seg_building$Segment)]  <- rowSums(perm_yrs_const[,c("2015", "2016", "2017", "2018", "2019", "2020")])
+Seg_building$NumConst_since15[match(rownames(perm_yrs_const), Seg_building$Segment)]  <- rowSums(perm_yrs_const[,c("2015", "2016", "2017")])
 Seg_building$NumReno_since15[match(rownames(perm_yrs_reno), Seg_building$Segment)]  <- rowSums(perm_yrs_reno[,c( "2015", "2016", "2017", "2018", "2019", "2020")])
 Seg_building$NumDemo[Seg_building$Segment == 244] <- 1
 
@@ -252,9 +249,11 @@ TotArea <- ZoningData %>%
 
 #get simplified zones to use
 ZoningData$SimplifiedCat <- ZoningDescr$SimplifiedCategory[match(ZoningData$zone_class, ZoningDescr$zone_class)]
+#ZoningData$SimplifiedCat[ZoningData$zone_type == 5] <- "Other"
+ZoningData$SimplifiedCat[ZoningData$zone_type == 12] <- "Park"
 
 #dataframe to combine them all
-zoning_cols <- c("Segment", "PercRes_z", "PercComm_z", "PercInd_z", "PercInst_z")
+zoning_cols <- c("Segment", "PercRes_z", "PercComm_z", "PercInd_z", "PercInst_z", "PercPark_z")
 Zoning_bySeg <- as.data.frame(matrix(0, nrow=13, ncol=length(zoning_cols)))
 names(Zoning_bySeg) <- zoning_cols
 
@@ -264,8 +263,9 @@ AreaBySimpleZone <- ZoningData %>%
   summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
 
 AreaBySimpleZone <- AreaBySimpleZone[!is.na(AreaBySimpleZone$SimplifiedCat),]
-Zns <- c("Residential", "Commercial", "Industrial", "Institutional")
+Zns <- c("Residential", "Commercial", "Industrial", "Institutional", "Park")
 segs <- na.omit(unique(AreaBySimpleZone$Name))
+segs <- segs[segs != "268"]
 
 #go through and get your averages
 for (s in 1:length(segs)){
@@ -287,7 +287,7 @@ Zoning_bySeg$Segment[Zoning_bySeg$Segment == "260/275"] <- "275"
 
 ```{r get species information}
 #tree species information
-SppSpecificData <- read.csv(paste(basicDataPath,"ProcessedData/SpeciesInformation_Chicago_Dirr.csv", sep=""))
+SppSpecificData <- read.csv("../01Data/Chicago/SpeciesInformation_Chicago_Dirr.csv")
 
 #a little more intuitive
 names(TreeLvlCombined)[names(TreeLvlCombined) == "CrownVigor"] <- "CrownStress"
@@ -547,7 +547,7 @@ Perc_SegUA <- sweep(Seg_UrbanApp_Counts, 1, TotalSegTrees, FUN='/')
 
 ##################################################Combine all the data
 nrows <- length(SegmentCensusData$Segment)
-SegDatCols <- c("Segment", "PercentRenter", "MedianHouseholdIncome", "PercWhite", "PercentBlack", "PercHL", "MovL5Yrs", "SVI", "AvgBA", "PercCorrMulch", "PercUrbanApp", "PercResTree", "PercCOMM_MxTree", "PercSC", "PercGar3o4", "PercDisc3o4", "PercDBK5", "PercCS4o5", "SimpsonsDivSpp", "SimpsonsDivGen", "totNumTrees")
+SegDatCols <- c("Segment","AvgBA", "PercCorrMulch", "PercUrbanApp", "PercResTree", "PercCOMM_MxTree", "PercSC", "PercGar3o4", "PercDisc3o4", "PercDBK5", "PercCS4o5", "SimpsonsDivSpp", "SimpsonsDivGen", "totNumTrees")
 SegmentLvlDat <- as.data.frame(matrix(NA, nrow=nrows, ncol=length(SegDatCols)))
 names(SegmentLvlDat) <- SegDatCols
 
@@ -559,18 +559,7 @@ for(s in 1:length(SegNms)){
   
   seg <- SegNms[s]
   SegmentLvlDat$Segment[s] <- seg
-  
-  seg_ind <- match(seg, SegmentCensusData$Segment)
-  
-  #Census Data
-  SegmentLvlDat$PercentRenter[s] <- SegmentCensusData$PercRent[seg_ind]
-  SegmentLvlDat$MedianHouseholdIncome[s] <- SegmentCensusData$MedHouseInc[seg_ind]
-  SegmentLvlDat$PercWhite[s] <- SegmentCensusData$PercWhite[seg_ind]
-  SegmentLvlDat$PercentBlack[s] <- SegmentCensusData$PercBlack[seg_ind]
-  SegmentLvlDat$PercHL[s] <- SegmentCensusData$PercHispanicLatine[seg_ind]
-  SegmentLvlDat$MovL5Yrs[s] <- SegmentCensusData$PercM19[seg_ind] + SegmentCensusData$PercM15to18[seg_ind]
-  SegmentLvlDat$SVI[s] <- SegmentCensusData$SVI[seg_ind]
-  
+
   ####Pull in the non-census data
   SegInd_treed <- match(seg, SegAvg_UniqueDat$Segment)
   
@@ -608,13 +597,25 @@ SegmentLvlDat <- SegmentLvlDat[!is.na(SegmentLvlDat$Segment),]
 ##Combine all seg-lvl data
 
 ```{r combine all data}
-#SegmentLvlDat
-#Zoning_bySeg
-#Seg_building
 
-Seg_allData <- cbind(SegmentLvlDat, Zoning_bySeg, Seg_building)
+#get rid of segment 268
+SegmentCensusData <- SegmentCensusData[SegmentCensusData$Segment != "268",]
+Seg_building <- Seg_building[Seg_building$Segment != "268",]
+Seg_building$Segment[Seg_building$Segment == "260/275"] <- "275"
+SegmentLvlDat <- SegmentLvlDat[SegmentLvlDat$Segment != "268",]
 
+Seg_allData <- cbind(SegmentLvlDat, Zoning_bySeg, Seg_building, SegmentCensusData)
+
+#add a few last columns
 Seg_allData$AftTemp <- SegmentTemp$AfternoonTemp[match(Seg_allData$Segment, SegmentTemp$Segment)]
+Seg_allData$Change_PHL <- Seg_allData$PercHispanicLatine21 - Seg_allData$PercHispanicLatine11
+Seg_allData$Change_PBl <- Seg_allData$PercBlack21 - Seg_allData$PercBlack11
+Seg_allData$Change_PWnHL <- Seg_allData$PercWhiteNonHL21 - Seg_allData$PercWhiteNonHL11
+Seg_allData$Change_MedHHI <- Seg_allData$MedHouseInc21 - Seg_allData$MedHouseInc11
+Seg_allData$Change_PRent <- Seg_allData$PercRent21 - Seg_allData$PercRent11
+Seg_allData$Change_Rmov <- Seg_allData$PercRMov21 - Seg_allData$PercRMov11
+
+##add census data for change over time (percent change)
 
 AnalysisCols <- c("PercComm_z", "PercSC", "PercGar3o4", "PercCorrMulch", "AvgBA","PercUrbanApp",  "PercDisc3o4", "PercDBK5", "PercCS4o5")
 
@@ -654,15 +655,12 @@ Beta Bayesian: https://cran.r-project.org/web/packages/betaBayes/betaBayes.pdf
 wts <- as.vector(Seg_allData$totNumTrees)
 
 #to get a sense of the correlations
-cor(Seg_allData[c("PercComm_z", "PercInd_z","NumConst_since15","NumReno_since15", "NumBuild", "MedianHouseholdIncome", 
-                  "MovL5Yrs", "PercCOMM_MxTree", "PercWhite", "PercentBlack", "PercHL")])
+ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since15","NumReno_since15", 
+                   "NumBuild", "SVI", "AftTemp","Change_PHL", "Change_PBl","Change_PWnHL",
+                   "Change_MedHHI", "Change_PRent","Change_Rmov", "PercWhiteNonHL21",
+                   "MedHouseInc21", "PercRent21","PercRMov21" )])
 
-##try combining percHL with percBlack
-Seg_allData$PercBlack_HL <- Seg_allData$PercentBlack + Seg_allData$PercHL
-
-#to get a sense of the correlations
-cor(Seg_allData[c("PercComm_z", "PercInd_z","NumConst_since15","NumReno_since15", "NumBuild", "MedianHouseholdIncome", 
-                  "MovL5Yrs", "PercCOMM_MxTree", "PercWhite", "PercentBlack", "PercHL", "PercBlack_HL", "SVI")])
+write.csv(ChiCors, "./ChicagoPredCors.csv")
 
 ###########Model options without super correlated variables
 
