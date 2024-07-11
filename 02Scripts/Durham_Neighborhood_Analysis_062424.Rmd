@@ -38,7 +38,7 @@ TodayDate <- Sys.Date()
 date <- format(TodayDate, format="%b%d%y")
 
 ##get the new data
-BuildingPermits <- read.csv("../01Data/Durham/DurhamPermit_Segs.csv")
+BuildingPermits <- read.csv("../01Data/Durham/Durham_BuildingPermits_wSeg_clean.csv")
 BuildingParcels <- read.csv("../01Data/Durham/DurhamBuildings_Segs_fix.csv")
 
 #census

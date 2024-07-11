@@ -63,7 +63,7 @@ ZoningDescr <- read.csv("../01Data/Chicago/ChicagoZoningDescriptions.csv")
 
 #building data
 BFoot  <- read.csv("../01Data/Chicago/ChicagoBuildings_bySeg_fix.csv")
-BPerm  <- read.csv("../01Data/Chicago/ChicagoPermits_bySeg.csv")
+BPerm  <- read.csv("../01Data/Chicago/Chicago_BuildingPermits_wSeg_clean.csv")
 
 ##temperature - from arcPro layer (city 2023 data collection)
 segnms <- c("49", "157", "55", "153", "244", 
@@ -214,14 +214,16 @@ SegmentCensusData$Segment[SegmentCensusData$Segment == "260/275"] <- "275"
 ##Get Building and Zoning Averages
 
 ```{r building and zoning averages}
+######the building data has a segment 268 for some reason
+
 
 ##########################################Building data
 #permitting information
-BPerm$Year_issued <- format(as.Date(BPerm$date_issue, "%Y-%m-%d"), "%Y")
+BPerm$Year_issued <- format(as.Date(BPerm$PermitIssueDate, "%m/%d/%Y"), "%Y")
 BPerm <- BPerm[!is.na(BPerm$Year_issued),]
 
 #get some easy tables to reference
-perm_typs <- table(BPerm[,c("Segment", "permit_typ")])
+perm_typs <- table(BPerm[,c("Segment", "PermitType")])
 perm_yrs_const <- table(BPerm[BPerm$PermitType == "NewConst", c("Segment", "Year_issued")])
 perm_yrs_reno <- table(BPerm[BPerm$PermitType == "Reno_Alt_add", c("Segment", "Year_issued")])
 

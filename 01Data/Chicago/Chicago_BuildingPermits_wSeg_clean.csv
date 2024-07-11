@@ -1,0 +1,631 @@
+,Segment,PermitIssueDate,PermitType
+1,324,5/1/2006 0:00,Reno_Alt_add
+2,324,9/19/2006 0:00,Reno_Alt_add
+3,260/275,1/22/2024 0:00,Reno_Alt_add
+4,57,1/23/2024 0:00,Reno_Alt_add
+5,292,5/12/2011 0:00,Reno_Alt_add
+6,281,12/3/2007 0:00,Reno_Alt_add
+7,324,8/10/2009 0:00,Reno_Alt_add
+8,324,11/17/2008 0:00,NewConst
+9,49,12/3/2008 0:00,Reno_Alt_add
+10,324,12/19/2008 0:00,Reno_Alt_add
+11,16,1/30/2009 0:00,Reno_Alt_add
+12,324,4/23/2009 0:00,Reno_Alt_add
+13,281,5/7/2009 0:00,Reno_Alt_add
+14,281,5/5/2009 0:00,Reno_Alt_add
+15,324,7/24/2009 0:00,Reno_Alt_add
+16,281,9/21/2009 0:00,Reno_Alt_add
+17,260/275,11/12/2009 0:00,Reno_Alt_add
+18,292,11/19/2009 0:00,Reno_Alt_add
+19,128,6/4/2010 0:00,NewConst
+20,128,5/24/2010 0:00,NewConst
+21,306,4/20/2010 0:00,Reno_Alt_add
+22,244,4/29/2010 0:00,NewConst
+23,128,5/6/2010 0:00,NewConst
+24,128,5/6/2010 0:00,NewConst
+25,260/275,7/16/2010 0:00,Reno_Alt_add
+26,260/275,7/19/2010 0:00,Reno_Alt_add
+27,260/275,10/20/2010 0:00,Reno_Alt_add
+28,157,9/20/2010 0:00,Reno_Alt_add
+29,268,12/22/2010 0:00,Reno_Alt_add
+30,292,2/17/2011 0:00,Reno_Alt_add
+31,157,8/25/2011 0:00,Reno_Alt_add
+32,268,5/5/2011 0:00,Reno_Alt_add
+33,324,4/29/2011 0:00,Reno_Alt_add
+34,55,6/10/2011 0:00,Reno_Alt_add
+35,268,6/17/2011 0:00,Reno_Alt_add
+36,306,7/22/2011 0:00,Reno_Alt_add
+37,292,11/3/2011 0:00,Reno_Alt_add
+38,16,6/21/2012 0:00,Reno_Alt_add
+39,292,3/12/2012 0:00,Reno_Alt_add
+40,157,4/9/2012 0:00,Reno_Alt_add
+41,292,7/5/2012 0:00,Reno_Alt_add
+42,324,5/29/2012 0:00,Reno_Alt_add
+43,292,9/12/2012 0:00,Reno_Alt_add
+44,157,6/25/2013 0:00,Reno_Alt_add
+45,260/275,10/29/2012 0:00,Reno_Alt_add
+46,55,7/15/2013 0:00,Reno_Alt_add
+47,292,2/21/2013 0:00,Reno_Alt_add
+48,324,4/18/2013 0:00,Reno_Alt_add
+49,268,5/14/2013 0:00,Reno_Alt_add
+50,244,7/12/2013 0:00,Reno_Alt_add
+51,55,6/6/2016 0:00,Reno_Alt_add
+52,260/275,6/28/2013 0:00,Reno_Alt_add
+53,324,8/7/2013 0:00,Reno_Alt_add
+54,292,9/20/2013 0:00,Reno_Alt_add
+55,292,12/3/2013 0:00,Reno_Alt_add
+56,292,12/12/2013 0:00,Reno_Alt_add
+57,292,12/6/2013 0:00,Reno_Alt_add
+58,324,12/20/2013 0:00,Reno_Alt_add
+59,292,4/17/2014 0:00,Reno_Alt_add
+60,260/275,2/21/2014 0:00,Reno_Alt_add
+61,128,4/14/2014 0:00,Reno_Alt_add
+62,16,4/10/2014 0:00,Reno_Alt_add
+63,16,3/25/2014 0:00,Reno_Alt_add
+64,292,7/16/2014 0:00,Reno_Alt_add
+65,157,6/4/2014 0:00,Reno_Alt_add
+66,324,6/26/2014 0:00,Reno_Alt_add
+67,16,6/27/2014 0:00,Reno_Alt_add
+68,128,8/11/2014 0:00,Reno_Alt_add
+69,324,2/9/2015 0:00,NewConst
+70,157,7/15/2014 0:00,Reno_Alt_add
+71,157,7/23/2014 0:00,Reno_Alt_add
+72,324,2/3/2015 0:00,Reno_Alt_add
+73,281,1/25/2024 0:00,Reno_Alt_add
+74,260/275,10/14/2014 0:00,Reno_Alt_add
+75,244,12/5/2014 0:00,Reno_Alt_add
+76,157,3/18/2015 0:00,Reno_Alt_add
+77,281,2/26/2015 0:00,Reno_Alt_add
+78,281,2/26/2015 0:00,Reno_Alt_add
+79,292,8/3/2015 0:00,NewConst
+80,292,7/8/2015 0:00,Reno_Alt_add
+81,268,6/12/2015 0:00,Reno_Alt_add
+82,324,8/15/2015 0:00,Reno_Alt_add
+83,324,7/27/2015 0:00,Reno_Alt_add
+84,260/275,7/27/2015 0:00,Reno_Alt_add
+85,324,9/14/2015 0:00,Reno_Alt_add
+86,260/275,4/14/2016 0:00,Reno_Alt_add
+87,324,12/3/2015 0:00,Reno_Alt_add
+88,324,1/13/2016 0:00,Reno_Alt_add
+89,292,3/21/2016 0:00,Reno_Alt_add
+90,324,1/6/2016 0:00,Reno_Alt_add
+91,16,12/18/2015 0:00,Reno_Alt_add
+92,157,1/23/2018 0:00,Reno_Alt_add
+93,324,4/12/2016 0:00,Reno_Alt_add
+94,260/275,4/1/2016 0:00,Reno_Alt_add
+95,260/275,8/21/2007 0:00,Reno_Alt_add
+96,292,7/27/2016 0:00,Reno_Alt_add
+97,324,8/15/2016 0:00,Reno_Alt_add
+98,260/275,6/3/2016 0:00,Reno_Alt_add
+99,55,5/24/2016 0:00,Reno_Alt_add
+100,306,5/24/2016 0:00,Reno_Alt_add
+101,324,9/14/2016 0:00,Reno_Alt_add
+102,260/275,11/23/2016 0:00,NewConst
+103,281,9/16/2016 0:00,Reno_Alt_add
+104,292,6/5/2017 0:00,Reno_Alt_add
+105,324,9/2/2016 0:00,Reno_Alt_add
+106,260/275,11/26/2014 0:00,Reno_Alt_add
+107,324,11/21/2016 0:00,Reno_Alt_add
+108,281,10/13/2016 0:00,Reno_Alt_add
+109,153,2/28/2017 0:00,NewConst
+110,268,5/24/2017 0:00,Reno_Alt_add
+111,268,2/17/2017 0:00,Reno_Alt_add
+112,292,10/13/2020 0:00,Reno_Alt_add
+113,324,5/10/2017 0:00,Reno_Alt_add
+114,324,5/10/2017 0:00,Reno_Alt_add
+115,292,10/10/2017 0:00,NewConst
+116,292,9/22/2017 0:00,NewConst
+117,324,12/14/2017 0:00,Reno_Alt_add
+118,306,6/23/2017 0:00,Reno_Alt_add
+119,324,11/14/2017 0:00,Reno_Alt_add
+120,260/275,3/9/2018 0:00,Reno_Alt_add
+121,306,11/7/2017 0:00,Reno_Alt_add
+122,281,9/20/2017 0:00,Reno_Alt_add
+123,292,9/12/2018 0:00,Reno_Alt_add
+124,157,9/18/2017 0:00,Reno_Alt_add
+125,324,4/6/2018 0:00,Reno_Alt_add
+126,281,10/20/2017 0:00,Reno_Alt_add
+127,324,7/15/2018 0:00,Reno_Alt_add
+128,324,11/3/2019 0:00,Reno_Alt_add
+129,153,3/22/2018 0:00,Reno_Alt_add
+130,55,4/10/2018 0:00,Reno_Alt_add
+131,260/275,12/6/2018 0:00,Reno_Alt_add
+132,157,7/30/2018 0:00,Reno_Alt_add
+133,260/275,4/3/2018 0:00,Reno_Alt_add
+134,324,4/17/2018 0:00,Reno_Alt_add
+135,244,4/24/2018 0:00,Reno_Alt_add
+136,324,5/1/2018 0:00,Reno_Alt_add
+137,268,9/18/2018 0:00,Reno_Alt_add
+138,292,3/26/2020 0:00,Reno_Alt_add
+139,260/275,8/8/2018 0:00,Reno_Alt_add
+140,324,9/19/2018 0:00,Reno_Alt_add
+141,306,11/5/2018 0:00,Reno_Alt_add
+142,153,11/8/2018 0:00,Reno_Alt_add
+143,153,11/8/2018 0:00,Reno_Alt_add
+144,153,12/14/2018 0:00,Reno_Alt_add
+145,16,12/6/2018 0:00,Reno_Alt_add
+146,324,1/14/2019 0:00,Reno_Alt_add
+147,306,3/25/2019 0:00,Reno_Alt_add
+148,281,9/18/2019 0:00,Reno_Alt_add
+149,260/275,6/12/2019 0:00,Reno_Alt_add
+150,57,2/26/2019 0:00,Reno_Alt_add
+151,324,4/25/2019 0:00,Reno_Alt_add
+152,324,4/9/2019 0:00,Reno_Alt_add
+153,244,4/30/2019 0:00,Reno_Alt_add
+154,292,5/28/2019 0:00,Reno_Alt_add
+155,260/275,7/26/2019 0:00,Reno_Alt_add
+156,16,11/4/2019 0:00,Reno_Alt_add
+157,244,8/5/2019 0:00,Reno_Alt_add
+158,260/275,8/14/2019 0:00,Reno_Alt_add
+159,324,8/15/2019 0:00,Reno_Alt_add
+160,292,11/22/2019 0:00,Reno_Alt_add
+161,292,3/10/2020 0:00,Reno_Alt_add
+162,292,9/11/2019 0:00,Reno_Alt_add
+163,281,9/23/2019 0:00,Reno_Alt_add
+164,281,11/26/2019 0:00,Reno_Alt_add
+165,292,2/24/2020 0:00,Reno_Alt_add
+166,157,10/22/2019 0:00,Reno_Alt_add
+167,281,10/30/2019 0:00,Reno_Alt_add
+168,292,11/21/2019 0:00,Reno_Alt_add
+169,292,11/27/2019 0:00,Reno_Alt_add
+170,292,2/13/2020 0:00,Reno_Alt_add
+171,281,2/19/2020 0:00,Reno_Alt_add
+172,268,5/13/2020 0:00,Reno_Alt_add
+173,49,4/6/2020 0:00,Reno_Alt_add
+174,260/275,4/29/2020 0:00,Reno_Alt_add
+175,292,4/2/2020 0:00,Reno_Alt_add
+176,281,6/23/2020 0:00,Reno_Alt_add
+177,260/275,7/28/2020 0:00,Reno_Alt_add
+178,324,7/1/2020 0:00,Reno_Alt_add
+179,324,7/8/2020 0:00,Reno_Alt_add
+180,292,8/13/2020 0:00,Reno_Alt_add
+181,324,12/10/2020 0:00,Reno_Alt_add
+182,324,9/8/2020 0:00,Reno_Alt_add
+183,153,12/16/2020 0:00,Reno_Alt_add
+184,16,3/8/2021 0:00,Reno_Alt_add
+185,306,5/25/2022 0:00,Reno_Alt_add
+186,244,2/22/2021 0:00,Reno_Alt_add
+187,153,4/8/2021 0:00,Reno_Alt_add
+188,292,2/14/2022 0:00,Reno_Alt_add
+189,292,1/25/2022 0:00,Reno_Alt_add
+190,292,7/28/2021 0:00,Reno_Alt_add
+191,306,5/25/2021 0:00,Reno_Alt_add
+192,57,7/8/2021 0:00,Reno_Alt_add
+193,324,8/4/2021 0:00,Reno_Alt_add
+194,55,8/12/2021 0:00,Reno_Alt_add
+195,324,10/10/2021 0:00,Reno_Alt_add
+196,57,8/18/2021 0:00,Reno_Alt_add
+197,268,9/21/2021 0:00,Reno_Alt_add
+198,281,10/26/2021 0:00,Reno_Alt_add
+199,281,10/11/2021 0:00,Reno_Alt_add
+200,260/275,10/19/2021 0:00,Reno_Alt_add
+201,324,11/4/2021 0:00,Reno_Alt_add
+202,324,12/21/2021 0:00,Reno_Alt_add
+203,306,7/25/2022 0:00,Reno_Alt_add
+204,260/275,5/10/2022 0:00,Reno_Alt_add
+205,55,6/6/2023 0:00,Reno_Alt_add
+206,16,10/10/2022 0:00,Reno_Alt_add
+207,281,10/22/2022 0:00,Reno_Alt_add
+208,244,5/31/2023 0:00,Reno_Alt_add
+209,260/275,5/29/2023 0:00,Reno_Alt_add
+210,244,5/31/2023 0:00,Reno_Alt_add
+211,55,10/16/2017 0:00,Reno_Alt_add
+212,268,6/20/2018 0:00,Reno_Alt_add
+213,268,7/15/2021 0:00,Reno_Alt_add
+214,244,8/24/2023 0:00,Reno_Alt_add
+215,244,8/27/2023 0:00,Reno_Alt_add
+216,306,8/28/2023 0:00,Reno_Alt_add
+217,324,11/15/2021 0:00,Reno_Alt_add
+218,49,12/12/2022 0:00,Reno_Alt_add
+219,281,8/1/2023 0:00,Reno_Alt_add
+220,324,8/2/2023 0:00,Reno_Alt_add
+221,324,8/8/2023 0:00,Reno_Alt_add
+222,49,11/2/2022 0:00,Reno_Alt_add
+223,292,8/8/2023 0:00,Reno_Alt_add
+224,55,8/18/2023 0:00,Reno_Alt_add
+225,16,8/30/2023 0:00,Reno_Alt_add
+226,292,12/7/2012 0:00,Reno_Alt_add
+227,55,9/11/2023 0:00,Reno_Alt_add
+228,306,9/13/2023 0:00,Reno_Alt_add
+229,324,9/13/2023 0:00,Reno_Alt_add
+230,292,3/25/2016 0:00,Reno_Alt_add
+231,324,9/15/2023 0:00,Reno_Alt_add
+232,324,12/21/2023 0:00,Reno_Alt_add
+233,306,6/29/2017 0:00,Reno_Alt_add
+234,49,9/19/2023 0:00,Reno_Alt_add
+235,324,11/13/2017 0:00,NewConst
+236,324,5/14/2018 0:00,Reno_Alt_add
+237,244,3/18/2011 0:00,Reno_Alt_add
+238,157,2/3/2012 0:00,Reno_Alt_add
+239,244,12/17/2013 0:00,Reno_Alt_add
+240,324,6/16/2014 0:00,Reno_Alt_add
+241,260/275,11/10/2015 0:00,Reno_Alt_add
+242,260/275,10/5/2016 0:00,Reno_Alt_add
+243,49,12/5/2016 0:00,Reno_Alt_add
+244,260/275,2/28/2017 0:00,Reno_Alt_add
+245,260/275,5/16/2017 0:00,Reno_Alt_add
+246,292,9/23/2021 0:00,Reno_Alt_add
+247,324,9/21/2021 0:00,Reno_Alt_add
+248,306,10/2/2023 0:00,Reno_Alt_add
+249,260/275,10/3/2023 0:00,Reno_Alt_add
+250,260/275,5/26/2023 0:00,Reno_Alt_add
+251,244,10/6/2023 0:00,Demo
+252,57,10/10/2023 0:00,Reno_Alt_add
+253,324,10/11/2023 0:00,Reno_Alt_add
+254,306,10/12/2023 0:00,Reno_Alt_add
+255,324,10/12/2023 0:00,Reno_Alt_add
+256,306,10/17/2023 0:00,Reno_Alt_add
+257,57,11/1/2023 0:00,Reno_Alt_add
+258,292,8/11/2017 0:00,Reno_Alt_add
+259,292,6/12/2018 0:00,Reno_Alt_add
+260,306,2/26/2019 0:00,Reno_Alt_add
+261,281,11/6/2023 0:00,Reno_Alt_add
+262,128,6/2/2022 0:00,Reno_Alt_add
+263,324,10/21/2015 0:00,Reno_Alt_add
+264,281,1/15/2019 0:00,Reno_Alt_add
+265,128,3/17/2014 0:00,Reno_Alt_add
+266,153,12/14/2006 0:00,NewConst
+267,153,12/14/2006 0:00,NewConst
+268,153,2/15/2007 0:00,Reno_Alt_add
+269,153,6/25/2007 0:00,Reno_Alt_add
+270,153,6/25/2007 0:00,Reno_Alt_add
+271,153,7/13/2007 0:00,Reno_Alt_add
+272,153,2/4/2008 0:00,Reno_Alt_add
+273,128,9/24/2012 0:00,Reno_Alt_add
+274,128,9/24/2012 0:00,Reno_Alt_add
+275,128,9/24/2012 0:00,Reno_Alt_add
+276,128,9/24/2012 0:00,Reno_Alt_add
+277,128,11/5/2013 0:00,Reno_Alt_add
+278,260/275,1/29/2015 0:00,Reno_Alt_add
+279,157,6/3/2014 0:00,Reno_Alt_add
+280,306,8/17/2015 0:00,Reno_Alt_add
+281,306,7/31/2015 0:00,Reno_Alt_add
+282,292,5/1/2017 0:00,Reno_Alt_add
+283,292,5/23/2017 0:00,Reno_Alt_add
+284,16,8/6/2017 0:00,Reno_Alt_add
+285,244,4/11/2018 0:00,Reno_Alt_add
+286,306,10/9/2018 0:00,Reno_Alt_add
+287,324,6/4/2019 0:00,Reno_Alt_add
+288,306,5/20/2020 0:00,Reno_Alt_add
+289,292,5/11/2020 0:00,Reno_Alt_add
+290,244,10/15/2020 0:00,Reno_Alt_add
+291,244,10/13/2010 0:00,Reno_Alt_add
+292,292,10/27/2011 0:00,Reno_Alt_add
+293,324,9/3/2014 0:00,Reno_Alt_add
+294,260/275,10/2/2015 0:00,Reno_Alt_add
+295,260/275,11/14/2023 0:00,Reno_Alt_add
+296,292,3/25/2009 0:00,Reno_Alt_add
+297,55,4/28/2020 0:00,Reno_Alt_add
+298,260/275,10/27/2022 0:00,Reno_Alt_add
+299,57,9/29/2021 0:00,Reno_Alt_add
+300,260/275,5/10/2022 0:00,Reno_Alt_add
+301,260/275,5/10/2022 0:00,Reno_Alt_add
+302,260/275,2/19/2015 0:00,Reno_Alt_add
+303,244,7/15/2008 0:00,NewConst
+304,244,7/15/2008 0:00,NewConst
+305,244,7/15/2008 0:00,NewConst
+306,244,10/8/2008 0:00,NewConst
+307,244,10/17/2008 0:00,NewConst
+308,244,10/17/2008 0:00,NewConst
+309,244,10/28/2008 0:00,NewConst
+310,16,11/8/2018 0:00,Reno_Alt_add
+311,292,10/6/2020 0:00,Reno_Alt_add
+312,292,6/2/2021 0:00,Reno_Alt_add
+313,49,11/28/2011 0:00,Reno_Alt_add
+314,244,7/8/2015 0:00,Reno_Alt_add
+315,260/275,7/7/2007 0:00,Reno_Alt_add
+316,324,1/12/2006 0:00,Reno_Alt_add
+317,324,2/8/2006 0:00,Demo
+318,153,2/2/2006 0:00,NewConst
+319,153,2/2/2006 0:00,NewConst
+320,157,7/7/2007 0:00,Reno_Alt_add
+321,55,1/4/2006 0:00,Reno_Alt_add
+322,324,1/4/2006 0:00,Reno_Alt_add
+323,57,1/3/2006 0:00,Reno_Alt_add
+324,324,4/17/2006 0:00,Reno_Alt_add
+325,260/275,1/13/2006 0:00,Reno_Alt_add
+326,153,6/5/2006 0:00,NewConst
+327,306,1/25/2006 0:00,Reno_Alt_add
+328,16,1/26/2006 0:00,Reno_Alt_add
+329,260/275,5/17/2006 0:00,Reno_Alt_add
+330,281,1/31/2006 0:00,Reno_Alt_add
+331,260/275,2/15/2006 0:00,Reno_Alt_add
+332,244,2/1/2006 0:00,Reno_Alt_add
+333,281,2/1/2006 0:00,Reno_Alt_add
+334,324,3/1/2006 0:00,Demo
+335,324,2/7/2006 0:00,Reno_Alt_add
+336,324,2/23/2006 0:00,Reno_Alt_add
+337,260/275,2/7/2006 0:00,Reno_Alt_add
+338,292,2/8/2006 0:00,Reno_Alt_add
+339,244,5/5/2006 0:00,Reno_Alt_add
+340,244,2/28/2006 0:00,Reno_Alt_add
+341,281,3/7/2006 0:00,Reno_Alt_add
+342,324,8/15/2006 0:00,Reno_Alt_add
+343,268,2/21/2006 0:00,Reno_Alt_add
+344,260/275,2/23/2006 0:00,Reno_Alt_add
+345,292,5/3/2006 0:00,Reno_Alt_add
+346,16,3/7/2006 0:00,Reno_Alt_add
+347,281,3/9/2006 0:00,Reno_Alt_add
+348,244,3/9/2006 0:00,Reno_Alt_add
+349,324,3/14/2006 0:00,Reno_Alt_add
+350,153,3/28/2006 0:00,NewConst
+351,260/275,6/16/2006 0:00,Reno_Alt_add
+352,324,4/6/2006 0:00,Reno_Alt_add
+353,153,7/11/2006 0:00,Reno_Alt_add
+354,57,3/24/2006 0:00,Reno_Alt_add
+355,57,4/10/2006 0:00,NewConst
+356,57,4/10/2006 0:00,NewConst
+357,57,4/10/2006 0:00,NewConst
+358,157,4/20/2006 0:00,Reno_Alt_add
+359,292,8/1/2006 0:00,Reno_Alt_add
+360,292,3/31/2006 0:00,Reno_Alt_add
+361,260/275,4/3/2006 0:00,Reno_Alt_add
+362,55,5/9/2006 0:00,Reno_Alt_add
+363,57,4/10/2006 0:00,Reno_Alt_add
+364,57,4/10/2006 0:00,Reno_Alt_add
+365,244,7/28/2009 0:00,Reno_Alt_add
+366,244,4/12/2006 0:00,Reno_Alt_add
+367,324,5/24/2006 0:00,Reno_Alt_add
+368,260/275,4/19/2006 0:00,Reno_Alt_add
+369,324,4/24/2006 0:00,Reno_Alt_add
+370,260/275,5/1/2006 0:00,Reno_Alt_add
+371,324,5/4/2006 0:00,Reno_Alt_add
+372,57,6/1/2006 0:00,Reno_Alt_add
+373,324,5/8/2006 0:00,Reno_Alt_add
+374,324,11/6/2006 0:00,Reno_Alt_add
+375,324,11/6/2006 0:00,Reno_Alt_add
+376,16,5/11/2006 0:00,Reno_Alt_add
+377,55,5/9/2006 0:00,Reno_Alt_add
+378,324,5/11/2006 0:00,Reno_Alt_add
+379,244,5/16/2006 0:00,Reno_Alt_add
+380,16,5/18/2006 0:00,Reno_Alt_add
+381,153,5/19/2006 0:00,Reno_Alt_add
+382,324,5/30/2006 0:00,Demo
+383,260/275,6/16/2006 0:00,Reno_Alt_add
+384,128,4/9/2007 0:00,Demo
+385,260/275,5/30/2006 0:00,Reno_Alt_add
+386,244,5/30/2006 0:00,Reno_Alt_add
+387,16,6/1/2006 0:00,Reno_Alt_add
+388,281,6/15/2006 0:00,Reno_Alt_add
+389,260/275,6/7/2006 0:00,Reno_Alt_add
+390,268,6/7/2006 0:00,Reno_Alt_add
+391,324,6/7/2006 0:00,Reno_Alt_add
+392,153,7/13/2006 0:00,Reno_Alt_add
+393,324,6/8/2006 0:00,Reno_Alt_add
+394,260/275,8/31/2006 0:00,Reno_Alt_add
+395,324,9/29/2006 0:00,Reno_Alt_add
+396,324,8/14/2006 0:00,Reno_Alt_add
+397,324,10/6/2006 0:00,Reno_Alt_add
+398,16,6/14/2006 0:00,Reno_Alt_add
+399,55,7/17/2006 0:00,Reno_Alt_add
+400,268,6/27/2006 0:00,Reno_Alt_add
+401,153,9/14/2006 0:00,Reno_Alt_add
+402,16,7/18/2006 0:00,Reno_Alt_add
+403,244,7/7/2006 0:00,Reno_Alt_add
+404,306,7/10/2006 0:00,Reno_Alt_add
+405,244,7/12/2006 0:00,Reno_Alt_add
+406,153,9/12/2006 0:00,NewConst
+407,128,8/1/2006 0:00,NewConst
+408,324,7/18/2006 0:00,Reno_Alt_add
+409,324,8/9/2006 0:00,Reno_Alt_add
+410,153,7/26/2006 0:00,Reno_Alt_add
+411,153,7/26/2006 0:00,Reno_Alt_add
+412,153,7/26/2006 0:00,Reno_Alt_add
+413,16,7/27/2006 0:00,Reno_Alt_add
+414,306,12/12/2006 0:00,Reno_Alt_add
+415,260/275,8/2/2006 0:00,Reno_Alt_add
+416,292,8/29/2006 0:00,Demo
+417,55,8/7/2006 0:00,Reno_Alt_add
+418,153,8/23/2006 0:00,Reno_Alt_add
+419,153,8/23/2006 0:00,Reno_Alt_add
+420,153,8/23/2006 0:00,Reno_Alt_add
+421,153,8/23/2006 0:00,Reno_Alt_add
+422,57,8/31/2006 0:00,Reno_Alt_add
+423,324,9/11/2006 0:00,Reno_Alt_add
+424,128,8/21/2006 0:00,Reno_Alt_add
+425,324,9/12/2006 0:00,Reno_Alt_add
+426,292,10/25/2006 0:00,NewConst
+427,244,8/30/2006 0:00,Reno_Alt_add
+428,57,9/8/2006 0:00,Reno_Alt_add
+429,128,9/28/2006 0:00,NewConst
+430,292,11/22/2006 0:00,Reno_Alt_add
+431,57,8/30/2006 0:00,Reno_Alt_add
+432,281,8/31/2006 0:00,Reno_Alt_add
+433,57,1/12/2007 0:00,Reno_Alt_add
+434,292,9/5/2006 0:00,Reno_Alt_add
+435,57,9/20/2006 0:00,Reno_Alt_add
+436,128,11/15/2006 0:00,Reno_Alt_add
+437,324,2/15/2008 0:00,Reno_Alt_add
+438,57,10/3/2006 0:00,Reno_Alt_add
+439,292,10/23/2006 0:00,Demo
+440,260/275,10/2/2006 0:00,Reno_Alt_add
+441,55,10/9/2006 0:00,Reno_Alt_add
+442,57,10/25/2006 0:00,Reno_Alt_add
+443,55,10/7/2006 0:00,Reno_Alt_add
+444,292,10/16/2006 0:00,Reno_Alt_add
+445,57,10/30/2006 0:00,Reno_Alt_add
+446,16,10/19/2006 0:00,Reno_Alt_add
+447,324,11/29/2006 0:00,Reno_Alt_add
+448,16,10/26/2006 0:00,Reno_Alt_add
+449,153,11/10/2006 0:00,Reno_Alt_add
+450,153,11/10/2006 0:00,Reno_Alt_add
+451,153,11/10/2006 0:00,Reno_Alt_add
+452,281,7/6/2007 0:00,Reno_Alt_add
+453,324,1/9/2007 0:00,Reno_Alt_add
+454,128,11/7/2006 0:00,Reno_Alt_add
+455,49,10/31/2006 0:00,Reno_Alt_add
+456,49,11/1/2006 0:00,Reno_Alt_add
+457,244,11/24/2006 0:00,Reno_Alt_add
+458,55,12/21/2006 0:00,Reno_Alt_add
+459,324,11/20/2006 0:00,Reno_Alt_add
+460,324,11/24/2006 0:00,Reno_Alt_add
+461,260/275,11/27/2006 0:00,Reno_Alt_add
+462,49,11/29/2006 0:00,Reno_Alt_add
+463,324,11/30/2006 0:00,Reno_Alt_add
+464,157,11/30/2006 0:00,Reno_Alt_add
+465,324,12/12/2006 0:00,Reno_Alt_add
+466,157,12/13/2006 0:00,Reno_Alt_add
+467,49,5/30/2007 0:00,Reno_Alt_add
+468,268,12/21/2006 0:00,Reno_Alt_add
+469,128,1/12/2007 0:00,NewConst
+470,324,1/12/2007 0:00,Reno_Alt_add
+471,244,1/5/2007 0:00,Reno_Alt_add
+472,16,1/9/2007 0:00,Reno_Alt_add
+473,292,1/17/2007 0:00,Reno_Alt_add
+474,55,11/24/2008 0:00,Reno_Alt_add
+475,324,1/27/2007 0:00,Reno_Alt_add
+476,260/275,3/20/2007 0:00,Reno_Alt_add
+477,16,1/31/2007 0:00,Reno_Alt_add
+478,268,2/6/2007 0:00,Reno_Alt_add
+479,292,2/14/2007 0:00,Reno_Alt_add
+480,324,3/9/2007 0:00,Reno_Alt_add
+481,49,2/22/2007 0:00,Reno_Alt_add
+482,324,7/7/2007 0:00,Reno_Alt_add
+483,324,5/11/2007 0:00,Demo
+484,281,3/7/2007 0:00,Reno_Alt_add
+485,260/275,3/2/2007 0:00,Reno_Alt_add
+486,49,7/7/2007 0:00,Reno_Alt_add
+487,260/275,7/7/2007 0:00,Reno_Alt_add
+488,324,5/11/2007 0:00,Demo
+489,292,3/13/2007 0:00,Reno_Alt_add
+490,55,7/7/2007 0:00,Reno_Alt_add
+491,55,3/23/2007 0:00,Reno_Alt_add
+492,324,3/21/2007 0:00,Reno_Alt_add
+493,49,3/22/2007 0:00,Reno_Alt_add
+494,281,4/2/2007 0:00,Reno_Alt_add
+495,324,4/11/2007 0:00,Reno_Alt_add
+496,260/275,10/12/2007 0:00,Reno_Alt_add
+497,324,6/22/2007 0:00,Reno_Alt_add
+498,260/275,8/13/2007 0:00,Reno_Alt_add
+499,268,4/13/2007 0:00,Reno_Alt_add
+500,292,4/19/2007 0:00,Reno_Alt_add
+501,324,4/30/2007 0:00,Reno_Alt_add
+502,260/275,4/28/2007 0:00,Reno_Alt_add
+503,157,4/30/2007 0:00,Reno_Alt_add
+504,157,5/14/2007 0:00,Reno_Alt_add
+505,244,5/3/2007 0:00,Reno_Alt_add
+506,244,5/3/2007 0:00,Reno_Alt_add
+507,306,5/7/2007 0:00,Reno_Alt_add
+508,324,5/18/2007 0:00,Demo
+509,306,5/14/2007 0:00,Reno_Alt_add
+510,292,5/23/2007 0:00,Reno_Alt_add
+511,281,5/23/2007 0:00,Reno_Alt_add
+512,57,5/22/2007 0:00,Reno_Alt_add
+513,292,5/23/2007 0:00,Reno_Alt_add
+514,260/275,5/23/2007 0:00,Reno_Alt_add
+515,260/275,5/23/2007 0:00,Reno_Alt_add
+516,292,5/25/2007 0:00,Reno_Alt_add
+517,260/275,5/25/2007 0:00,Reno_Alt_add
+518,260/275,5/30/2007 0:00,Reno_Alt_add
+519,16,6/8/2007 0:00,Reno_Alt_add
+520,157,6/15/2007 0:00,Reno_Alt_add
+521,281,,Reno_Alt_add
+522,281,,Reno_Alt_add
+523,324,,Reno_Alt_add
+524,260/275,,Reno_Alt_add
+525,324,,Reno_Alt_add
+526,292,,Reno_Alt_add
+527,16,,Reno_Alt_add
+528,281,,Reno_Alt_add
+529,16,,Reno_Alt_add
+530,260/275,,Reno_Alt_add
+531,49,,Reno_Alt_add
+532,153,,Reno_Alt_add
+533,292,,Reno_Alt_add
+534,16,,Reno_Alt_add
+535,292,,Reno_Alt_add
+536,260/275,,Reno_Alt_add
+537,16,,Reno_Alt_add
+538,16,,Reno_Alt_add
+539,306,,Reno_Alt_add
+540,292,,Reno_Alt_add
+541,16,,Reno_Alt_add
+542,324,,Reno_Alt_add
+543,324,,Reno_Alt_add
+544,281,,Reno_Alt_add
+545,292,,Reno_Alt_add
+546,157,,Reno_Alt_add
+547,157,,Reno_Alt_add
+548,157,,Reno_Alt_add
+549,153,,Reno_Alt_add
+550,324,,Reno_Alt_add
+551,16,,Reno_Alt_add
+552,324,,Reno_Alt_add
+553,292,,Reno_Alt_add
+554,260/275,,Reno_Alt_add
+555,244,,Reno_Alt_add
+556,324,,Reno_Alt_add
+557,49,,Reno_Alt_add
+558,292,,Reno_Alt_add
+559,292,,Reno_Alt_add
+560,324,,Reno_Alt_add
+561,16,,Reno_Alt_add
+562,292,,Reno_Alt_add
+563,268,,Reno_Alt_add
+564,260/275,,Reno_Alt_add
+565,49,,Reno_Alt_add
+566,16,,Reno_Alt_add
+567,57,,Reno_Alt_add
+568,244,,Reno_Alt_add
+569,268,,Reno_Alt_add
+570,57,,Reno_Alt_add
+571,16,,Reno_Alt_add
+572,55,,Reno_Alt_add
+573,324,,Reno_Alt_add
+574,292,,Reno_Alt_add
+575,281,,Reno_Alt_add
+576,324,,Reno_Alt_add
+577,324,,Reno_Alt_add
+578,281,,Reno_Alt_add
+579,57,,Reno_Alt_add
+580,16,,Reno_Alt_add
+581,324,,Reno_Alt_add
+582,57,,Reno_Alt_add
+583,268,,Reno_Alt_add
+584,268,,Reno_Alt_add
+585,268,,Reno_Alt_add
+586,324,,Reno_Alt_add
+587,16,,Reno_Alt_add
+588,55,,Reno_Alt_add
+589,55,,Reno_Alt_add
+590,57,,Reno_Alt_add
+591,157,,Reno_Alt_add
+592,260/275,,Reno_Alt_add
+593,57,,Reno_Alt_add
+594,260/275,,Reno_Alt_add
+595,324,,Reno_Alt_add
+596,57,,Reno_Alt_add
+597,292,,Reno_Alt_add
+598,260/275,,Reno_Alt_add
+599,292,,Reno_Alt_add
+600,244,,Reno_Alt_add
+601,292,,Reno_Alt_add
+602,292,,Reno_Alt_add
+603,157,,Reno_Alt_add
+604,55,,Reno_Alt_add
+605,55,,Reno_Alt_add
+606,55,,Reno_Alt_add
+607,292,,Reno_Alt_add
+608,268,,Reno_Alt_add
+609,324,,Reno_Alt_add
+610,292,,Reno_Alt_add
+611,128,,Reno_Alt_add
+612,324,,Reno_Alt_add
+613,281,,Reno_Alt_add
+614,49,,Reno_Alt_add
+615,16,,Reno_Alt_add
+616,324,,Reno_Alt_add
+617,292,,Reno_Alt_add
+618,57,,Reno_Alt_add
+619,292,,Reno_Alt_add
+620,16,,Reno_Alt_add
+621,268,,Reno_Alt_add
+622,292,,Reno_Alt_add
+623,292,,Reno_Alt_add
+624,324,,Reno_Alt_add
+625,324,,Reno_Alt_add
+626,324,,Reno_Alt_add
+627,292,,Reno_Alt_add
+628,49,,Reno_Alt_add
+629,244,,Reno_Alt_add
+630,268,,Reno_Alt_add
