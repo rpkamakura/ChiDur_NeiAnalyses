@@ -30,26 +30,32 @@ library(My.stepwise)
 ```
 
 ```{r read in tree lvl data}
-##read in data
-basicDataPath <- c("../../01Data/03DurhamSampling/")
 
 #read in full version of the tree dataset
-TreeLvlCombined <- read.csv("../../01Data/03DurhamSampling/SamplingS23/091523AllYearsCombDurham.csv")
+TreeLvlCombined <- read.csv("../01Data/Durham/091523AllYearsCombDurham.csv")
 
 TodayDate <- Sys.Date()
 date <- format(TodayDate, format="%b%d%y")
 
 ##get the new data
-BuildingPermits <- read.csv("../../01Data/CityData/Durham/Durham_BuildingPermits_wSeg_clean.csv")
-DemolitionPermits <- read.csv("../../01Data/CityData/Durham/Durham_DemolitionPermits_wSeg.csv")
-BuildingParcels <- read.csv("../../01Data/CityData/Durham/Durham_Parcels_wSeg.csv")
+BuildingPermits <- read.csv("../01Data/Durham/DurhamPermit_Segs.csv")
+BuildingParcels <- read.csv("../01Data/Durham/DurhamBuildings_Segs_fix.csv")
 
 #census
-CensusData <- read.csv("../../01Data/CityData/Durham/DurhamCensusData_bySegment.csv")
-SVIData <- read.csv("../../01Data/CityData/Durham/SVI_Durham.csv")
+CensusTracts2010 <- read.csv("../01Data/Durham/Durham2010Census_bySeg_fix.csv")
+CensusTracts2020 <- read.csv("../01Data/Durham/Durham2020Census_bySeg_fix.csv")
+SVIData <- read.csv("../01Data/Durham/SVI_Durham.csv")
+HispLat2011 <- read.csv("../01Data/Durham/Durham_HispLat_ACS2011.csv")
+HispLat2021 <- read.csv("../01Data/Durham/Durham_HispLat_ACS2021.csv")
+MedHouseInc2011 <- read.csv("../01Data/Durham/Durham_MedHousIncome_ACS2011_2011InflAdj.csv")
+MedHouseInc2021 <- read.csv("../01Data/Durham/Durham_MedHousIncome_ACS2021_2021InflAdj.csv")
+HousingTenure2011 <- read.csv("../01Data/Durham/Durham_HousingTenure_ACS2011.csv")
+HousingTenure2021 <- read.csv("../01Data/Durham/Durham_HousingTenure_ACS2021.csv")
+
+
 
 #zoning
-ZoningDat  <- read.csv("../../01Data/CityData/Durham/Segment_ZoningData.csv")
+ZoningDat  <- read.csv("../01Data/Durham/DurhamZoning_bySeg_fix.csv")
 
 ##temperature - from arcPro layer (NCSU 2021 data collection)
 segnms <- c("H21", "K18", "M19", "M22", "N14", 
@@ -120,11 +126,35 @@ weAvg <- function(column1, weights){
 ```{r get census data}
 
 ##########################################deal with the census data
-CensusData$SVI <- SVIData$OverallSVI[match(CensusData$GEOID, SVIData$FIPS)]
+CensusTracts2020$SVI <- SVIData$OverallSVI[match(CensusTracts2020$GEOID, SVIData$FIPS)]
 
-#set up weighted average
-TotArea <- CensusData %>%
-  group_by(Name_1) %>% summarize_at(vars("Area_m"), sum, na.rm=TRUE)
+####Create combined census data
+## inflation adjustment: 1.2037 - https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100.00&year1=201106&year2=202106 
+MedHouseInc2011$MedIncome2021Dolars <- as.numeric(MedHouseInc2011$Median.household.income.in.the.past.12.months..in.2011.inflation.adjusted.dollars.) * 1.2037
+
+##pull in all information to a combined CensusData file
+CensusTracts2010$PercHispLat <- HispLat2011$Estimate..Total..Hispanic.or.Latino[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
+CensusTracts2010$PercWhiteNonHisp <- HispLat2011$Estimate..Total..Not.Hispanic.or.Latino..White.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
+CensusTracts2010$PercBlack <- (HispLat2011$Estimate..Total..Not.Hispanic.or.Latino..Black.or.African.American.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)] + HispLat2011$Estimate..Total..Hispanic.or.Latino..Black.or.African.American.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)])/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
+CensusTracts2010$MedHouseIncome <- MedHouseInc2011$MedIncome2021Dolars[match(CensusTracts2010$geoid10, MedHouseInc2011$geoid10)]
+CensusTracts2010$PercRenter <- HousingTenure2011$Estimate..Total..Renter.occupied[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]/HousingTenure2011$Estimate..Total[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]
+CensusTracts2010$PercMovL5Years <- c(HousingTenure2011$Estimate..Total..Owner.occupied..Moved.in.2005.or.later[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)] + HousingTenure2011$Estimate..Total..Renter.occupied..Moved.in.2005.or.later[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)])/HousingTenure2011$Estimate..Total[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]
+
+##missing income for 17031280900
+CensusTracts2020$PercHispLat <- HispLat2021$Estimate..Total...Hispanic.or.Latino.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
+CensusTracts2020$PercWhiteNonHisp <- HispLat2021$Estimate..Total...Not.Hispanic.or.Latino...White.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
+CensusTracts2020$PercBlack <- (HispLat2021$Estimate..Total...Not.Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)] + HispLat2021$Estimate..Total...Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)])/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
+CensusTracts2020$MedHouseIncome <- MedHouseInc2021$Estimate..Median.household.income.in.the.past.12.months..in.2021.inflation.adjusted.dollars.[match(CensusTracts2020$GEOID, MedHouseInc2021$geoid10)]
+CensusTracts2020$PercRenter <- HousingTenure2021$Estimate..Total...Renter.occupied.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
+CensusTracts2020$PercMovL5Years <- c(HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)])/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
+
+##set up weighted average
+TotArea2010 <- CensusTracts2010 %>%
+  group_by(Name) %>% summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
+
+TotArea2020 <- CensusTracts2020 %>%
+  group_by(Name_1) %>% summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
+
 
 #so now we have the percent of the area for each segment
 CensusData$PercentArea <- CensusData$Area_m/TotArea$Area_m[match(CensusData$Name_1, TotArea$Name_1)] 
@@ -657,7 +687,7 @@ corVars <- cor(Seg_allData[c("PercComm_z", "PercRes_z","NumConst_since15","NumRe
                   "MovL5Yrs", "PercCOMM_MxTree", "PercWhite", "PercentBlack", "PercHispLat", "PercBlack_HL", "SVI")])
 
 #to more easily examine correlations
-#write.csv(corVars, "../../01Data/CityData/Durham/Durham_Predictor_corrs.csv")
+#write.csv(corVars, "../01Data/Durham/Durham_Predictor_corrs.csv")
 
 f1 <- "PercCOMM_MxTree + PercBlack_HL + NumBuild + MovL5Yrs"
 f2 <- "PercCOMM_MxTree + MedianHouseholdIncome + NumBuild + MovL5Yrs"
@@ -1098,12 +1128,12 @@ for (m in 1:11){
 
   ##printout the coefficient values
 
- # write.csv(pm, paste("../../01Data/CityData/Durham/BetaVals", modDep[m], "since15_062824.csv", sep=""))
+ # write.csv(pm, paste("../01Data/Durham/BetaVals", modDep[m], "since15_062824.csv", sep=""))
 
 
 }
 
-#write.csv(ModOverview, "../../01Data/CityData/Durham/Dur_ModelOverviewResults_Since15_062824.csv")
+#write.csv(ModOverview, "../01Data/Durham/Dur_ModelOverviewResults_Since15_062824.csv")
 
 
 
