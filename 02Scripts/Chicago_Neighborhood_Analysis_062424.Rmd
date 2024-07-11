@@ -148,16 +148,20 @@ CensusTracts2020$PercRenter <- HousingTenure2021$Estimate..Total...Renter.occupi
 CensusTracts2020$PercMovL5Years <- c(HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)])/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
 
 ##########################################deal with the census data
-CensusData$SVI <- SVIData$OverallSVI[match(CensusData$GEOID, SVIData$FIPS)]
+CensusTracts2020$SVI <- SVIData$OverallSVI[match(CensusTracts2020$GEOID, SVIData$FIPS)]
 
 ##set up weighted average
-TotArea <- CensusData %>%
-  group_by(Name) %>% summarize_at(vars("ShapeArea_m"), sum, na.rm=TRUE)
+TotArea2010 <- CensusTracts2010 %>%
+  group_by(Name) %>% summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
+
+TotArea2020 <- CensusTracts2020 %>%
+  group_by(Name_1) %>% summarize_at(vars("Area_m2"), sum, na.rm=TRUE)
 
 #so now we have the percent of the area for each segment
-CensusData$PercentArea <- CensusData$ShapeArea_m/TotArea$ShapeArea_m[match(CensusData$Name, TotArea$Name)] 
+CensusTracts2010$PercentArea <- CensusTracts2010$Area_m2/TotArea2010$Area_m2[match(CensusTracts2010$Name, TotArea2010$Name)] 
+CensusTracts2020$PercentArea <- CensusTracts2020$Area_m2/TotArea2020$Area_m2[match(CensusTracts2020$Name_1, TotArea2020$Name_1)] 
 
-finalCensusCols <- c("Segment", "TotalPop", "PercHispanicLatine", "PercBlack", "PercWhite", "MedHouseInc", "PercRent", "PercM19", "PercM15to18", "SVI")
+finalCensusCols <- c("Segment", "PercHispanicLatine", "PercBlack", "PercWhiteNonHL", "MedHouseInc", "PercRent", "PercRMov", "SVI")
 SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea$Name), ncol=length(finalCensusCols)))
 names(SegmentCensusData) <- finalCensusCols
 
