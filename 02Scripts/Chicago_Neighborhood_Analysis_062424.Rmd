@@ -161,24 +161,47 @@ TotArea2020 <- CensusTracts2020 %>%
 CensusTracts2010$PercentArea <- CensusTracts2010$Area_m2/TotArea2010$Area_m2[match(CensusTracts2010$Name, TotArea2010$Name)] 
 CensusTracts2020$PercentArea <- CensusTracts2020$Area_m2/TotArea2020$Area_m2[match(CensusTracts2020$Name_1, TotArea2020$Name_1)] 
 
-finalCensusCols <- c("Segment", "PercHispanicLatine", "PercBlack", "PercWhiteNonHL", "MedHouseInc", "PercRent", "PercRMov", "SVI")
-SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea$Name), ncol=length(finalCensusCols)))
+finalCensusCols <- c("Segment", "PercHispanicLatine11","PercHispanicLatine21", "PercBlack11","PercBlack21", "PercWhiteNonHL11", "PercWhiteNonHL21", "MedHouseInc11","MedHouseInc21", "PercRent11","PercRent21", "PercRMov11","PercRMov21", "SVI")
+SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea2010$Name), ncol=length(finalCensusCols)))
 names(SegmentCensusData) <- finalCensusCols
 
-#to be able to average
-CensusData[, c("Total_Population_1", "PercentHispanicLatine_1", "PercentBlack_1", "PercentWhite_1", "Median_Household_Income_1", "PercentRenter_1", "PercM19_1", "PercM15to18_1", "SVI")] <- sapply(CensusData[, c("Total_Population_1", "PercentHispanicLatine_1", "PercentBlack_1", "PercentWhite_1", "Median_Household_Income_1", "PercentRenter_1", "PercM19_1", "PercM15to18_1", "SVI")], as.numeric)
-
-
 #get the weighted average
-for (s in 1:length(TotArea$Name)){
+for (s in 1:length(TotArea2010$Name)){
+  
+  seg <- TotArea2010$Name[s]
   
   #get your segment data
-  sdata <- CensusData[CensusData$Name == TotArea$Name[s], ]
-  SegmentCensusData$Segment[s] <- TotArea$Name[s]
+  sdata2010 <- CensusTracts2010[CensusTracts2010$Name == seg, ]
+  sdata2020 <- CensusTracts2020[CensusTracts2020$Name_1 == seg, ]
+  sdata2020$MedHouseIncome <- as.numeric(sdata2020$MedHouseIncome)
+  SegmentCensusData$Segment[s] <- seg
   
-  ##simplify code ot get weighted average for the relevant columns
-  SegmentCensusData[s, c("TotalPop", "PercHispanicLatine", "PercBlack", "PercWhite", 
-                         "MedHouseInc", "PercRent", "PercM19", "PercM15to18", "SVI")] <- sapply(sdata[,c("Total_Population_1", "PercentHispanicLatine_1", "PercentBlack_1", "PercentWhite_1", "Median_Household_Income_1", "PercentRenter_1", "PercM19_1", "PercM15to18_1", "SVI")], weAvg, weights=sdata$PercentArea)
+  # 2011
+  SegmentCensusData[s, c("PercHispanicLatine11", "PercBlack11", "PercWhiteNonHL11", 
+                         "MedHouseInc11", "PercRent11",  "PercRMov11")] <- sapply(sdata2010[,c("PercHispLat", "PercBlack", "PercWhiteNonHisp", "MedHouseIncome", "PercRenter","PercMovL5Years")], weAvg, weights=sdata2010$PercentArea)
+    
+  
+  ###########Check for NAs
+  if (length(na.omit(sdata2020$MedHouseIncome)) < length(sdata2020$MedHouseIncome)){
+    
+    ###the only NA so far is in income
+    incdata <- na.omit(sdata2020$MedHouseIncome)
+    adjustdata <- sdata2020$PercentArea[!is.na(sdata2020$MedHouseIncome)]/sum(sdata2020$PercentArea[!is.na(sdata2020$MedHouseIncome)])
+    
+    SegmentCensusData$MedHouseInc21[s] <- sum(incdata * adjustdata)
+    
+    SegmentCensusData[s, c("PercHispanicLatine21", "PercBlack21", "PercWhiteNonHL21", 
+                         "PercRent21",  "PercRMov21", "SVI")] <- sapply(sdata2020[,c("PercHispLat", "PercBlack", "PercWhiteNonHisp", "PercRenter","PercMovL5Years", "SVI")], weAvg, weights=sdata2020$PercentArea)
+    
+    
+  } else { #########no NAs
+    #2021
+  SegmentCensusData[s, c("PercHispanicLatine21", "PercBlack21", "PercWhiteNonHL21", 
+                         "MedHouseInc21", "PercRent21",  "PercRMov21", "SVI")] <- sapply(sdata2020[,c("PercHispLat", "PercBlack", "PercWhiteNonHisp", "MedHouseIncome", "PercRenter","PercMovL5Years", "SVI")], weAvg, weights=sdata2020$PercentArea)
+    
+  }
+
+  
 
 }
 
@@ -194,10 +217,11 @@ SegmentCensusData$Segment[SegmentCensusData$Segment == "260/275"] <- "275"
 
 ##########################################Building data
 #permitting information
-BPerm$Year_issued <- format(as.Date(BPerm$PermitIssueDate, "%m/%d/%Y"), "%Y")
+BPerm$Year_issued <- format(as.Date(BPerm$date_issue, "%Y-%m-%d"), "%Y")
+BPerm <- BPerm[!is.na(BPerm$Year_issued),]
 
 #get some easy tables to reference
-perm_typs <- table(BPerm[,c("Segment", "PermitType")])
+perm_typs <- table(BPerm[,c("Segment", "permit_typ")])
 perm_yrs_const <- table(BPerm[BPerm$PermitType == "NewConst", c("Segment", "Year_issued")])
 perm_yrs_reno <- table(BPerm[BPerm$PermitType == "Reno_Alt_add", c("Segment", "Year_issued")])
 
