@@ -1,122 +1,122 @@
 ﻿Census Tract,Label (Grouping),Median household income in the past 12 months (in 2011 inflation-adjusted dollars)
-Census Tract 1.01,    Estimate,"38,792"
-Census Tract 1.01,    Margin of Error,"±8,167"
-Census Tract 1.02,    Estimate,"36,511"
-Census Tract 1.02,    Margin of Error,"±3,603"
-Census Tract 2,    Estimate,"34,032"
-Census Tract 2,    Margin of Error,"±4,112"
-Census Tract 3.01,    Estimate,"39,648"
-Census Tract 3.01,    Margin of Error,"±7,655"
-Census Tract 3.02,    Estimate,"37,500"
-Census Tract 3.02,    Margin of Error,"±15,279"
-Census Tract 4.01,    Estimate,"66,310"
-Census Tract 4.01,    Margin of Error,"±19,728"
-Census Tract 4.02,    Estimate,"41,466"
-Census Tract 4.02,    Margin of Error,"±7,835"
-Census Tract 5,    Estimate,"20,924"
-Census Tract 5,    Margin of Error,"±2,382"
-Census Tract 6,    Estimate,"58,489"
-Census Tract 6,    Margin of Error,"±9,984"
-Census Tract 7,    Estimate,"47,705"
-Census Tract 7,    Margin of Error,"±5,660"
-Census Tract 9,    Estimate,"23,015"
-Census Tract 9,    Margin of Error,"±6,994"
-Census Tract 10.01,    Estimate,"24,000"
-Census Tract 10.01,    Margin of Error,"±7,895"
-Census Tract 10.02,    Estimate,"23,514"
-Census Tract 10.02,    Margin of Error,"±6,652"
-Census Tract 11,    Estimate,"18,338"
-Census Tract 11,    Margin of Error,"±3,318"
-Census Tract 13.01,    Estimate,"13,986"
-Census Tract 13.01,    Margin of Error,"±6,569"
-Census Tract 13.03,    Estimate,"28,167"
-Census Tract 13.03,    Margin of Error,"±7,917"
-Census Tract 13.04,    Estimate,"22,679"
-Census Tract 13.04,    Margin of Error,"±5,281"
-Census Tract 14,    Estimate,"15,616"
-Census Tract 14,    Margin of Error,"±3,741"
-Census Tract 15.01,    Estimate,"7,955"
-Census Tract 15.01,    Margin of Error,"±8,752"
-Census Tract 15.02,    Estimate,"26,244"
-Census Tract 15.02,    Margin of Error,"±2,311"
-Census Tract 15.03,    Estimate,-
-Census Tract 15.03,    Margin of Error,**
-Census Tract 16.01,    Estimate,"66,779"
-Census Tract 16.01,    Margin of Error,"±7,259"
-Census Tract 16.03,    Estimate,"79,152"
-Census Tract 16.03,    Margin of Error,"±12,397"
-Census Tract 16.04,    Estimate,"88,076"
-Census Tract 16.04,    Margin of Error,"±4,205"
-Census Tract 17.05,    Estimate,"43,322"
-Census Tract 17.05,    Margin of Error,"±4,757"
-Census Tract 17.06,    Estimate,"46,250"
-Census Tract 17.06,    Margin of Error,"±3,491"
-Census Tract 17.07,    Estimate,"70,440"
-Census Tract 17.07,    Margin of Error,"±4,190"
-Census Tract 17.08,    Estimate,"43,981"
-Census Tract 17.08,    Margin of Error,"±9,179"
-Census Tract 17.09,    Estimate,"26,138"
-Census Tract 17.09,    Margin of Error,"±3,896"
-Census Tract 17.10,    Estimate,"40,034"
-Census Tract 17.10,    Margin of Error,"±8,474"
-Census Tract 17.11,    Estimate,"32,147"
-Census Tract 17.11,    Margin of Error,"±4,394"
-Census Tract 18.01,    Estimate,"49,556"
-Census Tract 18.01,    Margin of Error,"±5,139"
-Census Tract 18.02,    Estimate,"37,448"
-Census Tract 18.02,    Margin of Error,"±7,554"
-Census Tract 18.06,    Estimate,"62,702"
-Census Tract 18.06,    Margin of Error,"±8,401"
-Census Tract 18.07,    Estimate,"54,682"
-Census Tract 18.07,    Margin of Error,"±8,646"
+Census Tract 1.01,Estimate,38792
+Census Tract 1.01,Margin of Error,±8167
+Census Tract 1.02,Estimate,36511
+Census Tract 1.02,Margin of Error,±3603
+Census Tract 2,Estimate,34032
+Census Tract 2,Margin of Error,±4112
+Census Tract 3.01,Estimate,39648
+Census Tract 3.01,Margin of Error,±7655
+Census Tract 3.02,Estimate,37500
+Census Tract 3.02,Margin of Error,±15279
+Census Tract 4.01,Estimate,66310
+Census Tract 4.01,Margin of Error,±19728
+Census Tract 4.02,Estimate,41466
+Census Tract 4.02,Margin of Error,±7835
+Census Tract 5,Estimate,20924
+Census Tract 5,Margin of Error,±2382
+Census Tract 6,Estimate,58489
+Census Tract 6,Margin of Error,±9984
+Census Tract 7,Estimate,47705
+Census Tract 7,Margin of Error,±5660
+Census Tract 9,Estimate,23015
+Census Tract 9,Margin of Error,±6994
+Census Tract 10.01,Estimate,24000
+Census Tract 10.01,Margin of Error,±7895
+Census Tract 10.02,Estimate,23514
+Census Tract 10.02,Margin of Error,±6652
+Census Tract 11,Estimate,18338
+Census Tract 11,Margin of Error,±3318
+Census Tract 13.01,Estimate,13986
+Census Tract 13.01,Margin of Error,±6569
+Census Tract 13.03,Estimate,28167
+Census Tract 13.03,Margin of Error,±7917
+Census Tract 13.04,Estimate,22679
+Census Tract 13.04,Margin of Error,±5281
+Census Tract 14,Estimate,15616
+Census Tract 14,Margin of Error,±3741
+Census Tract 15.01,Estimate,7955
+Census Tract 15.01,Margin of Error,±8752
+Census Tract 15.02,Estimate,26244
+Census Tract 15.02,Margin of Error,±2311
+Census Tract 15.03,Estimate,-
+Census Tract 15.03,Margin of Error,**
+Census Tract 16.01,Estimate,66779
+Census Tract 16.01,Margin of Error,±7259
+Census Tract 16.03,Estimate,79152
+Census Tract 16.03,Margin of Error,±12397
+Census Tract 16.04,Estimate,88076
+Census Tract 16.04,Margin of Error,±4205
+Census Tract 17.05,Estimate,43322
+Census Tract 17.05,Margin of Error,±4757
+Census Tract 17.06,Estimate,46250
+Census Tract 17.06,Margin of Error,±3491
+Census Tract 17.07,Estimate,70440
+Census Tract 17.07,Margin of Error,±4190
+Census Tract 17.08,Estimate,43981
+Census Tract 17.08,Margin of Error,±9179
+Census Tract 17.09,Estimate,26138
+Census Tract 17.09,Margin of Error,±3896
+Census Tract 17.10,Estimate,40034
+Census Tract 17.10,Margin of Error,±8474
+Census Tract 17.11,Estimate,32147
+Census Tract 17.11,Margin of Error,±4394
+Census Tract 18.01,Estimate,49556
+Census Tract 18.01,Margin of Error,±5139
+Census Tract 18.02,Estimate,37448
+Census Tract 18.02,Margin of Error,±7554
+Census Tract 18.06,Estimate,62702
+Census Tract 18.06,Margin of Error,±8401
+Census Tract 18.07,Estimate,54682
+Census Tract 18.07,Margin of Error,±8646
 ,Census Tract 18.08,
-Census Tract 18.08,    Estimate,"81,912"
-Census Tract 18.08,    Margin of Error,"±6,682"
-Census Tract 18.09,    Estimate,"50,661"
-Census Tract 18.09,    Margin of Error,"±9,111"
-Census Tract 19,    Estimate,"72,644"
-Census Tract 19,    Margin of Error,"±11,260"
-Census Tract 20.07,    Estimate,"72,741"
-Census Tract 20.07,    Margin of Error,"±9,207"
-Census Tract 20.08,    Estimate,"141,196"
-Census Tract 20.08,    Margin of Error,"±26,392"
-Census Tract 20.09,    Estimate,"43,783"
-Census Tract 20.09,    Margin of Error,"±5,552"
-Census Tract 20.13,    Estimate,"71,150"
-Census Tract 20.13,    Margin of Error,"±5,490"
-Census Tract 20.15,    Estimate,"36,923"
-Census Tract 20.15,    Margin of Error,"±3,621"
-Census Tract 20.16,    Estimate,"33,131"
-Census Tract 20.16,    Margin of Error,"±5,013"
-Census Tract 20.17,    Estimate,"80,092"
-Census Tract 20.17,    Margin of Error,"±11,805"
-Census Tract 20.18,    Estimate,"63,834"
-Census Tract 20.18,    Margin of Error,"±10,272"
-Census Tract 20.19,    Estimate,"57,151"
-Census Tract 20.19,    Margin of Error,"±8,385"
-Census Tract 20.20,    Estimate,"127,468"
-Census Tract 20.20,    Margin of Error,"±16,325"
-Census Tract 20.21,    Estimate,"41,831"
-Census Tract 20.21,    Margin of Error,"±10,178"
-Census Tract 20.22,    Estimate,"48,802"
-Census Tract 20.22,    Margin of Error,"±13,353"
-Census Tract 20.23,    Estimate,"61,695"
-Census Tract 20.23,    Margin of Error,"±11,822"
-Census Tract 20.24,    Estimate,"80,866"
-Census Tract 20.24,    Margin of Error,"±8,802"
-Census Tract 20.25,    Estimate,"61,753"
-Census Tract 20.25,    Margin of Error,"±5,451"
-Census Tract 20.26,    Estimate,"39,409"
-Census Tract 20.26,    Margin of Error,"±7,143"
-Census Tract 20.27,    Estimate,"47,620"
-Census Tract 20.27,    Margin of Error,"±5,104"
-Census Tract 20.28,    Estimate,"58,950"
-Census Tract 20.28,    Margin of Error,"±3,489"
-Census Tract 21,    Estimate,"85,963"
-Census Tract 21,    Margin of Error,"±11,138"
-Census Tract 22,    Estimate,"41,827"
-Census Tract 22,    Margin of Error,"±6,707"
-Census Tract 23,    Estimate,"16,803"
-Census Tract 23,    Margin of Error,"±3,881"
-Census Tract 9801,    Estimate,-
-Census Tract 9801,    Margin of Error,**
+Census Tract 18.08,Estimate,81912
+Census Tract 18.08,Margin of Error,±6682
+Census Tract 18.09,Estimate,50661
+Census Tract 18.09,Margin of Error,±9111
+Census Tract 19,Estimate,72644
+Census Tract 19,Margin of Error,±11260
+Census Tract 20.07,Estimate,72741
+Census Tract 20.07,Margin of Error,±9207
+Census Tract 20.08,Estimate,141196
+Census Tract 20.08,Margin of Error,±26392
+Census Tract 20.09,Estimate,43783
+Census Tract 20.09,Margin of Error,±5552
+Census Tract 20.13,Estimate,71150
+Census Tract 20.13,Margin of Error,±5490
+Census Tract 20.15,Estimate,36923
+Census Tract 20.15,Margin of Error,±3621
+Census Tract 20.16,Estimate,33131
+Census Tract 20.16,Margin of Error,±5013
+Census Tract 20.17,Estimate,80092
+Census Tract 20.17,Margin of Error,±11805
+Census Tract 20.18,Estimate,63834
+Census Tract 20.18,Margin of Error,±10272
+Census Tract 20.19,Estimate,57151
+Census Tract 20.19,Margin of Error,±8385
+Census Tract 20.20,Estimate,127468
+Census Tract 20.20,Margin of Error,±16325
+Census Tract 20.21,Estimate,41831
+Census Tract 20.21,Margin of Error,±10178
+Census Tract 20.22,Estimate,48802
+Census Tract 20.22,Margin of Error,±13353
+Census Tract 20.23,Estimate,61695
+Census Tract 20.23,Margin of Error,±11822
+Census Tract 20.24,Estimate,80866
+Census Tract 20.24,Margin of Error,±8802
+Census Tract 20.25,Estimate,61753
+Census Tract 20.25,Margin of Error,±5451
+Census Tract 20.26,Estimate,39409
+Census Tract 20.26,Margin of Error,±7143
+Census Tract 20.27,Estimate,47620
+Census Tract 20.27,Margin of Error,±5104
+Census Tract 20.28,Estimate,58950
+Census Tract 20.28,Margin of Error,±3489
+Census Tract 21,Estimate,85963
+Census Tract 21,Margin of Error,±11138
+Census Tract 22,Estimate,41827
+Census Tract 22,Margin of Error,±6707
+Census Tract 23,Estimate,16803
+Census Tract 23,Margin of Error,±3881
+Census Tract 9801,Estimate,-
+Census Tract 9801,Margin of Error,**

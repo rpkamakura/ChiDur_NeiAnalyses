@@ -132,21 +132,41 @@ CensusTracts2020$SVI <- SVIData$OverallSVI[match(CensusTracts2020$GEOID, SVIData
 ## inflation adjustment: 1.2037 - https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100.00&year1=201106&year2=202106 
 MedHouseInc2011$MedIncome2021Dolars <- as.numeric(MedHouseInc2011$Median.household.income.in.the.past.12.months..in.2011.inflation.adjusted.dollars.) * 1.2037
 
-##pull in all information to a combined CensusData file
-CensusTracts2010$PercHispLat <- HispLat2011$Estimate..Total..Hispanic.or.Latino[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
-CensusTracts2010$PercWhiteNonHisp <- HispLat2011$Estimate..Total..Not.Hispanic.or.Latino..White.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
-CensusTracts2010$PercBlack <- (HispLat2011$Estimate..Total..Not.Hispanic.or.Latino..Black.or.African.American.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)] + HispLat2011$Estimate..Total..Hispanic.or.Latino..Black.or.African.American.alone[match(CensusTracts2010$geoid10, HispLat2011$geoid10)])/HispLat2011$Estimate..Total[match(CensusTracts2010$geoid10, HispLat2011$geoid10)]
-CensusTracts2010$MedHouseIncome <- MedHouseInc2011$MedIncome2021Dolars[match(CensusTracts2010$geoid10, MedHouseInc2011$geoid10)]
-CensusTracts2010$PercRenter <- HousingTenure2011$Estimate..Total..Renter.occupied[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]/HousingTenure2011$Estimate..Total[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]
-CensusTracts2010$PercMovL5Years <- c(HousingTenure2011$Estimate..Total..Owner.occupied..Moved.in.2005.or.later[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)] + HousingTenure2011$Estimate..Total..Renter.occupied..Moved.in.2005.or.later[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)])/HousingTenure2011$Estimate..Total[match(CensusTracts2010$geoid10,HousingTenure2011$geoid10)]
+##get just the estimates
+HispLat2011_est <- HispLat2011[HispLat2011$Label..Grouping. == "Estimate",]
+HispLat2021_est <- HispLat2021[HispLat2021$ValueType == "Estimate",]
+MedHouseInc2011_est <- MedHouseInc2011[MedHouseInc2011$Label..Grouping. == "Estimate",]
+MedHouseInc2021_est <- MedHouseInc2021[MedHouseInc2021$Label..Grouping. == "Estimate",] 
+HousingTenure2011_est <- HousingTenure2011[HousingTenure2011$Label..Grouping. == "Estimate",]
+HousingTenure2021_est <- HousingTenure2021[HousingTenure2021$Label..Grouping. == "Estimate",]
 
-##missing income for 17031280900
-CensusTracts2020$PercHispLat <- HispLat2021$Estimate..Total...Hispanic.or.Latino.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
-CensusTracts2020$PercWhiteNonHisp <- HispLat2021$Estimate..Total...Not.Hispanic.or.Latino...White.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
-CensusTracts2020$PercBlack <- (HispLat2021$Estimate..Total...Not.Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)] + HispLat2021$Estimate..Total...Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$GEOID, HispLat2021$geoid10)])/HispLat2021$Estimate..Total.[match(CensusTracts2020$GEOID, HispLat2021$geoid10)]
-CensusTracts2020$MedHouseIncome <- MedHouseInc2021$Estimate..Median.household.income.in.the.past.12.months..in.2021.inflation.adjusted.dollars.[match(CensusTracts2020$GEOID, MedHouseInc2021$geoid10)]
-CensusTracts2020$PercRenter <- HousingTenure2021$Estimate..Total...Renter.occupied.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
-CensusTracts2020$PercMovL5Years <- c(HousingTenure2021$Estimate..Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)] + HousingTenure2021$Estimate..Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)])/HousingTenure2021$Estimate..Total.[match(CensusTracts2020$GEOID, HousingTenure2021$geoid10)]
+#######################################2011 data
+CensusTracts2010$PercHispLat <- as.numeric(HispLat2011_est$Total...Hispanic.or.Latino.[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)])/as.numeric(HispLat2011_est$Total.[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)])
+
+CensusTracts2010$PercWhiteNonHisp <- as.numeric(HispLat2011_est$Total...Not.Hispanic.or.Latino...White.alone[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)])/as.numeric(HispLat2011_est$Total.[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)])
+
+CensusTracts2010$PercBlack <- (as.numeric(HispLat2011_est$Total...Not.Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)]) + as.numeric(HispLat2011_est$Total...Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)]))/as.numeric(HispLat2011_est$Total.[match(CensusTracts2010$LOCATION, HispLat2011_est$Census.Tract)])
+
+CensusTracts2010$MedHouseIncome <- MedHouseInc2011_est$MedIncome2021Dolars[match(CensusTracts2010$LOCATION, MedHouseInc2011_est$Census.Tract)]
+
+CensusTracts2010$PercRenter <- as.numeric(HousingTenure2011_est$Total...Renter.occupied.[match(CensusTracts2010$LOCATION,HousingTenure2011_est$Census.Tract)])/as.numeric(HousingTenure2011_est$Total.[match(CensusTracts2010$LOCATION,HousingTenure2011_est$Census.Tract)])
+
+CensusTracts2010$PercMovL5Years <- c(as.numeric(HousingTenure2011_est$Total...Owner.occupied...Moved.in.2005.or.later[match(CensusTracts2010$LOCATION,HousingTenure2011_est$Census.Tract)]) + as.numeric(HousingTenure2011_est$Total...Renter.occupied...Moved.in.2005.or.later[match(CensusTracts2010$LOCATION,HousingTenure2011_est$Census.Tract)]))/as.numeric(HousingTenure2011_est$Total.[match(CensusTracts2010$LOCATION,HousingTenure2011_est$Census.Tract)])
+
+
+
+###############################################2021 data
+CensusTracts2020$PercHispLat <- as.numeric(HispLat2021_est$Total...Hispanic.or.Latino.[match(CensusTracts2020$NAMELSAD, HispLat2021_est$CensusTract)])/as.numeric(HispLat2021$Total.[match(CensusTracts2020$NAMELSAD, HispLat2021_est$CensusTract)])
+
+CensusTracts2020$PercWhiteNonHisp <- as.numeric(HispLat2021_est$Total...Not.Hispanic.or.Latino...White.alone[match(CensusTracts2020$NAMELSAD, HispLat2021_est$CensusTract)])/as.numeric(HispLat2021_est$Total.[match(CensusTracts2020$NAMELSAD, HispLat2021_est$CensusTract)])
+
+CensusTracts2020$PercBlack <- (as.numeric(HispLat2021_est$Total...Not.Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$NAMELSAD, HispLat2021_est$CensusTract)]) + as.numeric(HispLat2021$Total...Hispanic.or.Latino...Black.or.African.American.alone[match(CensusTracts2020$NAMELSAD, HispLat2021$CensusTract)]))/as.numeric(HispLat2021$Total.[match(CensusTracts2020$NAMELSAD, HispLat2021$CensusTract)])
+
+CensusTracts2020$MedHouseIncome <- MedHouseInc2021$Median.household.income.in.the.past.12.months..in.2021.inflation.adjusted.dollars.[match(CensusTracts2020$NAMELSAD, MedHouseInc2021$Census.Tract)]
+
+CensusTracts2020$PercRenter <- as.numeric(HousingTenure2021_est$Total...Renter.occupied.[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)])/as.numeric(HousingTenure2021_est$Total.[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)])
+
+CensusTracts2020$PercMovL5Years <- c(as.numeric(HousingTenure2021_est$Total...Owner.occupied...Moved.in.2019.or.later[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)]) + as.numeric(HousingTenure2021_est$Total...Renter.occupied...Moved.in.2019.or.later[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)]) + as.numeric(HousingTenure2021_est$Total...Owner.occupied...Moved.in.2015.to.2018[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)]) + as.numeric(HousingTenure2021_est$Total...Renter.occupied...Moved.in.2015.to.2018[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)]))/as.numeric(HousingTenure2021_est$Total.[match(CensusTracts2020$NAMELSAD, HousingTenure2021_est$Census.Tract)])
 
 ##set up weighted average
 TotArea2010 <- CensusTracts2010 %>%
@@ -157,15 +177,15 @@ TotArea2020 <- CensusTracts2020 %>%
 
 
 #so now we have the percent of the area for each segment
-CensusData$PercentArea <- CensusData$Area_m/TotArea$Area_m[match(CensusData$Name_1, TotArea$Name_1)] 
+CensusTracts2010$PercentArea <- CensusTracts2010$Area_m2/TotArea2010$Area_m2[match(CensusTracts2010$Name, TotArea2010$Name)] 
+CensusTracts2020$PercentArea <- CensusTracts2020$Area_m2/TotArea2020$Area_m2[match(CensusTracts2020$Name_1, TotArea2020$Name_1)] 
 
-finalCensusCols <- c("Segment", "TotalPop", "PercHispanicLatine", "PercBlack", "PercWhite", 
-                     "MedHouseInc", "PercRent", "PercM19", "PercM15to18", "SVI")
-SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea$Name_1), ncol=length(finalCensusCols)))
+finalCensusCols <- c("Segment", "PercHispanicLatine11","PercHispanicLatine21", "PercBlack11","PercBlack21", "PercWhiteNonHL11", "PercWhiteNonHL21", "MedHouseInc11","MedHouseInc21", "PercRent11","PercRent21", "PercRMov11","PercRMov21", "SVI")
+SegmentCensusData <- as.data.frame(matrix(NA, nrow=length(TotArea2010$Name), ncol=length(finalCensusCols)))
 names(SegmentCensusData) <- finalCensusCols
 
-#to be able to average
-CensusData[, c("Total_Population", "Percent_HispanicLatino", "Percent_Black", "Percent_White", "Median_Household_Income", "Percent_Renter_Occ", "Percent_M19", "Percent_M15to18", "SVI")] <- sapply(CensusData[, c("Total_Population", "Percent_HispanicLatino", "Percent_Black", "Percent_White", "Median_Household_Income", "Percent_Renter_Occ", "Percent_M19", "Percent_M15to18", "SVI")], as.numeric)
+##the 2010 data doesn't seem to have NAs
+#one "-" for income in 2020 census data
 
 
 #get the weighted average
