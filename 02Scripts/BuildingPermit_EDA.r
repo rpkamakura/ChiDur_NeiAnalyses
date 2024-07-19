@@ -144,7 +144,7 @@ DatesIss <- unique(ChicagoPermits$date_issue) #need to get rid of the lines with
 
 #items that are to ignore for these permits
 toIgnore <- c("temporary", "tracking")
-renos <- c("scoreboard", "foundation", "replace", "garage")
+renos <- c("scoreboard", "replace")
 
 #get the column names
 colNms <- c("Segment", "PermitIssueDate", "PermitType")
@@ -244,8 +244,8 @@ for (p in 1:length(ChicagoPermits$OBJECTID)){
   pdata <- ChicagoPermits[p,]
   
   #skip the stuff that is not relevant, want issued permits that are relevant to our 3 categories
-  if (pdata$permit_typ == "PERMIT - REINSTATE REVOKED PMT" | 
-      pdata$permit_typ == "PERMIT - SCAFFOLDING" | pdata$permit_typ == "PERMIT - SIGNS"){
+  if (pdata$permit_typ == "PERMIT - SCAFFOLDING" | pdata$permit_typ == "PERMIT - SIGNS"){ 
+    #pdata$permit_typ == "PERMIT - REINSTATE REVOKED PMT" | 
     
     print(paste("skipped row", p, "due to wrong permit type"))
     next
@@ -285,6 +285,7 @@ for (p in 1:length(ChicagoPermits$OBJECTID)){
       shouldbeReno = str_detect(tolower(nts), r)
       
       if (shouldbeReno){
+        print(paste("Changed to renovation row", p, "due to presence of term", r))
         typ <- "Reno_Alt_add"
       }
     } #renovations need to be recategorized
