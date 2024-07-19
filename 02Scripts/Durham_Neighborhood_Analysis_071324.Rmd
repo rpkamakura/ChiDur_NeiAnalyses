@@ -247,24 +247,23 @@ perm_yrs_NewCons <- table(BuildingPermits[BuildingPermits$PermitType == "NewCons
 perm_yrs_demo  <- table(BuildingPermits[BuildingPermits$PermitType == "Demo", c("Segment", "Year_issued")])
 
 ##start combining
-BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since07", "NumConst_since15", "NumConst_since19", "NumDemo_since07", "NumDemo_since15", "NumDemo_since19", "NumReno_since07", "NumReno_since15", "NumReno_since19")
+BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since11", "NumConst_since15", "NumDemo_since11", "NumDemo_since15", "NumReno_since11", "NumReno_since15")
 Seg_building <- as.data.frame(matrix(0, nrow=24, ncol=length(BuiComb_nms)))
 names(Seg_building) <- BuiComb_nms
 
 Seg_building$Segment <- unique(BuildingParcels$Name)
 Seg_building$NumBuild <- num_noNA
 
-Seg_building$NumConst_since07[match(rownames(perm_yrs_NewCons), Seg_building$Segment)] <- rowSums(perm_yrs_NewCons)
+Seg_building$NumConst_since11[match(rownames(perm_yrs_NewCons), Seg_building$Segment)] <- rowSums(perm_yrs_NewCons[,c("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
 Seg_building$NumConst_since15[match(rownames(perm_yrs_NewCons), Seg_building$Segment)] <- rowSums(perm_yrs_NewCons[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
-Seg_building$NumConst_since19[match(rownames(perm_yrs_NewCons), Seg_building$Segment)]  <- rowSums(perm_yrs_NewCons[,c("2019", "2020", "2021", "2022", "2023")])
 
-Seg_building$NumDemo_since07[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo)
+Seg_building$NumDemo_since11[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo[,c("2011", "2012", "2013", "2014", "2015", "2017", "2018", "2020", "2021", "2022", "2023")])
 Seg_building$NumDemo_since15[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo[,c("2015", "2017", "2018", "2020", "2021", "2022", "2023")])
-Seg_building$NumDemo_since19[match(rownames(perm_yrs_demo), Seg_building$Segment)]  <- rowSums(perm_yrs_demo[,c("2020", "2021", "2022", "2023")])
 
-Seg_building$NumReno_since07[match(rownames(perm_yrs_Reno), Seg_building$Segment)] <- rowSums(perm_yrs_Reno)
+
+Seg_building$NumReno_since11[match(rownames(perm_yrs_Reno), Seg_building$Segment)] <- rowSums(perm_yrs_Reno[,c("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
 Seg_building$NumReno_since15[match(rownames(perm_yrs_Reno), Seg_building$Segment)] <- rowSums(perm_yrs_Reno[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
-Seg_building$NumReno_since19[match(rownames(perm_yrs_Reno), Seg_building$Segment)]  <- rowSums(perm_yrs_Reno[,c("2019", "2020", "2021", "2022", "2023")])
+
 
 ##############################################################Zoning Data
 TotArea <- ZoningDat %>% 
@@ -715,11 +714,11 @@ DurCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since15","NumR
 
 f1 <- "PercCOMM_MxTree + NumBuild"
 f2 <- "PercCOMM_MxTree + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
-f3 <- "PercCOMM_MxTree + NumConst_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
-f4 <- "PercCOMM_MxTree + NumReno_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f3 <- "PercCOMM_MxTree + NumConst_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f4 <- "PercCOMM_MxTree + NumReno_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 
 ##can have construction and renovations together here
-f5 <- "PercCOMM_MxTree + NumConst_since15 + NumReno_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f5 <- "PercCOMM_MxTree + NumConst_since11 + NumReno_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 
 #############################Sidewalk cutout
 mods_m1 <- paste(rep("PercSC ~", 5), c(f1, f2, f3, f4, f5))
@@ -941,7 +940,13 @@ AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3, bestf6mod.4, bestf6mod.5)
 #write.csv(f6sum.3$coefficients, "../04Outputs/Durham/Dur_AvgBA_Best_m3.csv")
 
 ##Number of Trees
-mods_m7 <- paste(rep("totNumTrees ~", 5), c(f1, f2, f3, f4, f5))
+f1.2 <- "PercComm_z + NumBuild"
+f2.2 <- "PercComm_z + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f3.2 <- "PercComm_z + NumConst_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f4.2 <- "PercComm_z + NumReno_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f5.2 <- "PercComm_z + NumConst_since11 + NumReno_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+
+mods_m7 <- paste(rep("totNumTrees ~", 5), c(f1.2, f2.2, f3.2, f4.2, f5.2))
 
 f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
 f7sum.1 <- summary(f7mod.1)
