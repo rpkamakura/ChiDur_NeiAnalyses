@@ -225,7 +225,7 @@ perm_yrs_const <- table(BPerm[BPerm$PermitType == "NewConst", c("Segment", "Year
 perm_yrs_reno <- table(BPerm[BPerm$PermitType == "Reno_Alt_add", c("Segment", "Year_issued")])
 
 ##create data frame to combine them all
-BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since06", "NumReno_since06", "NumConst_since15", "NumReno_since15", "NumDemo")
+BuiComb_nms <- c("Segment", "NumBuild", "NumConst_since11", "NumReno_since11", "NumConst_since15", "NumReno_since15", "NumDemo")
 Seg_building <- as.data.frame(matrix(0, nrow=14, ncol=length(BuiComb_nms)))
 names(Seg_building) <- BuiComb_nms
 
@@ -235,10 +235,10 @@ BuiCount <- table(BFoot[,c("Name")])
 #start filling out the combined dataframe
 Seg_building$Segment <- names(BuiCount)
 Seg_building$NumBuild <- BuiCount[match(Seg_building$Segment, names(BuiCount))]
-Seg_building$NumConst_since06[match(rownames(perm_yrs_const), Seg_building$Segment)] <- rowSums(perm_yrs_const)
-Seg_building$NumReno_since06[match(rownames(perm_yrs_reno), Seg_building$Segment)] <- rowSums(perm_yrs_reno)
-Seg_building$NumConst_since15[match(rownames(perm_yrs_const), Seg_building$Segment)]  <- rowSums(perm_yrs_const[,c("2015", "2016", "2017")])
-Seg_building$NumReno_since15[match(rownames(perm_yrs_reno), Seg_building$Segment)]  <- rowSums(perm_yrs_reno[,c( "2015", "2016", "2017", "2018", "2019", "2020")])
+Seg_building$NumConst_since11[match(rownames(perm_yrs_const), Seg_building$Segment)] <- rowSums(perm_yrs_const[,c("2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumReno_since11[match(rownames(perm_yrs_reno), Seg_building$Segment)] <- rowSums(perm_yrs_reno[,c("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumConst_since15[match(rownames(perm_yrs_const), Seg_building$Segment)]  <- rowSums(perm_yrs_const[,c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
+Seg_building$NumReno_since15[match(rownames(perm_yrs_reno), Seg_building$Segment)]  <- rowSums(perm_yrs_reno[,c( "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")])
 Seg_building$NumDemo[Seg_building$Segment == 244] <- 1
 
 ###########################Zoning Data
@@ -655,7 +655,7 @@ Beta Bayesian: https://cran.r-project.org/web/packages/betaBayes/betaBayes.pdf
 wts <- as.vector(Seg_allData$totNumTrees)
 
 #to get a sense of the correlations
-ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since15","NumReno_since15", 
+ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since11","NumReno_since11", 
                    "NumBuild", "SVI", "AftTemp","Change_PHL", "Change_PBl","Change_PWnHL",
                    "Change_MedHHI", "Change_PRent","Change_Rmov", "PercWhiteNonHL21",
                    "MedHouseInc21", "PercRent21","PercRMov21" )])
@@ -674,15 +674,17 @@ ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since15","NumR
 #3 - Percent commercial tree + NumConstruction + ChangePWhite + Change MedHHI + Change PRent + Change Rmov
 #4 - Percent commercial tree + NumReno + ChangePWhite + Change MedHHI + Change PRent + Change Rmov
 
-f1 <- "PercCOMM_MxTree + AftTemp + NumBuild"
+f1 <- "PercCOMM_MxTree + NumBuild"
 f2 <- "PercCOMM_MxTree + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 f3 <- "PercCOMM_MxTree + NumConst_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 f4 <- "PercCOMM_MxTree + NumReno_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 
 ##is it worth re-scaling and centering the data in order to make the models tractable?
+#construction and renovations are correlated...not sure if still worth it?
+f5 <- "PercCOMM_MxTree + NumConst_since15 + NumReno_since15 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 
 #############################Sidewalk cutout
-mods_m1 <- paste(rep("PercSC ~", 5), c(f1, f2, f3, f4))
+mods_m1 <- paste(rep("PercSC ~", 5), c(f1, f2, f3, f4, f5))
 
 f1mod.1 <- betareg(mods_m1[1], data=Seg_allData, weights=wts)
 bestf1mod.1 <- StepBeta(f1mod.1)
@@ -700,24 +702,29 @@ f1mod.4 <- betareg(mods_m1[4], data=Seg_allData, weights=wts)
 bestf1mod.4 <- StepBeta(f1mod.4)
 f1sum.4 <- summary(bestf1mod.4)
 
+f1mod.5 <- betareg(mods_m1[5], data=Seg_allData, weights=wts)
+bestf1mod.5 <- StepBeta(f1mod.5)
+f1sum.5 <- summary(bestf1mod.5)
 
-AIC(bestf1mod.1, bestf1mod.2, bestf1mod.3, bestf1mod.4)
+
+AIC(bestf1mod.1, bestf1mod.2, bestf1mod.3, bestf1mod.4, bestf1mod.5)
 
 #             df       AIC
-# bestf1mod.1  5 -2266.112
+# bestf1mod.1  4 -2264.006
 # bestf1mod.2  8 -3348.053
-# bestf1mod.3  8 -3433.535**
-# bestf1mod.4  8 -3303.322
+# bestf1mod.3  7 -3309.873
+# bestf1mod.4  8 -3315.570
+# bestf1mod.5  9 -3407.152*
 
 
-#write.csv(f1sum.3$coefficients$mean, "../04Outputs/Chicago/Chi_SC_Best_m3.csv")
+#write.csv(f1sum.5$coefficients$mean, "../04Outputs/Chicago/Chi_SC_Best_m5.csv")
 
 ###################################Afternoon Temperature - linreg
-mods_m2 <- paste(rep("AftTemp ~", 5), c(f1, f2, f3, f4))
+mods_m2 <- paste(rep("AftTemp ~", 5), c(f1, f2, f3, f4, f5))
 
-# f2mod.1 <- lm(mods_m2[1], data=Seg_allData, weights=wts)
-# bestf2mod.1 <- step(f2mod.1, direction="both")
-# f2sum.1 <- summary(bestf2mod.1)
+f2mod.1 <- lm(mods_m2[1], data=Seg_allData, weights=wts)
+bestf2mod.1 <- step(f2mod.1, direction="both")
+f2sum.1 <- summary(bestf2mod.1)
 
 f2mod.2 <- lm(mods_m2[2], data=Seg_allData, weights=wts)
 bestf2mod.2 <- step(f2mod.2, direction="both")
@@ -731,20 +738,25 @@ f2mod.4 <- lm(mods_m2[4], data=Seg_allData, weights=wts)
 bestf2mod.4 <- step(f2mod.4, direction="both")
 f2sum.4 <- summary(bestf2mod.4)
 
+f2mod.5 <- lm(mods_m2[5], data=Seg_allData, weights=wts)
+bestf2mod.5 <- step(f2mod.5, direction="both")
+f2sum.5 <- summary(bestf2mod.5)
 
-AIC(bestf2mod.2, bestf2mod.3, bestf2mod.4)
+
+AIC(bestf2mod.1, bestf2mod.2, bestf2mod.3, bestf2mod.4, bestf2mod.5)
 
 #             df       AIC
 # bestf2mod.1  2 10.687082
 # bestf2mod.2  4  4.852855*
 # bestf2mod.3  4  4.852855
 # bestf2mod.4  4  4.852855
+# bestf2mod.5  4  4.852855
 
 
 #write.csv(f2sum.2$coefficients, "../04Outputs/Chicago/Chi_Temperature_Best_m2.csv")
 
 ###########################Percent Gardenscape 3 or 4
-mods_m3 <- paste(rep("PercGar3o4 ~", 5), c(f1, f2, f3, f4))
+mods_m3 <- paste(rep("PercGar3o4 ~", 5), c(f1, f2, f3, f4, f5))
 
 
 f3mod.1 <- betareg(mods_m3[1], data=Seg_allData, weights=wts)
@@ -763,18 +775,23 @@ f3mod.4 <- betareg(mods_m3[4], data=Seg_allData, weights=wts)
 bestf3mod.4 <- StepBeta(f3mod.4)
 f3sum.4 <- summary(bestf3mod.4)
 
+f3mod.5 <- betareg(mods_m3[5], data=Seg_allData, weights=wts)
+bestf3mod.5 <- StepBeta(f3mod.5)
+f3sum.5 <- summary(bestf3mod.5)
 
-AIC(bestf3mod.1, bestf3mod.2, bestf3mod.3, bestf3mod.4)
+
+AIC(bestf3mod.1, bestf3mod.2, bestf3mod.3, bestf3mod.4, bestf3mod.5)
 
 #             df       AIC
-# bestf3mod.1  5 -2101.254**
+# bestf3mod.1  4 -1355.406
 # bestf3mod.2  8 -1873.089
-# bestf3mod.3  7 -1933.455
-# bestf3mod.4  8 -1905.296
+# bestf3mod.3  7 -1961.840*
+# bestf3mod.4  6 -1882.298
+# bestf3mod.5  7 -1961.840
 
 
 
-#write.csv(f3sum.1$coefficients$mean, "../04Outputs/Chicago/Chi_Gardenscape_Best_m1.csv")
+#write.csv(f3sum.3$coefficients$mean, "../04Outputs/Chicago/Chi_Gardenscape_Best_m3.csv")
 
 
 ```
@@ -782,7 +799,7 @@ AIC(bestf3mod.1, bestf3mod.2, bestf3mod.3, bestf3mod.4)
 
 ```{r best model for tree-related}
 ########################### Simpson Diversity - species
-mods_m4 <- paste(rep("SimpsonsDivSpp ~", 5), c(f1, f2, f3, f4))
+mods_m4 <- paste(rep("SimpsonsDivSpp ~", 5), c(f1, f2, f3, f4, f5))
 
 
 f4mod.1 <- betareg(mods_m4[1], data=Seg_allData, weights=wts)
@@ -801,8 +818,12 @@ f4mod.4 <- betareg(mods_m4[4], data=Seg_allData, weights=wts)
 bestf4mod.4 <- StepBeta(f4mod.4)
 f4sum.4 <- summary(bestf4mod.4)
 
+f4mod.5 <- betareg(mods_m4[5], data=Seg_allData, weights=wts)
+bestf4mod.5 <- StepBeta(f4mod.5)
+f4sum.5 <- summary(bestf4mod.5)
 
-AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3, bestf4mod.4)
+
+AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3, bestf4mod.4, bestf4mod.5)
 
 #             df       AIC
 # bestf4mod.1  5 -3092.479
