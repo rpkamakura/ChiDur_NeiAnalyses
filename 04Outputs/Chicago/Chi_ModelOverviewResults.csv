@@ -1,0 +1,12 @@
+"","ModelType","DepVar","model","R2"
+"1","beta","PercSC","betareg(formula =  PercSC ~ Change_MedHHI + PercCOMM_MxTree + Change_PRent + Change_PWnHL + NumConst_since11 + NumReno_since11 + Change_Rmov data = Seg_allData )",0.558387168223929
+"2","lin","AftTemp","AftTemp ~ PercCOMM_MxTree + Change_PWnHL",0.436820816119113
+"3","beta","PercGar3o4","betareg(formula =  PercGar3o4 ~ NumConst_since11 + Change_MedHHI + Change_Rmov + PercCOMM_MxTree + NumReno_since11 + Change_PRent data = Seg_allData )",0.547969884226339
+"4","beta","SimpDivSpp","betareg(formula =  SimpsonsDivSpp ~ Change_PWnHL + NumReno_since11 + Change_Rmov + NumConst_since11 + Change_MedHHI + Change_PRent data = Seg_allData )",0.487141099833035
+"5","beta","SimpDivGen","betareg(formula =  SimpsonsDivGen ~ NumReno_since11 + Change_PWnHL + Change_Rmov + Change_MedHHI + NumConst_since11 + PercCOMM_MxTree data = Seg_allData )",0.35170214453274
+"6","lin","AvgBA","AvgBA ~ NumBuild",0.480654037141974
+"7","pois","NumTrees","totNumTrees ~ NumBuild",0.459585906045973
+"8","beta","PercUrbanApp","betareg(formula =  PercUrbanApp ~ Change_PWnHL + PercCOMM_MxTree + Change_PRent + Change_Rmov + Change_MedHHI + NumConst_since11 data = Seg_allData )",0.488849123625927
+"9","beta","PercDisc","betareg(formula =  PercDisc3o4 ~ Change_Rmov + Change_MedHHI + PercCOMM_MxTree + Change_PRent + Change_PWnHL + NumConst_since11 + NumReno_since11 data = Seg_allData )",0.889171454458555
+"10","beta","PercDBK","betareg(formula =  PercDBK5 ~ NumConst_since11 + Change_MedHHI + Change_Rmov data = Seg_allData )",0.478165577660161
+"11","beta","PercCS","betareg(formula =  PercCS4o5 ~ Change_Rmov + Change_PRent + PercCOMM_MxTree + Change_MedHHI + NumConst_since11 + Change_PWnHL + NumReno_since11 data = Seg_allData )",0.788889205329154

@@ -826,10 +826,15 @@ f4sum.5 <- summary(bestf4mod.5)
 AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3, bestf4mod.4, bestf4mod.5)
 
 
+#             df       AIC
+# bestf4mod.1  3 -3082.350
+# bestf4mod.2  6 -3246.986
+# bestf4mod.3  7 -3295.505
+# bestf4mod.4  6 -3319.493
+# bestf4mod.5  8 -3573.694*
 
 
-
-#write.csv(f4sum.3$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_m3.csv")
+#write.csv(f4sum.5$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_m5.csv")
 
 ############################ Simpson Diversity - genus
 mods_m5 <- paste(rep("SimpsonsDivGen ~", 5), c(f1, f2, f3, f4, f5))
@@ -857,9 +862,14 @@ f5sum.5 <- summary(bestf5mod.5)
 
 AIC(bestf5mod.1, bestf5mod.2, bestf5mod.3, bestf5mod.4, bestf5mod.5)
 
+#             df       AIC
+# bestf5mod.1  3 -2394.681
+# bestf5mod.2  7 -2616.589
+# bestf5mod.3  8 -2653.120
+# bestf5mod.4  7 -2650.837
+# bestf5mod.5  8 -2794.004*
 
-
-#write.csv(f5sum.3$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_m3.csv")
+#write.csv(f5sum.5$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_m5.csv")
 
 
 ###AvgBA
@@ -887,7 +897,12 @@ f6sum.5 <- summary(bestf6mod.5)
 
 AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3, bestf6mod.4, bestf6mod.5)
 
-
+#             df       AIC
+# bestf6mod.1  3 -43.16004*
+# bestf6mod.2  6 -35.79276
+# bestf6mod.3  7 -35.91381
+# bestf6mod.4  6 -35.79276
+# bestf6mod.5  7 -35.91381
 
 
 #write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_m1.csv")
@@ -920,7 +935,12 @@ f7sum.5 <- summary(f7mod.5)
 
 AIC(f7mod.1, f7mod.2, f7mod.3, f7mod.4, f7mod.5)
 
-
+#         df      AIC
+# f7mod.1  2 131.3425*
+# f7mod.2  4 143.0093
+# f7mod.3  4 143.0093
+# f7mod.4  4 143.0093
+# f7mod.5  6 144.8435
 
 #write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_m1.csv")
 
@@ -949,9 +969,15 @@ f8sum.5 <- summary(bestf8mod.5)
 
 AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3, bestf8mod.4, bestf8mod.5)
 
+#             df       AIC
+# bestf8mod.1  4 -1264.248
+# bestf8mod.2  7 -1589.820
+# bestf8mod.3  8 -1622.265*
+# bestf8mod.4  8 -1602.520
+# bestf8mod.5  8 -1622.265
 
+#write.csv(f8sum.3$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_m3.csv")
 
-#write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_m2.csv")
 ##########################################################Tree Health
 
 ###########################PercDisc3o4
@@ -979,9 +1005,14 @@ f9sum.5 <- summary(bestf9mod.5)
 
 AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3, bestf9mod.4, bestf9mod.5)
 
+#             df       AIC
+# bestf9mod.1  4 -2442.663
+# bestf9mod.2  8 -3583.963
+# bestf9mod.3  8 -3652.016
+# bestf9mod.4  8 -3616.391
+# bestf9mod.5  9 -4352.007*
 
-
-#write.csv(f9sum.3$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_m3.csv")
+#write.csv(f9sum.5$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_m5.csv")
 
 ###########################PercDBK5
 mods_m10 <- paste(rep("PercDBK5 ~", 5), c(f1, f2, f3, f4, f5))
@@ -1008,7 +1039,12 @@ f10sum.5 <- summary(bestf10mod.5)
 
 AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3, bestf10mod.4, bestf10mod.5)
 
-
+#              df       AIC
+# bestf10mod.1  4 -2923.441
+# bestf10mod.2  7 -3126.811
+# bestf10mod.3  5 -3255.664*
+# bestf10mod.4  6 -3125.123
+# bestf10mod.5  5 -3255.664
 
 #write.csv(f10sum.3$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_m3.csv")
 
@@ -1037,17 +1073,22 @@ f11sum.5 <- summary(bestf11mod.5)
 
 AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3, bestf11mod.4, bestf11mod.5)
 
+#              df       AIC
+# bestf11mod.1  4 -2454.136
+# bestf11mod.2  8 -3314.847
+# bestf11mod.3  8 -3506.452
+# bestf11mod.4  8 -3322.785
+# bestf11mod.5  9 -3703.837*
 
 
-
-#write.csv(f11sum.3$coefficients, "../04Outputs/Chicago/Chi_CS_Best_m3.csv")
+#write.csv(f11sum.5$coefficients, "../04Outputs/Chicago/Chi_CS_Best_m5.csv")
 
 ##store data from the "best" models
 cnms <- c("ModelType", "DepVar", "model", "R2")
 ModOverview <- as.data.frame(matrix(0, nrow=11, ncol=length(cnms)))
 names(ModOverview) <- cnms
 
-modList <- list(f1sum.3, f2sum.2, f3sum.1, f4sum.3, f5sum.3, f6sum.1, f7sum.1, f8sum.2, f9sum.3, f10sum.3, f11sum.3)
+modList <- list(f1sum.5, f2sum.2, f3sum.5, f4sum.5, f5sum.5, f6sum.1, f7sum.1, f8sum.3, f9sum.5, f10sum.3, f11sum.5)
 modTyps <- c("beta","lin", "beta", "beta", "beta", "lin", "pois", "beta", "beta", "beta", "beta")
 modDep <- c("PercSC", "AftTemp", "PercGar3o4", "SimpDivSpp", "SimpDivGen", "AvgBA", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
 
@@ -1089,7 +1130,7 @@ for (m in 1:11){
 
 }
 
-write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults_Since15_071324.csv")
+write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults.csv")
 
 
 
