@@ -846,7 +846,7 @@ AIC(bestf11mod.1, bestf11mod.2)
 # bestf11mod.2  8 -3310.826
 
 
-#write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod2.csv")
+#write.csv(f11sum.1$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod2.csv")
 
 ##store data from the "best" models
 cnms <- c("ModelType", "DepVar", "model", "R2")
