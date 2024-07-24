@@ -778,6 +778,9 @@ f8sum.2 <- summary(bestf8mod.2)
 
 AIC(bestf8mod.1, bestf8mod.2)
 
+#             df       AIC
+# bestf8mod.1  7 -1589.820
+# bestf8mod.2  8 -1610.198
 
 #write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod2.csv")
 
@@ -797,6 +800,10 @@ f9sum.2 <- summary(bestf9mod.2)
 
 AIC(bestf9mod.1, bestf9mod.2)
 
+#             df       AIC
+# bestf9mod.1  8 -3583.963
+# bestf9mod.2  8 -3530.304
+
 
 #write.csv(f9sum.1$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod2.csv")
 
@@ -814,7 +821,9 @@ f10sum.2 <- summary(bestf10mod.2)
 
 AIC(bestf10mod.1, bestf10mod.2)
 
-
+#              df       AIC
+# bestf10mod.1  7 -3126.811
+# bestf10mod.2  7 -3159.958
 
 #write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod2.csv")
 
@@ -832,6 +841,10 @@ f11sum.2 <- summary(bestf11mod.2)
 
 AIC(bestf11mod.1, bestf11mod.2)
 
+#              df       AIC
+# bestf11mod.1  8 -3314.847
+# bestf11mod.2  8 -3310.826
+
 
 #write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod2.csv")
 
@@ -840,11 +853,11 @@ cnms <- c("ModelType", "DepVar", "model", "R2")
 ModOverview <- as.data.frame(matrix(0, nrow=11, ncol=length(cnms)))
 names(ModOverview) <- cnms
 
-modList <- list(f4sum.2, f5sum.2, f6sum.1, f7sum.1, f8sum.2, f9sum.1, f10sum.1, f11sum.1)
+modList <- list(f4sum.2, f5sum.2, f6sum.1, f7sum.1, f8sum.2, f9sum.1, f10sum.2, f11sum.1)
 modTyps <- c("beta", "beta", "lin", "pois", "beta", "beta", "beta", "beta")
 modDep <- c("SimpDivSpp", "SimpDivGen", "AvgBA", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
 
-for (m in 1:11){
+for (m in 1:8){
 
   mod <- modList[[m]]
   modT <- modTyps[m]
