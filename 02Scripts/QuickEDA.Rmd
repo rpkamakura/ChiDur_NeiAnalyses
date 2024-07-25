@@ -42,8 +42,21 @@ Construction
 % residential
 
 ```{r Census data}
-ChiCaseStudyData1 <- ChicagoData[ChicagoData$Segment %in% c(57, 16),] #blues
-ChiCaseStudyData2 <- ChicagoData[ChicagoData$Segment %in% c(244, 49),] #reds
+
+##case study areas - Chicago
+Cgr1 <- c(57, 16)
+Cgr2 <- c(244, 49)
+ChiCaseStudyData1 <- ChicagoData[ChicagoData$Segment %in% Cgr1,] #blues
+ChiCaseStudyData2 <- ChicagoData[ChicagoData$Segment %in% Cgr2,] #reds
+
+#####case study areas - Durham
+Dgr1 <- c("M22", "K18") #greens
+Dgr2 <- c("O21", "M19") #purples
+Dgr3 <- c("R21", "R24") #yellows
+
+DurCaseStudyData1 <- DurhamData[DurhamData$Segment %in% Dgr1,]
+DurCaseStudyData2 <- DurhamData[DurhamData$Segment %in% Dgr2,]
+DurCaseStudyData3 <- DurhamData[DurhamData$Segment %in% Dgr3,]
 
 #############Median Household Income
 hist(ChicagoData$MedHouseInc21, breaks = 15, main="Chicago Median Household Income 2021")
@@ -59,6 +72,9 @@ abline(v=ChiCaseStudyData2$Change_MedHHI[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Change_MedHHI[2], col="red", lwd=3)
 
 hist(DurhamData$MedHouseInc21, breaks = 20, main="Durham Median Household Income 2021")
+abline(v=DurCaseStudyData1$MedHouseInc21[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$MedHouseInc21[2], col="green4", lwd=3)
+
 hist(DurhamData$Change_MedHHI, breaks = 10, main="Durham Change Median Household Income")
 
 
@@ -132,3 +148,5 @@ Makes me consider focusing on the reds, being able to look at the contrast with 
 
 
 Durham
+* only focusing on the segments with 10+ trees
+* get rid of Q21 because it is almost entirely commercialand O19 and P21 because they are mostly ot residential
