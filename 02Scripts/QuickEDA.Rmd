@@ -1,0 +1,134 @@
+---
+title: "Quick Data Visualization"
+author: "Renata"
+date: "2024-07-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Set-up
+
+```{r read in data}
+
+ChicagoData <- read.csv("./ChicagoSegmentData.csv")
+DurhamData <- read.csv("./DurhamSegmentData.csv")
+
+
+```
+
+
+
+###Look at Census data
+
+Change Median Household Income
+Median Household Income
+
+Change Percent White non-HL
+Percent White non-HL
+
+Avg Percent Renter
+
+Avg Percent Recent Movers
+
+SVI
+
+Construction
+
+% commercial
+
+% residential
+
+```{r Census data}
+ChiCaseStudyData1 <- ChicagoData[ChicagoData$Segment %in% c(57, 16),] #blues
+ChiCaseStudyData2 <- ChicagoData[ChicagoData$Segment %in% c(244, 49),] #reds
+
+#############Median Household Income
+hist(ChicagoData$MedHouseInc21, breaks = 15, main="Chicago Median Household Income 2021")
+abline(v=ChiCaseStudyData1$MedHouseInc21[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$MedHouseInc21[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$MedHouseInc21[1], col="coral", lwd=3) #244
+abline(v=ChiCaseStudyData2$MedHouseInc21[2], col="red", lwd=3) #49
+
+hist(ChicagoData$Change_MedHHI, breaks = 10, main="Chicago Change Median Household Income")
+abline(v=ChiCaseStudyData1$Change_MedHHI[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$Change_MedHHI[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$Change_MedHHI[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$Change_MedHHI[2], col="red", lwd=3)
+
+hist(DurhamData$MedHouseInc21, breaks = 20, main="Durham Median Household Income 2021")
+hist(DurhamData$Change_MedHHI, breaks = 10, main="Durham Change Median Household Income")
+
+
+#############Percent White non-HL
+hist(ChicagoData$PercWhiteNonHL21, breaks = 15, main="Chicago Percent White 2021")
+abline(v=ChiCaseStudyData1$PercWhiteNonHL21[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$PercWhiteNonHL21[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$PercWhiteNonHL21[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercWhiteNonHL21[2], col="red", lwd=3)
+hist(ChicagoData$Change_PWnHL, breaks = 10, main="Chicago Change Percent White")
+abline(v=ChiCaseStudyData1$Change_PWnHL[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$Change_PWnHL[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$Change_PWnHL[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$Change_PWnHL[2], col="red", lwd=3)
+
+
+hist(DurhamData$PercWhiteNonHL21, breaks = 20, main="Durham Percent White")
+hist(DurhamData$Change_PWnHL, breaks = 10, main="Durham Change Percent White")
+
+
+###################Average Percent Renter
+hist(ChicagoData$Avg_PRent, breaks = 10, main="Chicago Avg Percent Renter")
+abline(v=ChiCaseStudyData1$Avg_PRent[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$Avg_PRent[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$Avg_PRent[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$Avg_PRent[2], col="red", lwd=3)
+
+hist(DurhamData$Avg_PRent, breaks = 10, main="Durham Avg Percent Renter")
+
+
+####################Average Recent Movers
+hist(ChicagoData$Avg_Rmov, breaks = 10, main="Chicago Avg Percent Recent Movers")
+abline(v=ChiCaseStudyData1$Avg_Rmov[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$Avg_Rmov[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$Avg_Rmov[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$Avg_Rmov[2], col="red", lwd=3)
+
+hist(DurhamData$Avg_Rmov, breaks = 10, main="Durham Avg Percent Recent Movers")
+
+
+######################SVI
+hist(ChicagoData$SVI, breaks = 10, main="Chicago SVI")
+abline(v=ChiCaseStudyData1$SVI[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$SVI[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$SVI[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$SVI[2], col="red", lwd=3)
+
+hist(DurhamData$SVI, breaks = 10, main="Durham SVI")
+
+
+####################Construction
+hist(ChicagoData$AllConst_since11, breaks = 10, main="Chicago All Construction")
+abline(v=ChiCaseStudyData1$AllConst_since11[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$AllConst_since11[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$AllConst_since11[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$AllConst_since11[2], col="red", lwd=3)
+
+hist(DurhamData$NumConst_since11, breaks = 10, main="Durham Construction since 2011")
+hist(DurhamData$NumReno_since11, breaks = 10, main="Durham Renovation since 2011")
+
+```
+
+##Notes
+
+Chicago:
+* blues - generally more similar in income and percent white in 2021, with different trajectories to get there and separation in avg renters and avg recent movers
+  - light blue has had more change in income and percent white but has lower rentership and recent movers
+* reds - have a bit more of a gap in 2021 in income, but the change is more similar, similar both percent white and change. Pretty big difference in average recent movers, and the SVI is super similar
+
+Makes me consider focusing on the reds, being able to look at the contrast with recent movers and  construction?
+
+
+Durham
