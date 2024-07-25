@@ -74,8 +74,18 @@ abline(v=ChiCaseStudyData2$Change_MedHHI[2], col="red", lwd=3)
 hist(DurhamData$MedHouseInc21, breaks = 20, main="Durham Median Household Income 2021")
 abline(v=DurCaseStudyData1$MedHouseInc21[1], col="springgreen", lwd=3)
 abline(v=DurCaseStudyData1$MedHouseInc21[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$MedHouseInc21[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$MedHouseInc21[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$MedHouseInc21[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$MedHouseInc21[2], col="goldenrod3", lwd=3)
 
 hist(DurhamData$Change_MedHHI, breaks = 10, main="Durham Change Median Household Income")
+abline(v=DurCaseStudyData1$Change_MedHHI[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$Change_MedHHI[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$Change_MedHHI[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$Change_MedHHI[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$Change_MedHHI[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$Change_MedHHI[2], col="goldenrod3", lwd=3)
 
 
 #############Percent White non-HL
@@ -92,7 +102,19 @@ abline(v=ChiCaseStudyData2$Change_PWnHL[2], col="red", lwd=3)
 
 
 hist(DurhamData$PercWhiteNonHL21, breaks = 20, main="Durham Percent White")
+abline(v=DurCaseStudyData1$PercWhiteNonHL21[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$PercWhiteNonHL21[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$PercWhiteNonHL21[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$PercWhiteNonHL21[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$PercWhiteNonHL21[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercWhiteNonHL21[2], col="goldenrod3", lwd=3)
 hist(DurhamData$Change_PWnHL, breaks = 10, main="Durham Change Percent White")
+abline(v=DurCaseStudyData1$Change_PWnHL[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$Change_PWnHL[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$Change_PWnHL[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$Change_PWnHL[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$Change_PWnHL[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$Change_PWnHL[2], col="goldenrod3", lwd=3)
 
 
 ###################Average Percent Renter
@@ -103,6 +125,12 @@ abline(v=ChiCaseStudyData2$Avg_PRent[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Avg_PRent[2], col="red", lwd=3)
 
 hist(DurhamData$Avg_PRent, breaks = 10, main="Durham Avg Percent Renter")
+abline(v=DurCaseStudyData1$Avg_PRent[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$Avg_PRent[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$Avg_PRent[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$Avg_PRent[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$Avg_PRent[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$Avg_PRent[2], col="goldenrod3", lwd=3)
 
 
 ####################Average Recent Movers
@@ -113,6 +141,12 @@ abline(v=ChiCaseStudyData2$Avg_Rmov[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Avg_Rmov[2], col="red", lwd=3)
 
 hist(DurhamData$Avg_Rmov, breaks = 10, main="Durham Avg Percent Recent Movers")
+abline(v=DurCaseStudyData1$Avg_Rmov[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$Avg_Rmov[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$Avg_Rmov[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$Avg_Rmov[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$Avg_Rmov[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$Avg_Rmov[2], col="goldenrod3", lwd=3)
 
 
 ######################SVI
@@ -123,6 +157,12 @@ abline(v=ChiCaseStudyData2$SVI[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$SVI[2], col="red", lwd=3)
 
 hist(DurhamData$SVI, breaks = 10, main="Durham SVI")
+abline(v=DurCaseStudyData1$SVI[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$SVI[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$SVI[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$SVI[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$SVI[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$SVI[2], col="goldenrod3", lwd=3)
 
 
 ####################Construction
@@ -133,7 +173,19 @@ abline(v=ChiCaseStudyData2$AllConst_since11[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$AllConst_since11[2], col="red", lwd=3)
 
 hist(DurhamData$NumConst_since11, breaks = 10, main="Durham Construction since 2011")
+abline(v=DurCaseStudyData1$NumConst_since11[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$NumConst_since11[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$NumConst_since11[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$NumConst_since11[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$NumConst_since11[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$NumConst_since11[2], col="goldenrod3", lwd=3)
 hist(DurhamData$NumReno_since11, breaks = 10, main="Durham Renovation since 2011")
+abline(v=DurCaseStudyData1$NumReno_since11[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$NumReno_since11[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData2$NumReno_since11[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$NumReno_since11[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$NumReno_since11[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$NumReno_since11[2], col="goldenrod3", lwd=3)
 
 ```
 
@@ -150,3 +202,29 @@ Makes me consider focusing on the reds, being able to look at the contrast with 
 Durham
 * only focusing on the segments with 10+ trees
 * get rid of Q21 because it is almost entirely commercialand O19 and P21 because they are mostly ot residential
+
+Greens
+* greens look similar in 2021 except for percent white, which is both different and has changed in opposite directions
+* they both don't have a ton of recent movers
+* seemingly identical construction and renovations
+* the big contrast would be percent white and the change in income (light green had a bigger jump up), which seems hard to really dive into
+
+For K18, all the trees are b a median, which messes with things
+
+Purples
+* similar median income in 2021, but light purple jumped up more than dark purple
+* similar percent white and moderate increase for both
+similar renter, light purple has slightly more recent movers
+* light purple has a lot more construction and especially renovations
+
+Seems like a solid candidate, but the light purple one seems to look good (M19) vs the dark purple (O21)
+
+Yellows
+* both relatively low income in 2021, but light yellow jumped up quite a bit
+* neither particularly white, but both increasing (light yellow more)
+* similar renters, dark yellow has more recent movers
+* light yellow has more construction and renovations
+
+Would be good if you are intersted in the contrast between recent movers and everything else
+
+light yellow has worse discoloration but lower dieback and CS. This contrast seems to be the exact opposite of what the model parameter estimates are telling us it should be....
