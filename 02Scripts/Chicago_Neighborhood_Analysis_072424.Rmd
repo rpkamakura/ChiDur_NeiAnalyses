@@ -665,7 +665,7 @@ ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumC
                    "MedHouseInc21", "PercRent21","PercRMov21" )])
 
 #write.csv(ChiCors, "./ChicagoPredCors.csv")
-
+#write.csv(Seg_allData, "./ChicagoSegmentData.csv")
 
 
 ###########Model options without super correlated variables

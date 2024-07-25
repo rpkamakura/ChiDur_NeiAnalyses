@@ -714,6 +714,8 @@ DurCors <- cor(SegM10Trees[,c("PercComm_z", "PercRes_z","NumConst_since11","NumR
 
 #to more easily examine correlations
 #write.csv(DurCors, "./Durham_Predictor_corrs.csv")
+#write.csv(Seg_allData, "./DurhamSegmentData.csv")
+
 
 ##the construciton combined is too correlated to change in percent white non-hispanic/Latine
 

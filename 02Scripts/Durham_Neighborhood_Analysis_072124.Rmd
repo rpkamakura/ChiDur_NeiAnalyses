@@ -711,6 +711,8 @@ DurCors <- cor(Seg_allData[,c("PercComm_z", "PercRes_z","NumConst_since15","NumR
 
 #to more easily examine correlations
 #write.csv(corVars, "../01Data/Durham/Durham_Predictor_corrs.csv")
+#write.csv(Seg_allData, "./DurhamSegmentData.csv")
+
 
 f1 <- "PercCOMM_MxTree + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
 f2 <- "PercCOMM_MxTree + NumConst_since11 + NumReno_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
