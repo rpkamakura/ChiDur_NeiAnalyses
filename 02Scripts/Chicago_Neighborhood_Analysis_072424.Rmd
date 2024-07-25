@@ -615,8 +615,8 @@ Seg_allData$Change_PHL <- Seg_allData$PercHispanicLatine21 - Seg_allData$PercHis
 Seg_allData$Change_PBl <- Seg_allData$PercBlack21 - Seg_allData$PercBlack11
 Seg_allData$Change_PWnHL <- Seg_allData$PercWhiteNonHL21 - Seg_allData$PercWhiteNonHL11
 Seg_allData$Change_MedHHI <- Seg_allData$MedHouseInc21 - Seg_allData$MedHouseInc11
-Seg_allData$Change_PRent <- Seg_allData$PercRent21 - Seg_allData$PercRent11
-Seg_allData$Change_Rmov <- Seg_allData$PercRMov21 - Seg_allData$PercRMov11
+SegmentCensusData$Avg_PRent <- (SegmentCensusData$PercRent21 + SegmentCensusData$PercRent11)/2
+SegmentCensusData$Avg_Rmov <- (SegmentCensusData$PercRMov21 + SegmentCensusData$PercRMov11)/2
 
 ##add census data for change over time (percent change)
 
@@ -659,9 +659,10 @@ wts <- as.vector(Seg_allData$totNumTrees)
 Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumReno_since11
 
 #to get a sense of the correlations
-ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumConst_since11","NumReno_since11", 
-                  "AllConst_since11",  "NumBuild", "SVI", "AftTemp","Change_PHL", "Change_PBl","Change_PWnHL",
-                   "Change_MedHHI", "Change_PRent","Change_Rmov", "PercWhiteNonHL21",
+ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumConst_since11",
+                              "NumReno_since11", "AllConst_since11",  "NumBuild", "SVI",
+                              "AftTemp","Change_PHL", "Change_PBl","Change_PWnHL",
+                   "Change_MedHHI", "Avg_PRent","Avg_Rmov", "PercWhiteNonHL21",
                    "MedHouseInc21", "PercRent21","PercRMov21" )])
 
 #write.csv(ChiCors, "./ChicagoPredCors.csv")
@@ -669,14 +670,12 @@ ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumC
 
 
 ###########Model options without super correlated variables
-##maybe do percent res instead and then can have Afternoon Temp in all of them too
-##either num construction or num reno, either chan go with Change PWnHL, and Change PRent (too correlated to Change MedHHI and rmov)
-##SVI can go with the Change in WnHL, Change MedHHI, Change PRent, and Change Rmov
-##can do all the changes with Percent rentership or Median Household income but can't put those two together
+#Have to combine construction and reno because they are too correlated
+#could do rentership and recent movers together here
 
 ##Because of the correlations above, I think it makes sense to simplify
-f1 <- "PercCOMM_MxTree + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
-f2 <- "PercCOMM_MxTree + AllConst_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f1 <- "PercCOMM_MxTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2 <- "PercCOMM_MxTree + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 
 ########################### Simpson Diversity - species
@@ -691,17 +690,11 @@ f4mod.2 <- betareg(mods_m4[2], data=Seg_allData, weights=wts)
 bestf4mod.2 <- StepBeta(f4mod.2)
 f4sum.2 <- summary(bestf4mod.2)
 
-vif(bestf4mod.1) #all below 3
-vif(bestf4mod.2) #all below 5
-
 
 AIC(bestf4mod.1, bestf4mod.2)
 
-#             df       AIC
-# bestf4mod.1  6 -3246.986
-# bestf4mod.2  7 -3267.400
 
-#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_2mod2.csv")
+#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_2mod3.csv")
 
 ############################ Simpson Diversity - genus
 mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2))
@@ -717,11 +710,11 @@ f5sum.2 <- summary(bestf5mod.2)
 
 AIC(bestf5mod.1, bestf5mod.2)
 
-#             df       AIC
-# bestf5mod.1  7 -2616.589
-# bestf5mod.2  8 -2623.212
+#             df      AIC
+# bestf5mod.1  6 -2615.21
+# bestf5mod.2  6 -2615.21
 
-#write.csv(f5sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_2mod2.csv")
+#write.csv(f5sum.1$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_2mod3.csv")
 
 
 ###AvgBA
@@ -738,15 +731,15 @@ f6sum.2 <- summary(bestf6mod.2)
 AIC(bestf6mod.1, bestf6mod.2)
 
 #             df       AIC
-# bestf6mod.1  6 -35.79276
-# bestf6mod.2  6 -35.79276
+# bestf6mod.1  3 -36.79102
+# bestf6mod.2  6 -35.23863
 
-#write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_2mod2.csv")
+#write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_2mod3.csv")
 
 #This model should be different because should not use number of commercial
 ##trees as a predictor here
-f1.2 <- "PercComm_z + SVI + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
-f2.2 <- "PercComm_z + AllConst_since11 + Change_PWnHL + Change_MedHHI + Change_PRent + Change_Rmov"
+f1.2 <- "PercComm_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2.2 <- "PercComm_z + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 ##Number of Trees
 mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2))
@@ -760,10 +753,10 @@ f7sum.2 <- summary(f7mod.2)
 AIC(f7mod.1, f7mod.2)
 
 #         df      AIC
-# f7mod.1  4 143.0093
-# f7mod.2  4 143.0093
+# f7mod.1  4 138.8917
+# f7mod.2  4 142.0212
 
-#write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_2mod2.csv")
+#write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_2mod3.csv")
 
 ###Urban Tolerance
 mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2))
@@ -779,10 +772,10 @@ f8sum.2 <- summary(bestf8mod.2)
 AIC(bestf8mod.1, bestf8mod.2)
 
 #             df       AIC
-# bestf8mod.1  7 -1589.820
-# bestf8mod.2  8 -1610.198
+# bestf8mod.1  7 -1480.861
+# bestf8mod.2  7 -1635.957
 
-#write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod2.csv")
+#write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod3.csv")
 
 ##########################################################Tree Health
 
@@ -801,11 +794,10 @@ f9sum.2 <- summary(bestf9mod.2)
 AIC(bestf9mod.1, bestf9mod.2)
 
 #             df       AIC
-# bestf9mod.1  8 -3583.963
-# bestf9mod.2  8 -3530.304
+# bestf9mod.1  6 -2420.055
+# bestf9mod.2  6 -2570.353
 
-
-#write.csv(f9sum.1$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod2.csv")
+#write.csv(f9sum.2$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod3.csv")
 
 ###########################PercDBK5
 mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2))
@@ -822,10 +814,11 @@ f10sum.2 <- summary(bestf10mod.2)
 AIC(bestf10mod.1, bestf10mod.2)
 
 #              df       AIC
-# bestf10mod.1  7 -3126.811
-# bestf10mod.2  7 -3159.958
+# bestf10mod.1  5 -3050.426
+# bestf10mod.2  6 -3126.899
 
-#write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod2.csv")
+
+#write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod3.csv")
 
 ###########################PercCS4o5
 mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2))
@@ -842,18 +835,17 @@ f11sum.2 <- summary(bestf11mod.2)
 AIC(bestf11mod.1, bestf11mod.2)
 
 #              df       AIC
-# bestf11mod.1  8 -3314.847
-# bestf11mod.2  8 -3310.826
+# bestf11mod.1  7 -2420.421
+# bestf11mod.2  6 -2592.154
 
-
-#write.csv(f11sum.1$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod2.csv")
+#write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod3.csv")
 
 ##store data from the "best" models
 cnms <- c("ModelType", "DepVar", "model", "R2")
 ModOverview <- as.data.frame(matrix(0, nrow=11, ncol=length(cnms)))
 names(ModOverview) <- cnms
 
-modList <- list(f4sum.2, f5sum.2, f6sum.1, f7sum.1, f8sum.2, f9sum.1, f10sum.2, f11sum.1)
+modList <- list(f4sum.2, f5sum.1, f6sum.1, f7sum.2, f8sum.2, f9sum.2, f10sum.2, f11sum.2)
 modTyps <- c("beta", "beta", "lin", "pois", "beta", "beta", "beta", "beta")
 modDep <- c("SimpDivSpp", "SimpDivGen", "AvgBA", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
 
@@ -895,7 +887,7 @@ for (m in 1:8){
 
 }
 
-write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults_2mod2.csv")
+write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults_2mod3.csv")
 
 
 
