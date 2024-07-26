@@ -72,16 +72,16 @@ abline(v=ChiCaseStudyData2$Change_MedHHI[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Change_MedHHI[2], col="red", lwd=3)
 
 hist(DurhamData$MedHouseInc21, breaks = 20, main="Durham Median Household Income 2021")
-abline(v=DurCaseStudyData1$MedHouseInc21[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$MedHouseInc21[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$MedHouseInc21[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$MedHouseInc21[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$MedHouseInc21[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$MedHouseInc21[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$MedHouseInc21[1], col="gold", lwd=3)
 abline(v=DurCaseStudyData3$MedHouseInc21[2], col="goldenrod3", lwd=3)
 
 hist(DurhamData$Change_MedHHI, breaks = 10, main="Durham Change Median Household Income")
-abline(v=DurCaseStudyData1$Change_MedHHI[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$Change_MedHHI[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$Change_MedHHI[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$Change_MedHHI[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$Change_MedHHI[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$Change_MedHHI[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$Change_MedHHI[1], col="gold", lwd=3)
@@ -102,15 +102,15 @@ abline(v=ChiCaseStudyData2$Change_PWnHL[2], col="red", lwd=3)
 
 
 hist(DurhamData$PercWhiteNonHL21, breaks = 20, main="Durham Percent White")
-abline(v=DurCaseStudyData1$PercWhiteNonHL21[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$PercWhiteNonHL21[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$PercWhiteNonHL21[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$PercWhiteNonHL21[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$PercWhiteNonHL21[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$PercWhiteNonHL21[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$PercWhiteNonHL21[1], col="gold", lwd=3)
 abline(v=DurCaseStudyData3$PercWhiteNonHL21[2], col="goldenrod3", lwd=3)
 hist(DurhamData$Change_PWnHL, breaks = 10, main="Durham Change Percent White")
-abline(v=DurCaseStudyData1$Change_PWnHL[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$Change_PWnHL[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$Change_PWnHL[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$Change_PWnHL[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$Change_PWnHL[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$Change_PWnHL[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$Change_PWnHL[1], col="gold", lwd=3)
@@ -125,8 +125,8 @@ abline(v=ChiCaseStudyData2$Avg_PRent[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Avg_PRent[2], col="red", lwd=3)
 
 hist(DurhamData$Avg_PRent, breaks = 10, main="Durham Avg Percent Renter")
-abline(v=DurCaseStudyData1$Avg_PRent[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$Avg_PRent[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$Avg_PRent[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$Avg_PRent[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$Avg_PRent[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$Avg_PRent[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$Avg_PRent[1], col="gold", lwd=3)
@@ -141,8 +141,8 @@ abline(v=ChiCaseStudyData2$Avg_Rmov[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$Avg_Rmov[2], col="red", lwd=3)
 
 hist(DurhamData$Avg_Rmov, breaks = 10, main="Durham Avg Percent Recent Movers")
-abline(v=DurCaseStudyData1$Avg_Rmov[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$Avg_Rmov[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$Avg_Rmov[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$Avg_Rmov[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$Avg_Rmov[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$Avg_Rmov[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$Avg_Rmov[1], col="gold", lwd=3)
@@ -157,8 +157,8 @@ abline(v=ChiCaseStudyData2$SVI[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$SVI[2], col="red", lwd=3)
 
 hist(DurhamData$SVI, breaks = 10, main="Durham SVI")
-abline(v=DurCaseStudyData1$SVI[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$SVI[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$SVI[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$SVI[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$SVI[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$SVI[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$SVI[1], col="gold", lwd=3)
@@ -173,15 +173,15 @@ abline(v=ChiCaseStudyData2$AllConst_since11[1], col="coral", lwd=3)
 abline(v=ChiCaseStudyData2$AllConst_since11[2], col="red", lwd=3)
 
 hist(DurhamData$NumConst_since11, breaks = 10, main="Durham Construction since 2011")
-abline(v=DurCaseStudyData1$NumConst_since11[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$NumConst_since11[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$NumConst_since11[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$NumConst_since11[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$NumConst_since11[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$NumConst_since11[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$NumConst_since11[1], col="gold", lwd=3)
 abline(v=DurCaseStudyData3$NumConst_since11[2], col="goldenrod3", lwd=3)
 hist(DurhamData$NumReno_since11, breaks = 10, main="Durham Renovation since 2011")
-abline(v=DurCaseStudyData1$NumReno_since11[1], col="springgreen", lwd=3)
-abline(v=DurCaseStudyData1$NumReno_since11[2], col="green4", lwd=3)
+# abline(v=DurCaseStudyData1$NumReno_since11[1], col="springgreen", lwd=3)
+# abline(v=DurCaseStudyData1$NumReno_since11[2], col="green4", lwd=3)
 abline(v=DurCaseStudyData2$NumReno_since11[1], col="darkorchid1", lwd=3)
 abline(v=DurCaseStudyData2$NumReno_since11[2], col="darkorchid4", lwd=3)
 abline(v=DurCaseStudyData3$NumReno_since11[1], col="gold", lwd=3)
@@ -228,3 +228,74 @@ Yellows
 Would be good if you are intersted in the contrast between recent movers and everything else
 
 light yellow has worse discoloration but lower dieback and CS. This contrast seems to be the exact opposite of what the model parameter estimates are telling us it should be....
+
+
+##look at tree health outcomes
+
+```{r tree health outcomes}
+
+##case study areas - Chicago
+Cgr1 <- c(57, 16)
+Cgr2 <- c(244, 49)
+ChiCaseStudyData1 <- ChicagoData[ChicagoData$Segment %in% Cgr1,] #blues
+ChiCaseStudyData2 <- ChicagoData[ChicagoData$Segment %in% Cgr2,] #reds
+
+#####case study areas - Durham
+#Dgr1 <- c("M22", "K18") #greens - ignore, trees are in the median
+Dgr2 <- c("O21", "M19") #purples
+Dgr3 <- c("R21", "R24") #yellows
+
+#DurCaseStudyData1 <- DurhamData[DurhamData$Segment %in% Dgr1,]
+DurCaseStudyData2 <- DurhamData[DurhamData$Segment %in% Dgr2,]
+DurCaseStudyData3 <- DurhamData[DurhamData$Segment %in% Dgr3,]
+
+
+########################Discoloration
+hist(ChicagoData$PercDisc3o4, breaks = 10, main="Chicago High Discoloration")
+abline(v=ChiCaseStudyData1$PercDisc3o4[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$PercDisc3o4[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$PercDisc3o4[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercDisc3o4[2], col="red", lwd=3)
+
+hist(DurhamData$PercDisc3o4, breaks = 10, main="Durham High Discoloration")
+abline(v=DurCaseStudyData2$PercDisc3o4[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$PercDisc3o4[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$PercDisc3o4[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercDisc3o4[2], col="goldenrod3", lwd=3)
+
+
+###########################Dieback
+hist(ChicagoData$PercDBK5, breaks = 10, main="Chicago High Dieback")
+abline(v=ChiCaseStudyData1$PercDBK5[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$PercDBK5[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$PercDBK5[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercDBK5[2], col="red", lwd=3)
+
+hist(DurhamData$PercDBK5, breaks = 10, main="Durham High Dieback")
+abline(v=DurCaseStudyData2$PercDBK5[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$PercDBK5[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$PercDBK5[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercDBK5[2], col="goldenrod3", lwd=3)
+
+
+
+
+
+###########################Crown Stress
+hist(ChicagoData$PercCS4o5, breaks = 10, main="Chicago High Crown Stress")
+abline(v=ChiCaseStudyData1$PercCS4o5[1], col="cyan", lwd=3)
+abline(v=ChiCaseStudyData1$PercCS4o5[2], col="blue", lwd=3)
+abline(v=ChiCaseStudyData2$PercCS4o5[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercCS4o5[2], col="red", lwd=3)
+
+hist(DurhamData$PercCS4o5, breaks = 10, main="Durham High Crown Stress")
+abline(v=DurCaseStudyData2$PercCS4o5[1], col="darkorchid1", lwd=3)
+abline(v=DurCaseStudyData2$PercCS4o5[2], col="darkorchid4", lwd=3)
+abline(v=DurCaseStudyData3$PercCS4o5[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercCS4o5[2], col="goldenrod3", lwd=3)
+```
+
+
+Comparing to expected
+* for Chicago, the blues make sense as far as I can tell
+* for Durham, the yellows should make sense but they are literally the exact opposite of what the model indicates...
