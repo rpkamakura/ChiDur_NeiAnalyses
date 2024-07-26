@@ -1,0 +1,12 @@
+"","ModelType","DepVar","model","R2"
+"1","beta","SimpDivSpp","betareg(formula =  SimpsonsDivSpp ~ Avg_Rmov + NumReno_since11 + NumConst_since11 + Change_PWnHL + PercResTree + Change_MedHHI data = SegM10Trees )",0.37382740792468
+"2","beta","SimpDivGen","betareg(formula =  SimpsonsDivGen ~ Avg_Rmov + NumConst_since11 + NumReno_since11 + PercResTree data = SegM10Trees )",0.449429770847107
+"3","lin","AvgBA","AvgBA ~ 1",0
+"4","pois","NumTrees","totNumTrees ~ PercRes_z + Change_MedHHI",0.335856702530676
+"5","beta","PercUrbanApp","betareg(formula =  PercUrbanApp ~ Avg_Rmov + NumConst_since11 + Change_MedHHI + Change_PWnHL + NumReno_since11 data = SegM10Trees )",0.270008445006631
+"6","beta","PercDisc","betareg(formula =  PercDisc3o4 ~ PercResTree + Change_MedHHI + Change_PWnHL + NumReno_since11 + Avg_Rmov + NumConst_since11 data = SegM10Trees )",0.450443379259097
+"7","beta","PercDBK","betareg(formula =  PercDBK5 ~ PercResTree + Change_PWnHL + Change_MedHHI + SVI + Avg_Rmov data = SegM10Trees )",0.288367043955931
+"8","beta","PercCS","betareg(formula =  PercCS4o5 ~ Avg_Rmov + Change_PWnHL + Change_MedHHI + NumConst_since11 + PercResTree data = SegM10Trees )",0.185651914305939
+"9","0","0","0",0
+"10","0","0","0",0
+"11","0","0","0",0

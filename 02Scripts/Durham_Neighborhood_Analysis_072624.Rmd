@@ -741,7 +741,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 # 
 # 
 # 
-# #write.csv(f1sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SC_Best_2mod3.csv")
+# #write.csv(f1sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SC_Best_2mod4.csv")
 # 
 # 
 # ###################################Afternoon Temperature - linreg
@@ -759,7 +759,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 # AIC(bestf2mod.1, bestf2mod.2)
 # 
 # 
-# #write.csv(f2sum.2$coefficients, "../04Outputs/Durham/Dur_Temperature_Best_2mod3.csv")
+# #write.csv(f2sum.2$coefficients, "../04Outputs/Durham/Dur_Temperature_Best_2mod4.csv")
 # 
 # ###########################Percent Gardenscape 3 or 4
 # mods_m3 <- paste(rep("PercGar3o4 ~", 2), c(f1, f2))
@@ -777,7 +777,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 # AIC(bestf3mod.1, bestf3mod.2)
 
 
-#write.csv(f3sum.2$coefficients$mean, "../04Outputs/Durham/Dur_Gardenscape_Best_2mod3.csv")
+#write.csv(f3sum.2$coefficients$mean, "../04Outputs/Durham/Dur_Gardenscape_Best_2mod4.csv")
 
 
 ########################### Simpson Diversity - species
@@ -796,10 +796,10 @@ f4sum.2 <- summary(bestf4mod.2)
 AIC(bestf4mod.1, bestf4mod.2)
 
 #             df       AIC
-# bestf4mod.1  7 -1038.905
-# bestf4mod.2  8 -1140.092
+# bestf4mod.1  7 -1012.411
+# bestf4mod.2  8 -1109.455
 
-#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonSpp_Best_2mod3.csv")
+#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonSpp_Best_2mod4.csv")
 
 ############################ Simpson Diversity - genus
 mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2))
@@ -816,11 +816,11 @@ f5sum.2 <- summary(bestf5mod.2)
 AIC(bestf5mod.1, bestf5mod.2)
 
 #             df       AIC
-# bestf5mod.1  5 -1222.373
-# bestf5mod.2  7 -1248.584
+# bestf5mod.1  5 -1165.843
+# bestf5mod.2  6 -1231.234
 
 
-#write.csv(f5sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonGen_Best_2mod3.csv")
+#write.csv(f5sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonGen_Best_2mod4.csv")
 
 
 ###AvgBA
@@ -841,7 +841,7 @@ AIC(bestf6mod.1, bestf6mod.2)
 # bestf6mod.1  2 -30.3788
 # bestf6mod.2  2 -30.3788
 
-#write.csv(f6sum.1$coefficients, "../04Outputs/Durham/Dur_AvgBA_Best_2mod3.csv")
+#write.csv(f6sum.1$coefficients, "../04Outputs/Durham/Dur_AvgBA_Best_2mod4.csv")
 
 ##Number of Trees
 f1.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
@@ -858,11 +858,11 @@ f7sum.2 <- summary(f7mod.2)
 AIC(f7mod.1, f7mod.2)
 
 #         df      AIC
-# f7mod.1  6 462.0442
-# f7mod.2  7 372.0839
+# f7mod.1  3 473.5195
+# f7mod.2  6 325.4468
 
 
-#write.csv(f7sum.2$coefficients, "../04Outputs/Durham/Dur_NumTrees_Best_2mod3.csv")
+#write.csv(f7sum.2$coefficients, "../04Outputs/Durham/Dur_NumTrees_Best_2mod4.csv")
 
 ###Urban Tolerance
 mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2))
@@ -879,11 +879,11 @@ f8sum.2 <- summary(bestf8mod.2)
 AIC(bestf8mod.1, bestf8mod.2)
 
 #             df       AIC
-# bestf8mod.1  7 -690.4691
-# bestf8mod.2  8 -816.0098
+# bestf8mod.1  7 -715.4138
+# bestf8mod.2  7 -787.0608
 
 
-#write.csv(f8sum.2$coefficients, "../04Outputs/Durham/Dur_UrbanApp_Best_2mod3.csv")
+#write.csv(f8sum.2$coefficients, "../04Outputs/Durham/Dur_UrbanApp_Best_2mod4.csv")
 
 ##########################################################Tree Health
 
@@ -902,10 +902,10 @@ f9sum.2 <- summary(bestf9mod.2)
 AIC(bestf9mod.1, bestf9mod.2)
 
 #             df       AIC
-# bestf9mod.1  7 -730.8178
-# bestf9mod.2  7 -817.5253
+# bestf9mod.1  7 -788.6725
+# bestf9mod.2  8 -806.3235
 
-#write.csv(f9sum.2$coefficients, "../04Outputs/Durham/Dur_Discol_Best_2mod3.csv")
+#write.csv(f9sum.2$coefficients, "../04Outputs/Durham/Dur_Discol_Best_2mod4.csv")
 
 ###########################PercDBK5
 mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2))
@@ -922,10 +922,10 @@ f10sum.2 <- summary(bestf10mod.2)
 AIC(bestf10mod.1, bestf10mod.2)
 
 #              df       AIC
-# bestf10mod.1  7 -1462.364
-# bestf10mod.2  8 -1449.568
+# bestf10mod.1  7 -1436.113
+# bestf10mod.2  7 -1435.526
 
-#write.csv(f10sum.1$coefficients, "../04Outputs/Durham/Dur_DBK_Best_2mod3.csv")
+#write.csv(f10sum.1$coefficients, "../04Outputs/Durham/Dur_DBK_Best_2mod4.csv")
 
 ###########################PercCS4o5
 mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2))
@@ -942,10 +942,10 @@ f11sum.2 <- summary(bestf11mod.2)
 AIC(bestf11mod.1, bestf11mod.2)
 
 #              df       AIC
-# bestf11mod.1  7 -792.8686
-# bestf11mod.2  7 -793.2907
+# bestf11mod.1  6 -786.5677
+# bestf11mod.2  7 -793.1304
 
-#write.csv(f11sum.2$coefficients, "../04Outputs/Durham/Dur_CS_Best_2mod3.csv")
+#write.csv(f11sum.2$coefficients, "../04Outputs/Durham/Dur_CS_Best_2mod4.csv")
 
 
 
@@ -996,7 +996,7 @@ for (m in 1:8){
 
 }
 
-write.csv(ModOverview, "../04Outputs/Durham/Dur_ModelOverviewResults_2mod3.csv")
+write.csv(ModOverview, "../04Outputs/Durham/Dur_ModelOverviewResults_2mod4.csv")
 
 
 
