@@ -690,6 +690,9 @@ f4sum.2 <- summary(bestf4mod.2)
 
 AIC(bestf4mod.1, bestf4mod.2)
 
+#             df       AIC
+# bestf4mod.1  5 -3301.861
+# bestf4mod.2  6 -3310.939
 
 #write.csv(f4sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_2mod4.csv")
 
@@ -707,6 +710,9 @@ f5sum.2 <- summary(bestf5mod.2)
 
 AIC(bestf5mod.1, bestf5mod.2)
 
+#             df       AIC
+# bestf5mod.1  7 -2595.150
+# bestf5mod.2  6 -2593.319
 
 #write.csv(f5sum.1$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_2mod4.csv")
 
@@ -724,6 +730,9 @@ f6sum.2 <- summary(bestf6mod.2)
 
 AIC(bestf6mod.1, bestf6mod.2)
 
+#             df       AIC
+# bestf6mod.1  4 -37.48325
+# bestf6mod.2  6 -36.25222
 
 #write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_2mod4.csv")
 
@@ -743,6 +752,9 @@ f7sum.2 <- summary(f7mod.2)
 
 AIC(f7mod.1, f7mod.2)
 
+#         df      AIC
+# f7mod.1  4 138.8917
+# f7mod.2  4 142.0212
 
 #write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_2mod4.csv")
 
@@ -759,6 +771,9 @@ f8sum.2 <- summary(bestf8mod.2)
 
 AIC(bestf8mod.1, bestf8mod.2)
 
+#             df       AIC
+# bestf8mod.1  7 -1525.429
+# bestf8mod.2  7 -1705.139
 
 #write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod4.csv")
 
@@ -778,6 +793,9 @@ f9sum.2 <- summary(bestf9mod.2)
 
 AIC(bestf9mod.1, bestf9mod.2)
 
+#             df       AIC
+# bestf9mod.1  6 -2413.713
+# bestf9mod.2  6 -2567.886
 
 #write.csv(f9sum.2$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod4.csv")
 
@@ -795,7 +813,9 @@ f10sum.2 <- summary(bestf10mod.2)
 
 AIC(bestf10mod.1, bestf10mod.2)
 
-
+#              df       AIC
+# bestf10mod.1  6 -3056.405
+# bestf10mod.2  6 -3132.195
 
 #write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod4.csv")
 
@@ -812,6 +832,10 @@ f11sum.2 <- summary(bestf11mod.2)
 
 
 AIC(bestf11mod.1, bestf11mod.2)
+
+#              df      AIC
+# bestf11mod.1  7 -2396.60
+# bestf11mod.2  6 -2567.36
 
 
 #write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod4.csv")

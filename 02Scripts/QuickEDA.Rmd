@@ -23,47 +23,33 @@ DurhamData <- read.csv("./DurhamSegmentData.csv")
 
 ###Look at Census data
 
-Change Median Household Income
-Median Household Income
-
-Change Percent White non-HL
-Percent White non-HL
-
-Avg Percent Renter
-
-Avg Percent Recent Movers
-
-SVI
-
-Construction
-
-% commercial
-
-% residential
 
 ```{r Census data}
 
 ##case study areas - Chicago
-Cgr1 <- c(57, 16)
-Cgr2 <- c(244, 49)
+Cgr1 <- c(324, 292) #high construction - perhaps a bit too different
+Cgr2 <- c(16, 244) #moderate construction
+Cgr3 <- c(49, 57) #low construction
 ChiCaseStudyData1 <- ChicagoData[ChicagoData$Segment %in% Cgr1,] #blues
 ChiCaseStudyData2 <- ChicagoData[ChicagoData$Segment %in% Cgr2,] #reds
+ChiCaseStudyData3 <- ChicagoData[ChicagoData$Segment %in% Cgr3,] #silvers
 
 #####case study areas - Durham
-Dgr1 <- c("M22", "K18") #greens
-Dgr2 <- c("O21", "M19") #purples
-Dgr3 <- c("R21", "R24") #yellows
+#######NEED TO RE-DO
+Dgr1 <- c("M22", "K18") #high construction 
+Dgr2 <- c("O21", "M19")  #moderate construction
+Dgr3 <- c("R21", "R24")  #low construction
 
-DurCaseStudyData1 <- DurhamData[DurhamData$Segment %in% Dgr1,]
-DurCaseStudyData2 <- DurhamData[DurhamData$Segment %in% Dgr2,]
-DurCaseStudyData3 <- DurhamData[DurhamData$Segment %in% Dgr3,]
+DurCaseStudyData1 <- DurhamData[DurhamData$Segment %in% Dgr1,] #greens
+DurCaseStudyData2 <- DurhamData[DurhamData$Segment %in% Dgr2,] #purples
+DurCaseStudyData3 <- DurhamData[DurhamData$Segment %in% Dgr3,] #yellows
 
 #############Median Household Income
 hist(ChicagoData$MedHouseInc21, breaks = 15, main="Chicago Median Household Income 2021")
 abline(v=ChiCaseStudyData1$MedHouseInc21[1], col="cyan", lwd=3)
 abline(v=ChiCaseStudyData1$MedHouseInc21[2], col="blue", lwd=3)
-abline(v=ChiCaseStudyData2$MedHouseInc21[1], col="coral", lwd=3) #244
-abline(v=ChiCaseStudyData2$MedHouseInc21[2], col="red", lwd=3) #49
+abline(v=ChiCaseStudyData2$MedHouseInc21[1], col="coral", lwd=3) 
+abline(v=ChiCaseStudyData2$MedHouseInc21[2], col="red", lwd=3) 
 
 hist(ChicagoData$Change_MedHHI, breaks = 10, main="Chicago Change Median Household Income")
 abline(v=ChiCaseStudyData1$Change_MedHHI[1], col="cyan", lwd=3)
