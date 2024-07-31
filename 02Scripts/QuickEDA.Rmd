@@ -287,34 +287,34 @@ abline(v=DurCaseStudyData3$PercDisc3o4[1], col="gold", lwd=3)
 abline(v=DurCaseStudyData3$PercDisc3o4[2], col="goldenrod3", lwd=3)
 
 
-# ###########################Dieback
-# hist(ChicagoData$PercDBK5, breaks = 10, main="Chicago High Dieback")
-# abline(v=ChiCaseStudyData1$PercDBK5[1], col="cyan", lwd=3)
-# abline(v=ChiCaseStudyData1$PercDBK5[2], col="blue", lwd=3)
-# abline(v=ChiCaseStudyData2$PercDBK5[1], col="coral", lwd=3)
-# abline(v=ChiCaseStudyData2$PercDBK5[2], col="red", lwd=3)
-# 
-# hist(DurhamData$PercDBK5, breaks = 10, main="Durham High Dieback")
-# abline(v=DurCaseStudyData2$PercDBK5[1], col="darkorchid1", lwd=3)
-# abline(v=DurCaseStudyData2$PercDBK5[2], col="darkorchid4", lwd=3)
-# abline(v=DurCaseStudyData3$PercDBK5[1], col="gold", lwd=3)
-# abline(v=DurCaseStudyData3$PercDBK5[2], col="goldenrod3", lwd=3)
-# 
-# 
-# 
-# 
-# 
-# ###########################Crown Stress
-# hist(ChicagoData$PercCS4o5, breaks = 10, main="Chicago High Crown Stress")
-# abline(v=ChiCaseStudyData1$PercCS4o5[1], col="cyan", lwd=3)
-# abline(v=ChiCaseStudyData1$PercCS4o5[2], col="blue", lwd=3)
-# abline(v=ChiCaseStudyData2$PercCS4o5[1], col="coral", lwd=3)
-# abline(v=ChiCaseStudyData2$PercCS4o5[2], col="red", lwd=3)
-# 
-# hist(DurhamData$PercCS4o5, breaks = 10, main="Durham High Crown Stress")
-# abline(v=DurCaseStudyData2$PercCS4o5[1], col="darkorchid1", lwd=3)
-# abline(v=DurCaseStudyData2$PercCS4o5[2], col="darkorchid4", lwd=3)
-# abline(v=DurCaseStudyData3$PercCS4o5[1], col="gold", lwd=3)
-# abline(v=DurCaseStudyData3$PercCS4o5[2], col="goldenrod3", lwd=3)
+###########################Dieback
+hist(ChicagoData$PercDBK5, breaks = 10, main="Chicago High Dieback")
+abline(v=ChiCaseStudyData2$PercDBK5[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercDBK5[2], col="red", lwd=3)
+abline(v=ChiCaseStudyData3$PercDBK5[1], col="aliceblue", lwd=3)
+abline(v=ChiCaseStudyData3$PercDBK5[2], col="grey", lwd=3)
+
+hist(DurhamData$PercDBK5, breaks = 10, main="Durham High Dieback")
+abline(v=DurCaseStudyData1$PercDBK5[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$PercDBK5[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData3$PercDBK5[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercDBK5[2], col="goldenrod3", lwd=3)
+
+
+
+
+
+###########################Crown Stress
+hist(ChicagoData$PercCS4o5, breaks = 10, main="Chicago High Crown Stress")
+abline(v=ChiCaseStudyData2$PercCS4o5[1], col="coral", lwd=3)
+abline(v=ChiCaseStudyData2$PercCS4o5[2], col="red", lwd=3)
+abline(v=ChiCaseStudyData3$PercCS4o5[1], col="aliceblue", lwd=3)
+abline(v=ChiCaseStudyData3$PercCS4o5[2], col="grey", lwd=3)
+
+hist(DurhamData$PercCS4o5, breaks = 10, main="Durham High Crown Stress")
+abline(v=DurCaseStudyData1$PercCS4o5[1], col="springgreen", lwd=3)
+abline(v=DurCaseStudyData1$PercCS4o5[2], col="green4", lwd=3)
+abline(v=DurCaseStudyData3$PercCS4o5[1], col="gold", lwd=3)
+abline(v=DurCaseStudyData3$PercCS4o5[2], col="goldenrod3", lwd=3)
 ```
 
