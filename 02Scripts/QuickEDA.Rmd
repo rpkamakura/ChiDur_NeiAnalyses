@@ -318,3 +318,28 @@ abline(v=DurCaseStudyData3$PercCS4o5[1], col="gold", lwd=3)
 abline(v=DurCaseStudyData3$PercCS4o5[2], col="goldenrod3", lwd=3)
 ```
 
+Chicago
+* discol
+- grey: light > dark
+- red: light < dark
+
+* dbk
+- grey: similar
+- red: light > dark
+
+* CS
+- grey: light > dark
+- red: light < dark
+
+Durham
+* discol
+- green: light > dark
+- yellow: light > dark
+
+* dbk
+- green: light > dark
+- yellow: light < dark
+
+* cs
+- green: light > dark
+- yellow: light < dark
