@@ -319,6 +319,9 @@ abline(v=DurCaseStudyData3$PercCS4o5[2], col="goldenrod3", lwd=3)
 ```
 
 Chicago
+red: light = 16 (low), dark = 244 (high) *******
+grey: light = 49 (low), dark = 57 (high)
+
 * discol
 - grey: light > dark
 - red: light < dark
@@ -331,7 +334,13 @@ Chicago
 - grey: light > dark
 - red: light < dark
 
-Durham
+Durham - neither of these are steller, might be instructive to talk about yellow?
+Green: light = M22 (low), dark = M19 (high) 
+- these are much more analogous
+yellow: light = U17 (low), dark = S19 (high)
+- problem with U17 is that the majority of the trees are in the median :/
+- could go in and look at the non-median trees instead? Just don't have all that many
+
 * discol
 - green: light > dark
 - yellow: light > dark
