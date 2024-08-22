@@ -698,6 +698,8 @@ Notes from correlations
 
 ```{r basic regressions}
 
+Seg_allData <- read.csv("./DurhamSegmentData.csv")
+
 Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumReno_since11
 
 ##for all but the number of trees, get rid of segments with < 10 trees
@@ -722,11 +724,12 @@ DurCors <- cor(SegM10Trees[,c("PercComm_z", "PercRes_z","NumConst_since11","NumR
 
 ##the construciton combined is too correlated to change in percent white non-hispanic/Latine
 
-f1 <- "PercResTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f1 <- "PercResTree + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2 <- "PercResTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 # #############################Sidewalk cutout
-# mods_m1 <- paste(rep("PercSC ~", 2), c(f1, f2))
+# mods_m1 <- paste(rep("PercSC ~", 2), c(f1, f2, f3))
 # 
 # f1mod.1 <- betareg(mods_m1[1], data=SegM10Trees, weights=wts)
 # bestf1mod.1 <- StepBeta(f1mod.1)
@@ -745,7 +748,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 # 
 # 
 # ###################################Afternoon Temperature - linreg
-# mods_m2 <- paste(rep("AftTemp10m ~", 2), c(f1, f2))
+# mods_m2 <- paste(rep("AftTemp10m ~", 2), c(f1, f2, f3))
 # 
 # f2mod.1 <- lm(mods_m2[1], data=SegM10Trees_wTemp, weights=wts_wTemp)
 # bestf2mod.1 <- step(f2mod.1, direction="both")
@@ -762,7 +765,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 # #write.csv(f2sum.2$coefficients, "../04Outputs/Durham/Dur_Temperature_Best_2mod4.csv")
 # 
 # ###########################Percent Gardenscape 3 or 4
-# mods_m3 <- paste(rep("PercGar3o4 ~", 2), c(f1, f2))
+# mods_m3 <- paste(rep("PercGar3o4 ~", 2), c(f1, f2, f3))
 # 
 # 
 # f3mod.1 <- betareg(mods_m3[1], data=SegM10Trees, weights=wts)
@@ -781,7 +784,7 @@ f2 <- "PercResTree + NumReno_since11 + NumConst_since11 + Change_PWnHL + Change_
 
 
 ########################### Simpson Diversity - species
-mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2))
+mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2, f3))
 
 
 f4mod.1 <- betareg(mods_m4[1], data=SegM10Trees, weights=wts)
@@ -792,17 +795,22 @@ f4mod.2 <- betareg(mods_m4[2], data=SegM10Trees, weights=wts)
 bestf4mod.2 <- StepBeta(f4mod.2)
 f4sum.2 <- summary(bestf4mod.2)
 
+f4mod.3 <- betareg(mods_m4[3], data=SegM10Trees, weights=wts)
+bestf4mod.3 <- StepBeta(f4mod.3)
+f4sum.3 <- summary(bestf4mod.3)
 
-AIC(bestf4mod.1, bestf4mod.2)
+
+AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3)
 
 #             df       AIC
-# bestf4mod.1  7 -1012.411
-# bestf4mod.2  8 -1109.455
+# bestf4mod.1  6 -1002.478
+# bestf4mod.2  7 -1012.411
+# bestf4mod.3  8 -1109.455
 
 #write.csv(f4sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonSpp_Best_2mod4.csv")
 
 ############################ Simpson Diversity - genus
-mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2))
+mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2, f3))
 
 f5mod.1 <- betareg(mods_m5[1], data=SegM10Trees, weights=wts)
 bestf5mod.1 <- StepBeta(f5mod.1)
@@ -812,19 +820,24 @@ f5mod.2 <- betareg(mods_m5[2], data=SegM10Trees, weights=wts)
 bestf5mod.2 <- StepBeta(f5mod.2)
 f5sum.2 <- summary(bestf5mod.2)
 
+f5mod.3 <- betareg(mods_m5[3], data=SegM10Trees, weights=wts)
+bestf5mod.3 <- StepBeta(f5mod.3)
+f5sum.3 <- summary(bestf5mod.3)
 
-AIC(bestf5mod.1, bestf5mod.2)
+
+AIC(bestf5mod.1, bestf5mod.2, bestf5mod.3)
 
 #             df       AIC
 # bestf5mod.1  5 -1165.843
-# bestf5mod.2  6 -1231.234
+# bestf5mod.2  5 -1165.843
+# bestf5mod.3  6 -1231.234
 
 
 #write.csv(f5sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonGen_Best_2mod4.csv")
 
 
 ###AvgBA
-mods_m6 <- paste(rep("AvgBA ~", 2), c(f1, f2))
+mods_m6 <- paste(rep("AvgBA ~", 2), c(f1, f2, f3))
 
 f6mod.1 <- lm(mods_m6[1], data=SegM10Trees, weights=wts)
 bestf6mod.1 <- step(f6mod.1, direction="both")
@@ -834,20 +847,25 @@ f6mod.2 <- lm(mods_m6[2], data=SegM10Trees, weights=wts)
 bestf6mod.2 <- step(f6mod.2, direction="both")
 f6sum.2 <- summary(bestf6mod.2)
 
+f6mod.3 <- lm(mods_m6[3], data=SegM10Trees, weights=wts)
+bestf6mod.3 <- step(f6mod.3, direction="both")
+f6sum.3 <- summary(bestf6mod.3)
 
-AIC(bestf6mod.1, bestf6mod.2)
+AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3)
 
 #             df      AIC
 # bestf6mod.1  2 -30.3788
 # bestf6mod.2  2 -30.3788
+# bestf6mod.3  2 -30.3788
 
 #write.csv(f6sum.1$coefficients, "../04Outputs/Durham/Dur_AvgBA_Best_2mod4.csv")
 
 ##Number of Trees
-f1.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2.2 <- "PercRes_z + NumConst_since11 + NumReno_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f1.2 <- "PercRes_z + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3.2 <- "PercRes_z + NumConst_since11 + NumReno_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
-mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2))
+mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2, f3.2))
 
 f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
 f7sum.1 <- summary(f7mod.1)
@@ -855,17 +873,21 @@ f7sum.1 <- summary(f7mod.1)
 f7mod.2 <- step(glm(mods_m7[2], family="poisson", data=Seg_allData))
 f7sum.2 <- summary(f7mod.2)
 
-AIC(f7mod.1, f7mod.2)
+f7mod.3 <- step(glm(mods_m7[3], family="poisson", data=Seg_allData))
+f7sum.3 <- summary(f7mod.3)
+
+AIC(f7mod.1, f7mod.2, f7mod.3)
 
 #         df      AIC
 # f7mod.1  3 473.5195
-# f7mod.2  6 325.4468
+# f7mod.2  3 473.5195
+# f7mod.3  6 325.4468
 
 
 #write.csv(f7sum.2$coefficients, "../04Outputs/Durham/Dur_NumTrees_Best_2mod4.csv")
 
 ###Urban Tolerance
-mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2))
+mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2, f3))
 
 f8mod.1 <- betareg(mods_m8[1], data=SegM10Trees, weights=wts)
 bestf8mod.1 <- StepBeta(f8mod.1)
@@ -875,12 +897,17 @@ f8mod.2 <- betareg(mods_m8[2], data=SegM10Trees, weights=wts)
 bestf8mod.2 <- StepBeta(f8mod.2)
 f8sum.2 <- summary(bestf8mod.2)
 
+f8mod.3 <- betareg(mods_m8[3], data=SegM10Trees, weights=wts)
+bestf8mod.3 <- StepBeta(f8mod.3)
+f8sum.3 <- summary(bestf8mod.3)
 
-AIC(bestf8mod.1, bestf8mod.2)
+
+AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3)
 
 #             df       AIC
-# bestf8mod.1  7 -715.4138
-# bestf8mod.2  7 -787.0608
+# bestf8mod.1  6 -694.3844
+# bestf8mod.2  7 -715.4138
+# bestf8mod.3  7 -787.0608
 
 
 #write.csv(f8sum.2$coefficients, "../04Outputs/Durham/Dur_UrbanApp_Best_2mod4.csv")
@@ -888,7 +915,7 @@ AIC(bestf8mod.1, bestf8mod.2)
 ##########################################################Tree Health
 
 ###########################PercDisc3o4
-mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2))
+mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2, f3))
 
 f9mod.1 <- betareg(mods_m9[1], data=SegM10Trees, weights=wts)
 bestf9mod.1 <- StepBeta(f9mod.1)
@@ -898,17 +925,21 @@ f9mod.2 <- betareg(mods_m9[2], data=SegM10Trees, weights=wts)
 bestf9mod.2 <- StepBeta(f9mod.2)
 f9sum.2 <- summary(bestf9mod.2)
 
+f9mod.3 <- betareg(mods_m9[3], data=SegM10Trees, weights=wts)
+bestf9mod.3 <- StepBeta(f9mod.3)
+f9sum.3 <- summary(bestf9mod.3)
 
-AIC(bestf9mod.1, bestf9mod.2)
+AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3)
 
 #             df       AIC
-# bestf9mod.1  7 -788.6725
-# bestf9mod.2  8 -806.3235
+# bestf9mod.1  6 -722.6571
+# bestf9mod.2  7 -788.6725
+# bestf9mod.3  8 -806.3235
 
 #write.csv(f9sum.2$coefficients, "../04Outputs/Durham/Dur_Discol_Best_2mod4.csv")
 
 ###########################PercDBK5
-mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2))
+mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2, f3))
 
 f10mod.1 <- betareg(mods_m10[1], data=SegM10Trees, weights=wts)
 bestf10mod.1 <- StepBeta(f10mod.1)
@@ -918,17 +949,22 @@ f10mod.2 <- betareg(mods_m10[2], data=SegM10Trees, weights=wts)
 bestf10mod.2 <- StepBeta(f10mod.2)
 f10sum.2 <- summary(bestf10mod.2)
 
+f10mod.3 <- betareg(mods_m10[3], data=SegM10Trees, weights=wts)
+bestf10mod.3 <- StepBeta(f10mod.3)
+f10sum.3 <- summary(bestf10mod.3)
 
-AIC(bestf10mod.1, bestf10mod.2)
+
+AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3)
 
 #              df       AIC
-# bestf10mod.1  7 -1436.113
-# bestf10mod.2  7 -1435.526
+# bestf10mod.1  6 -1413.501
+# bestf10mod.2  7 -1436.113
+# bestf10mod.3  7 -1435.526
 
 #write.csv(f10sum.1$coefficients, "../04Outputs/Durham/Dur_DBK_Best_2mod4.csv")
 
 ###########################PercCS4o5
-mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2))
+mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2, f3))
 
 f11mod.1 <- betareg(mods_m11[1], data=SegM10Trees, weights=wts)
 bestf11mod.1 <- StepBeta(f11mod.1)
@@ -938,12 +974,16 @@ f11mod.2 <- betareg(mods_m11[2], data=SegM10Trees, weights=wts)
 bestf11mod.2 <- StepBeta(f11mod.2)
 f11sum.2 <- summary(bestf11mod.2)
 
+f11mod.3 <- betareg(mods_m11[3], data=SegM10Trees, weights=wts)
+bestf11mod.3 <- StepBeta(f11mod.3)
+f11sum.3 <- summary(bestf11mod.3)
 
-AIC(bestf11mod.1, bestf11mod.2)
+AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3)
 
 #              df       AIC
-# bestf11mod.1  6 -786.5677
-# bestf11mod.2  7 -793.1304
+# bestf11mod.1  5 -781.6388
+# bestf11mod.2  6 -786.5677
+# bestf11mod.3  7 -793.1304
 
 #write.csv(f11sum.2$coefficients, "../04Outputs/Durham/Dur_CS_Best_2mod4.csv")
 

@@ -650,6 +650,7 @@ Beta Bayesian: https://cran.r-project.org/web/packages/betaBayes/betaBayes.pdf
 
 
 ```{r basic regressions}
+Seg_allData <- read.csv("./ChicagoSegmentData.csv")
 
 wts <- as.vector(Seg_allData$totNumTrees)
 Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumReno_since11
@@ -663,7 +664,7 @@ ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumC
 
 #write.csv(ChiCors, "./ChicagoPredCors.csv")
 #write.csv(Seg_allData, "./ChicagoSegmentData.csv")
-#Seg_allData <- read.csv("./ChicagoSegmentData.csv")
+
 
 
 ###########Model options without super correlated variables
@@ -671,12 +672,13 @@ ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumC
 #could do rentership and recent movers together here
 
 ##Because of the correlations above, I think it makes sense to simplify
-f1 <- "PercResTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2 <- "PercResTree + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f1 <- "PercResTree + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2 <- "PercResTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3 <- "PercResTree + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 
 ########################### Simpson Diversity - species
-mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2))
+mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2, f3))
 
 
 f4mod.1 <- betareg(mods_m4[1], data=Seg_allData, weights=wts)
@@ -687,17 +689,22 @@ f4mod.2 <- betareg(mods_m4[2], data=Seg_allData, weights=wts)
 bestf4mod.2 <- StepBeta(f4mod.2)
 f4sum.2 <- summary(bestf4mod.2)
 
+f4mod.3 <- betareg(mods_m4[3], data=Seg_allData, weights=wts)
+bestf4mod.3 <- StepBeta(f4mod.3)
+f4sum.3 <- summary(bestf4mod.3)
 
-AIC(bestf4mod.1, bestf4mod.2)
+
+AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3)
 
 #             df       AIC
 # bestf4mod.1  5 -3301.861
-# bestf4mod.2  6 -3310.939
+# bestf4mod.2  5 -3301.861
+# bestf4mod.3  6 -3310.939
 
 #write.csv(f4sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_2mod4.csv")
 
 ############################ Simpson Diversity - genus
-mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2))
+mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2, f3))
 
 f5mod.1 <- betareg(mods_m5[1], data=Seg_allData, weights=wts)
 bestf5mod.1 <- StepBeta(f5mod.1)
@@ -707,18 +714,23 @@ f5mod.2 <- betareg(mods_m5[2], data=Seg_allData, weights=wts)
 bestf5mod.2 <- StepBeta(f5mod.2)
 f5sum.2 <- summary(bestf5mod.2)
 
+f5mod.3 <- betareg(mods_m5[3], data=Seg_allData, weights=wts)
+bestf5mod.3 <- StepBeta(f5mod.3)
+f5sum.3 <- summary(bestf5mod.3)
 
-AIC(bestf5mod.1, bestf5mod.2)
+
+AIC(bestf5mod.1, bestf5mod.2, bestf5mod.3)
 
 #             df       AIC
-# bestf5mod.1  7 -2595.150
-# bestf5mod.2  6 -2593.319
+# bestf5mod.1  6 -2593.319
+# bestf5mod.2  7 -2595.150
+# bestf5mod.3  6 -2593.319
 
 #write.csv(f5sum.1$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_2mod4.csv")
 
 
 ###AvgBA
-mods_m6 <- paste(rep("AvgBA ~", 2), c(f1, f2))
+mods_m6 <- paste(rep("AvgBA ~", 2), c(f1, f2, f3))
 
 f6mod.1 <- lm(mods_m6[1], data=Seg_allData, weights=wts)
 bestf6mod.1 <- step(f6mod.1, direction="both")
@@ -728,21 +740,27 @@ f6mod.2 <- lm(mods_m6[2], data=Seg_allData, weights=wts)
 bestf6mod.2 <- step(f6mod.2, direction="both")
 f6sum.2 <- summary(bestf6mod.2)
 
-AIC(bestf6mod.1, bestf6mod.2)
+f6mod.3 <- lm(mods_m6[3], data=Seg_allData, weights=wts)
+bestf6mod.3 <- step(f6mod.3, direction="both")
+f6sum.3 <- summary(bestf6mod.3)
+
+AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3)
 
 #             df       AIC
 # bestf6mod.1  4 -37.48325
-# bestf6mod.2  6 -36.25222
+# bestf6mod.2  4 -37.48325
+# bestf6mod.3  6 -36.25222
 
 #write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_2mod4.csv")
 
 #This model should be different because should not use number of commercial
 ##trees as a predictor here
-f1.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2.2 <- "PercRes_z + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f1.2 <- "PercRes_z + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3.2 <- "PercRes_z + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 ##Number of Trees
-mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2))
+mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2, f3.2))
 
 f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
 f7sum.1 <- summary(f7mod.1)
@@ -750,16 +768,20 @@ f7sum.1 <- summary(f7mod.1)
 f7mod.2 <- step(glm(mods_m7[2], family="poisson", data=Seg_allData))
 f7sum.2 <- summary(f7mod.2)
 
-AIC(f7mod.1, f7mod.2)
+f7mod.3 <- step(glm(mods_m7[3], family="poisson", data=Seg_allData))
+f7sum.3 <- summary(f7mod.3)
+
+AIC(f7mod.1, f7mod.2, f7mod.3)
 
 #         df      AIC
-# f7mod.1  4 138.8917
-# f7mod.2  4 142.0212
+# f7mod.1  4 142.0212
+# f7mod.2  4 138.8917
+# f7mod.3  4 142.0212
 
 #write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_2mod4.csv")
 
 ###Urban Tolerance
-mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2))
+mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2, f3))
 
 f8mod.1 <- betareg(mods_m8[1], data=Seg_allData, weights=wts)
 bestf8mod.1 <- StepBeta(f8mod.1)
@@ -769,18 +791,23 @@ f8mod.2 <- betareg(mods_m8[2], data=Seg_allData, weights=wts)
 bestf8mod.2 <- StepBeta(f8mod.2)
 f8sum.2 <- summary(bestf8mod.2)
 
-AIC(bestf8mod.1, bestf8mod.2)
+f8mod.3 <- betareg(mods_m8[3], data=Seg_allData, weights=wts)
+bestf8mod.3 <- StepBeta(f8mod.3)
+f8sum.3 <- summary(bestf8mod.3)
+
+AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3)
 
 #             df       AIC
-# bestf8mod.1  7 -1525.429
-# bestf8mod.2  7 -1705.139
+# bestf8mod.1  5 -1520.500
+# bestf8mod.2  7 -1525.429
+# bestf8mod.3  7 -1705.139
 
 #write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod4.csv")
 
 ##########################################################Tree Health
 
 ###########################PercDisc3o4
-mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2))
+mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2, f3))
 
 f9mod.1 <- betareg(mods_m9[1], data=Seg_allData, weights=wts)
 bestf9mod.1 <- StepBeta(f9mod.1)
@@ -790,17 +817,21 @@ f9mod.2 <- betareg(mods_m9[2], data=Seg_allData, weights=wts)
 bestf9mod.2 <- StepBeta(f9mod.2)
 f9sum.2 <- summary(bestf9mod.2)
 
+f9mod.3 <- betareg(mods_m9[3], data=Seg_allData, weights=wts)
+bestf9mod.3 <- StepBeta(f9mod.3)
+f9sum.3 <- summary(bestf9mod.3)
 
-AIC(bestf9mod.1, bestf9mod.2)
+AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3)
 
 #             df       AIC
 # bestf9mod.1  6 -2413.713
-# bestf9mod.2  6 -2567.886
+# bestf9mod.2  6 -2413.713
+# bestf9mod.3  6 -2567.886
 
 #write.csv(f9sum.2$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod4.csv")
 
 ###########################PercDBK5
-mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2))
+mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2, f3))
 
 f10mod.1 <- betareg(mods_m10[1], data=Seg_allData, weights=wts)
 bestf10mod.1 <- StepBeta(f10mod.1)
@@ -810,17 +841,22 @@ f10mod.2 <- betareg(mods_m10[2], data=Seg_allData, weights=wts)
 bestf10mod.2 <- StepBeta(f10mod.2)
 f10sum.2 <- summary(bestf10mod.2)
 
+f10mod.3 <- betareg(mods_m10[3], data=Seg_allData, weights=wts)
+bestf10mod.3 <- StepBeta(f10mod.3)
+f10sum.3 <- summary(bestf10mod.3)
 
-AIC(bestf10mod.1, bestf10mod.2)
+
+AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3)
 
 #              df       AIC
-# bestf10mod.1  6 -3056.405
-# bestf10mod.2  6 -3132.195
+# bestf10mod.1  5 -2998.044
+# bestf10mod.2  6 -3056.405
+# bestf10mod.3  6 -3132.195
 
 #write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod4.csv")
 
 ###########################PercCS4o5
-mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2))
+mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2, f3))
 
 f11mod.1 <- betareg(mods_m11[1], data=Seg_allData, weights=wts)
 bestf11mod.1 <- StepBeta(f11mod.1)
@@ -830,12 +866,17 @@ f11mod.2 <- betareg(mods_m11[2], data=Seg_allData, weights=wts)
 bestf11mod.2 <- StepBeta(f11mod.2)
 f11sum.2 <- summary(bestf11mod.2)
 
+f11mod.3 <- betareg(mods_m11[3], data=Seg_allData, weights=wts)
+bestf11mod.3 <- StepBeta(f11mod.3)
+f11sum.3 <- summary(bestf11mod.3)
 
-AIC(bestf11mod.1, bestf11mod.2)
 
-#              df      AIC
-# bestf11mod.1  7 -2396.60
-# bestf11mod.2  6 -2567.36
+AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3)
+
+#              df       AIC
+# bestf11mod.1  6 -2386.875
+# bestf11mod.2  7 -2396.600
+# bestf11mod.3  6 -2567.360
 
 
 #write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod4.csv")
