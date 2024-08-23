@@ -1,0 +1,7 @@
+,ModelType,DepVar,model,R2
+1,beta,SimpDivSpp,betareg(formula =  SimpsonsDivSpp ~ AllConst_since11 + Avg_Rmov + PercResTree + Change_PWnHL + Change_MedHHI data = SegM10Trees ),0.3754
+2,pois,NumTrees,totNumTrees ~ PercRes_z + AvgBA + AllConst_since11,0.5652
+3,beta,PercUrbanApp,betareg(formula =  PercUrbanApp ~ Avg_Rmov + Change_PWnHL + Change_MedHHI + AllConst_since11 + PercResTree + AvgBA data = SegM10Trees ),0.2547
+4,beta,PercDisc,betareg(formula =  PercDisc3o4 ~ AvgBA + Avg_Rmov + SVI + PercResTree + Change_PWnHL + Change_MedHHI data = SegM10Trees ),0.5678
+5,beta,PercDBK,betareg(formula =  PercDBK5 ~ PercResTree + AvgBA + Change_PWnHL + Change_MedHHI + AllConst_since11 + Avg_Rmov data = SegM10Trees ),0.3993
+6,beta,PercCS,betareg(formula =  PercCS4o5 ~ AvgBA + Avg_Rmov + Change_PWnHL + Change_MedHHI + PercResTree data = SegM10Trees ),0.2257

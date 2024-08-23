@@ -1,0 +1,283 @@
+---
+title: "Durham Modeling: Neighborhood Data"
+author: "Renata"
+date: "2022-12-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+##Group means for segment data
+library(dplyr)
+
+##Visuals
+library(ggplot2)
+
+##dataframe manipulation
+library(dplyr)
+
+#for your diversity metrics
+library(vegan)
+
+#for beta regressions
+library(betareg)
+library(StepBeta)
+
+#for stepwise poisson
+library(My.stepwise)
+
+```
+
+
+##start looking at some basic regressions
+
+Notes from correlations
+* PercComm_z is fine with everything
+* num construction is correlated to num reno
+* num reno is als correlated to income
+* movelast5 years is fine with everything besides percent res
+* percComm_MxTree just can't be with per res zone
+* race is al correlated, but per hisplat can be with everything besides SVI
+* SVi is correlated to all the racial groupings and borderline income
+
+
+```{r basic regressions}
+
+Seg_allData <- read.csv("./DurhamSegmentData.csv")
+
+Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumReno_since11
+
+##for all but the number of trees, get rid of segments with < 10 trees
+SegM10Trees <- Seg_allData[Seg_allData$totNumTrees >= 10, ]
+SegM10Trees_wTemp <- SegM10Trees[!is.na(SegM10Trees$AftTemp50m),]
+
+wts <- SegM10Trees$totNumTrees
+wts_wTemp <- SegM10Trees_wTemp$totNumTrees
+
+DurCors <- cor(SegM10Trees[,c("PercComm_z", "PercRes_z","NumConst_since11","NumReno_since11",  
+                   "AllConst_since11", "NumBuild", "SVI","Change_PHL", "Change_PBl","Change_PWnHL",
+                   "Change_MedHHI", "Avg_PRent","Avg_Rmov", "PercWhiteNonHL21",
+                   "MedHouseInc21", "PercRent21","PercRMov21" )])
+
+#to more easily examine correlations
+#write.csv(DurCors, "./Durham_Predictor_corrs.csv")
+#write.csv(Seg_allData, "./DurhamSegmentData.csv")
+
+
+##the construciton combined is too correlated to change in percent white non-hispanic/Latine
+
+f1 <- "PercResTree + AvgBA + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2 <- "PercResTree + AvgBA + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3 <- "PercResTree + AvgBA + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+
+
+########################### Simpson Diversity - species
+mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2, f3))
+
+
+f4mod.1 <- betareg(mods_m4[1], data=SegM10Trees, weights=wts)
+bestf4mod.1 <- StepBeta(f4mod.1)
+f4sum.1 <- summary(bestf4mod.1)
+
+f4mod.2 <- betareg(mods_m4[2], data=SegM10Trees, weights=wts)
+bestf4mod.2 <- StepBeta(f4mod.2)
+f4sum.2 <- summary(bestf4mod.2)
+
+f4mod.3 <- betareg(mods_m4[3], data=SegM10Trees, weights=wts)
+bestf4mod.3 <- StepBeta(f4mod.3)
+f4sum.3 <- summary(bestf4mod.3)
+
+
+AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3)
+
+#             df       AIC
+# bestf4mod.1  6 -1002.478
+# bestf4mod.2  7 -1012.411
+# bestf4mod.3  7 -1088.666
+
+#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Durham/Dur_SimpsonSpp_Best_2mod4.csv")
+
+
+##Number of Trees
+f1.2 <- "PercRes_z + AvgBA + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2.2 <- "PercRes_z + AvgBA + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3.2 <- "PercRes_z + AvgBA + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+
+mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2, f3.2))
+
+f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
+f7sum.1 <- summary(f7mod.1)
+
+f7mod.2 <- step(glm(mods_m7[2], family="poisson", data=Seg_allData))
+f7sum.2 <- summary(f7mod.2)
+
+f7mod.3 <- step(glm(mods_m7[3], family="poisson", data=Seg_allData))
+f7sum.3 <- summary(f7mod.3)
+
+AIC(f7mod.1, f7mod.2, f7mod.3)
+
+#         df      AIC
+# f7mod.1  4 408.6172
+# f7mod.2  5 408.0506
+# f7mod.3  4 349.6303
+
+
+#write.csv(f7sum.2$coefficients, "../04Outputs/Durham/Dur_NumTrees_Best_2mod4.csv")
+
+###Urban Tolerance
+mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2, f3))
+
+f8mod.1 <- betareg(mods_m8[1], data=SegM10Trees, weights=wts)
+bestf8mod.1 <- StepBeta(f8mod.1)
+f8sum.1 <- summary(bestf8mod.1)
+
+f8mod.2 <- betareg(mods_m8[2], data=SegM10Trees, weights=wts)
+bestf8mod.2 <- StepBeta(f8mod.2)
+f8sum.2 <- summary(bestf8mod.2)
+
+f8mod.3 <- betareg(mods_m8[3], data=SegM10Trees, weights=wts)
+bestf8mod.3 <- StepBeta(f8mod.3)
+f8sum.3 <- summary(bestf8mod.3)
+
+
+AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3)
+
+#             df       AIC
+# bestf8mod.1  7 -701.5272
+# bestf8mod.2  8 -719.3253
+# bestf8mod.3  8 -742.0869
+
+
+#write.csv(f8sum.2$coefficients, "../04Outputs/Durham/Dur_UrbanApp_Best_2mod4.csv")
+
+##########################################################Tree Health
+
+###########################PercDisc3o4
+mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2, f3))
+
+f9mod.1 <- betareg(mods_m9[1], data=SegM10Trees, weights=wts)
+bestf9mod.1 <- StepBeta(f9mod.1)
+f9sum.1 <- summary(bestf9mod.1)
+
+f9mod.2 <- betareg(mods_m9[2], data=SegM10Trees, weights=wts)
+bestf9mod.2 <- StepBeta(f9mod.2)
+f9sum.2 <- summary(bestf9mod.2)
+
+f9mod.3 <- betareg(mods_m9[3], data=SegM10Trees, weights=wts)
+bestf9mod.3 <- StepBeta(f9mod.3)
+f9sum.3 <- summary(bestf9mod.3)
+
+AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3)
+
+#             df       AIC
+# bestf9mod.1  6 -920.1579
+# bestf9mod.2  8 -986.6538
+# bestf9mod.3  8 -947.3359
+
+#write.csv(f9sum.2$coefficients, "../04Outputs/Durham/Dur_Discol_Best_2mod4.csv")
+
+###########################PercDBK5
+mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2, f3))
+
+f10mod.1 <- betareg(mods_m10[1], data=SegM10Trees, weights=wts)
+bestf10mod.1 <- StepBeta(f10mod.1)
+f10sum.1 <- summary(bestf10mod.1)
+
+f10mod.2 <- betareg(mods_m10[2], data=SegM10Trees, weights=wts)
+bestf10mod.2 <- StepBeta(f10mod.2)
+f10sum.2 <- summary(bestf10mod.2)
+
+f10mod.3 <- betareg(mods_m10[3], data=SegM10Trees, weights=wts)
+bestf10mod.3 <- StepBeta(f10mod.3)
+f10sum.3 <- summary(bestf10mod.3)
+
+
+AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3)
+
+#              df       AIC
+# bestf10mod.1  7 -1564.264
+# bestf10mod.2  8 -1566.836
+# bestf10mod.3  8 -1602.126
+
+#write.csv(f10sum.1$coefficients, "../04Outputs/Durham/Dur_DBK_Best_2mod4.csv")
+
+###########################PercCS4o5
+mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2, f3))
+
+f11mod.1 <- betareg(mods_m11[1], data=SegM10Trees, weights=wts)
+bestf11mod.1 <- StepBeta(f11mod.1)
+f11sum.1 <- summary(bestf11mod.1)
+
+f11mod.2 <- betareg(mods_m11[2], data=SegM10Trees, weights=wts)
+bestf11mod.2 <- StepBeta(f11mod.2)
+f11sum.2 <- summary(bestf11mod.2)
+
+f11mod.3 <- betareg(mods_m11[3], data=SegM10Trees, weights=wts)
+bestf11mod.3 <- StepBeta(f11mod.3)
+f11sum.3 <- summary(bestf11mod.3)
+
+AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3)
+
+#              df       AIC
+# bestf11mod.1  7 -983.7703
+# bestf11mod.2  7 -983.7703
+# bestf11mod.3  7 -983.7703
+
+#write.csv(f11sum.2$coefficients, "../04Outputs/Durham/Dur_CS_Best_2mod4.csv")
+
+
+
+##store data from the "best" models
+cnms <- c("ModelType", "DepVar", "model", "R2")
+ModOverview <- as.data.frame(matrix(0, nrow=6, ncol=length(cnms)))
+names(ModOverview) <- cnms
+
+modList <- list(f4sum.3, f7sum.3, f8sum.3, f9sum.2, f10sum.3, f11sum.1)
+modTyps <- c( "beta", "pois", "beta", "beta", "beta", "beta")
+modDep <- c("SimpDivSpp", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
+
+for (m in 1:6){
+
+  mod <- modList[[m]]
+  modT <- modTyps[m]
+
+  ModOverview$ModelType[m] <- modT
+  ModOverview$DepVar[m] <- modDep[m]
+
+  #store data for diff model types
+  if(modT == "beta"){
+
+    ModOverview$model[m] <- as.character(mod$call)
+    ModOverview$R2[m] <- mod$pseudo.r.squared
+
+    pm <- mod$coefficients$mean
+
+  } else if (modT == "lin"){
+
+    ModOverview$model[m] <- as.character(mod$call)[2]
+    ModOverview$R2[m] <- mod$adj.r.squared
+
+    pm <- mod$coefficients
+
+  } else if (modT == "pois"){
+    ModOverview$model[m] <- as.character(mod$call)[2]
+    ModOverview$R2[m] <- with(mod, 1-deviance/null.deviance)
+
+    pm <- mod$coefficients
+
+  }
+
+  ##printout the coefficient values
+
+ write.csv(pm, paste("../04Outputs/Durham/", modDep[m], "_082324.csv", sep=""))
+
+
+}
+
+write.csv(ModOverview, "../04Outputs/Durham/Dur_ModelOverviewResults_082324.csv")
+
+
+
+
+```

@@ -1,0 +1,7 @@
+"","ModelType","DepVar","model","R2"
+"1","beta","SimpDivSpp","betareg(formula =  SimpsonsDivSpp ~ Change_PWnHL + Change_MedHHI + Avg_Rmov + AvgBA + AllConst_since11 + PercResTree data = Seg_allData )",0.477217115374419
+"2","pois","NumTrees","totNumTrees ~ SVI + Change_PWnHL + Avg_Rmov",0.419228735584818
+"3","beta","PercUrbanApp","betareg(formula =  PercUrbanApp ~ Change_PWnHL + AvgBA + PercResTree + Avg_Rmov + AllConst_since11 + Change_MedHHI data = Seg_allData )",0.559787184632144
+"4","beta","PercDisc","betareg(formula =  PercDisc3o4 ~ AllConst_since11 + AvgBA + PercResTree + Change_PWnHL + Avg_Rmov data = Seg_allData )",0.320528100706755
+"5","beta","PercDBK","betareg(formula =  PercDBK5 ~ AllConst_since11 + Change_MedHHI + AvgBA + PercResTree + Avg_Rmov + Change_PWnHL data = Seg_allData )",0.27903540929439
+"6","beta","PercCS","betareg(formula =  PercCS4o5 ~ AllConst_since11 + Avg_Rmov + PercResTree + AvgBA + Change_PWnHL + Change_MedHHI data = Seg_allData )",0.287909932874226
