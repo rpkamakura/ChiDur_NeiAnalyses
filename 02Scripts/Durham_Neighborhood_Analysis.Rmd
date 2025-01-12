@@ -46,17 +46,21 @@ DurCors <- cor(SegM10Trees[,c("PercComm_z", "PercRes_z","NumConst_since11","NumR
                    "Change_MedHHI", "Avg_PRent","Avg_Rmov", "PercWhiteNonHL21",
                    "MedHouseInc21", "PercRent21","PercRMov21" )])
 
-###Use to translate from the labels from the grids to labels in paper
-InitialSegNames <- c("H21", "K18", "M19", "M22", "N14", 
-            "O18", "O19", "O21", "P21", "Q18", 
-            "Q21", "Q23", "R21", "R24", "S18", 
-            "S19", "S22", "T18", "U16", "U17", 
-            "U21", "V19", "X15", "X16")
-PaperSegNames <- c(12, 13, 10, 11, 7,
-                   9, 6, 8, 5, 4,
-                   2, 3, 1)
 
-Seg_allData$Segment[match(Seg_allData$Segment, InitialSegNames)] <- PaperSegNames[match(Seg_allData$Segment, InitialSegNames)]
+#####################################################################################################
+###Use to translate from the labels from the grids to labels in paper
+# InitialSegNames <- c("H21", "K18", "M19", "M22", "N14", 
+#             "O18", "O19", "O21", "P21", "Q18", 
+#             "Q21", "Q23", "R21", "R24", "S18", 
+#             "S19", "S22", "T18", "U16", "U17", 
+#             "U21", "V19", "X15", "X16")
+# PaperSegNames <- c(1, 2, 4, 5, 3,
+#                    7, 6, 8, 9, 12,
+#                    11, 10, 15, 13, 17,
+#                    14, 16, 18, 21, 19,
+#                    20, 22, 23, 24)
+# 
+# Seg_allData$Segment[match(Seg_allData$Segment, InitialSegNames)] <- PaperSegNames[match(Seg_allData$Segment, InitialSegNames)]
 ```
 
 ##Now get into the Regressions
