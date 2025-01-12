@@ -6,6 +6,6 @@ Code and Data accompanying manuscript: Social and physical changes related to ge
 
 * 02Scripts contains R code used to run analyses
 	- note that there is a code to examine the construction and renovation permits because the classifications differ between Chicago and Durham.
-	- The main analysis code (City_Neighborhood_Analysis) from each city can be run in isolation by using the intermediate datasets (ChicagoSegmentData.csv and DurhamSegmentData.csv) rather than running all the cleaning and organization code first)
+	- The main analysis code (City_Neighborhood_Analysis) from each city can be run in isolation by using the intermediate datasets (ChicagoSegmentData.csv and DurhamSegmentData.csv) rather than running all the cleaning and organization code first
 
 * 03Outputs includes the model parameter estimates and AIC values for the best fitting models (from running the main analysis scripts)
