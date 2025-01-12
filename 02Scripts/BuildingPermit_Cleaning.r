@@ -3,8 +3,8 @@
 library(stringr) #to look at regex 
 library(stringi) #same, need lower case
 
+#Read in the permit data (from the city with segment names added in ArcGIS Pro)
 DurhamPermits <- read.csv("../01Data/Durham/DurhamPermit_Segs.csv")
-
 ChicagoPermits <- read.csv("../01Data/Chicago/ChicagoPermits_bySeg.csv")
 
 

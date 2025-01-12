@@ -1,18 +1,12 @@
 ---
-title: "Chicago Modeling: Probit - R data"
-author: "Renata"
-date: "2022-12-08"
+title: "Chicago Neighborhood-Level Street Tree Stress Analysis"
+author: "Renata Poulton Kamakura"
+date: "2024-08-23"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
-
-#library(stevemisc) #for simulating censured continuous data
-#source( '../orFunctions_jsc.R' )
-#Rcpp::sourceCpp( '../cppFns.cpp' )
-
 
 ##Group means for segment data
 library(dplyr)
@@ -64,19 +58,10 @@ ZoningDescr <- read.csv("../01Data/Chicago/ChicagoZoningDescriptions.csv")
 BFoot  <- read.csv("../01Data/Chicago/ChicagoBuildings_bySeg_fix.csv")
 BPerm  <- read.csv("../01Data/Chicago/Chicago_BuildingPermits_wSeg_clean.csv")
 
-##temperature - from arcPro layer (city 2023 data collection)
-segnms <- c("49", "157", "55", "153", "244", 
-            "275", "57", "128", "292", "281",
-            "306", "324", "16")
-segAftT <- c(92.687859, 93.179924, 92.795319, 91.908501, 91.773087,
-             92.472115, 92.776642, 92.824524, 92.549370, 92.063988,
-             91.616646, 93.441490, 92.428925)
+#tree species information
+SppSpecificData <- read.csv("../01Data/Chicago/SpeciesInformation_Chicago_Dirr.csv")
 
-SegmentTemp <- as.data.frame(matrix(c(segnms, segAftT), ncol=2, byrow = FALSE))
-names(SegmentTemp) <- c("Segment", "AfternoonTemp")
 
-#convert to celsius
-SegmentTemp$AfternoonTemp <- (as.numeric(SegmentTemp$AfternoonTemp) - 32)*5/9
 ```
 
 
@@ -120,9 +105,9 @@ weAvg <- function(column1, weights){
 
 
 ## Get census data
+
 Should do some kind of weighted average here, not just a basic average.
 
-Should add SVI data (this is 2022 census tract)
 
 ```{r avg census data}
 
@@ -285,9 +270,6 @@ Zoning_bySeg$Segment[Zoning_bySeg$Segment == "260/275"] <- "275"
 ##Get species data to pull in
 
 ```{r get species information}
-#tree species information
-SppSpecificData <- read.csv("../01Data/Chicago/SpeciesInformation_Chicago_Dirr.csv")
-
 #a little more intuitive
 names(TreeLvlCombined)[names(TreeLvlCombined) == "CrownVigor"] <- "CrownStress"
 
@@ -362,7 +344,7 @@ TreeLvlCombined$GenusGroup <- relevel(TreeLvlCombined$GenusGroup, ref = "01_Othe
 
 ##start to clean up tree-level data
 
-Going through and making sure the format of the data matches that of Kamakura et al., in prep
+Going through and making sure the format of the data matches that of Kamakura et al. (under review)
 
 ```{r prep response data}
 #Get rid of trees without local site conditions
@@ -489,7 +471,6 @@ for (u in 1:length(uniTrees)){
 UniqueTreeData <- UniqueTreeData[UniqueTreeData$Segment != "UIC",] #get rid of the baseline data
 UniqueTreeData$CorrMulch <- as.numeric(UniqueTreeData$CorrMulch)
 
-
 SppSeg <- table(UniqueTreeData[, c("Segment", "GenSpe")]) #check about these species IDs
 #shannonDivSegs <- diversity(SppSeg, index="shannon")
 simpsonDivSegs <- diversity(SppSeg, index="simpson")
@@ -499,7 +480,6 @@ GenSeg <- table(UniqueTreeData[, c("Segment", "Genus")])
 #shannonDivSegs_gen <- diversity(GenSeg, index="shannon")
 simpsonDivSegs_gen <- diversity(GenSeg, index="simpson")
 
-#############################################################RESTART CLEANING HERE
 
 SegAvg_UniqueDat <- UniqueTreeData %>%
   group_by(Segment) %>%
@@ -606,7 +586,6 @@ SegmentLvlDat <- SegmentLvlDat[SegmentLvlDat$Segment != "268",]
 Seg_allData <- cbind(SegmentLvlDat, Zoning_bySeg, Seg_building, SegmentCensusData)
 
 #add a few last columns
-Seg_allData$AftTemp <- SegmentTemp$AfternoonTemp[match(Seg_allData$Segment, SegmentTemp$Segment)]
 Seg_allData$Change_PHL <- Seg_allData$PercHispanicLatine21 - Seg_allData$PercHispanicLatine11
 Seg_allData$Change_PBl <- Seg_allData$PercBlack21 - Seg_allData$PercBlack11
 Seg_allData$Change_PWnHL <- Seg_allData$PercWhiteNonHL21 - Seg_allData$PercWhiteNonHL11
@@ -619,6 +598,7 @@ SegmentCensusData$Avg_Rmov <- (SegmentCensusData$PercRMov21 + SegmentCensusData$
 AnalysisCols <- c("PercComm_z", "PercSC", "PercGar3o4", "PercCorrMulch", "AvgBA","PercUrbanApp",  "PercDisc3o4", "PercDBK5", "PercCS4o5")
 
 #go through and slightly adjust the variables that will be modeled with a beta distribution
+#you can't have exact 0's or 1's
 for(c in 1:length(AnalysisCols)){
   
   v <- AnalysisCols[c]
@@ -631,26 +611,11 @@ for(c in 1:length(AnalysisCols)){
 
 ```
 
-
-##start looking at some basic regressions
-
-Need to start out by looking at the correlations between variables
-* even with my efforts to stratify, percent renter and median household income are relatively correlated
-* median household income and percent white are super correlated
-* Percent white and percent Black are relatively highly correlated
-* population density is good with all of them though, highest is percent renter and that is 0.38
-* Percent renter is relatively highly correlated to race too
-
-Need to look more into the weights - https://copyprogramming.com/howto/fitting-a-betareg-model-with-weights-in-r 
-* basically duplicates the values so if you have 90 trees, it is like you observed the value 90 times, whereas if you have 30 trees, you observed the value 50 times
+##Correlations between Predictors
 
 
-Beta Bayesian: https://cran.r-project.org/web/packages/betaBayes/betaBayes.pdf
-* problem is that it doesn't have weights
-
-
-```{r basic regressions}
-Seg_allData <- read.csv("./ChicagoSegmentData.csv")
+```{r predictor covariance}
+#Seg_allData <- read.csv("../01Data/Chicago/ChicagoSegmentData.csv")
 
 wts <- as.vector(Seg_allData$totNumTrees)
 Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumReno_since11
@@ -658,28 +623,112 @@ Seg_allData$AllConst_since11 <- Seg_allData$NumConst_since11 + Seg_allData$NumRe
 #to get a sense of the correlations
 ChiCors <- cor(Seg_allData[,c("PercComm_z", "PercCOMM_MxTree", "PercRes_z","NumConst_since11",
                               "NumReno_since11", "AllConst_since11",  "NumBuild", "SVI",
-                              "AftTemp","Change_PHL", "Change_PBl","Change_PWnHL",
+                              "Change_PHL", "Change_PBl","Change_PWnHL",
                    "Change_MedHHI", "Avg_PRent","Avg_Rmov", "PercWhiteNonHL21",
                    "MedHouseInc21", "PercRent21","PercRMov21" )])
 
-#write.csv(ChiCors, "./ChicagoPredCors.csv")
-#write.csv(Seg_allData, "./ChicagoSegmentData.csv")
+##For the benefit of those looking at this to compare to the paper
+
+########More of an FYI for anyone reading this later
+# InitialSegNames <- c("49", "157", "55", "153", "244", 
+#             "275", "57", "128", "292", "281",
+#             "306", "324", "16")
+# PaperSegNames <- c(12, 13, 10, 11, 7,
+#                    9, 6, 8, 5, 4,
+#                    2, 3, 1)
+# 
+# Seg_allData$Segment[match(Seg_allData$Segment, InitialSegNames)] <- PaperSegNames[match(Seg_allData$Segment, InitialSegNames)]
+```
 
 
+##Regressions for Response Variables
+```{r Main Regressions}
 
 ###########Model options without super correlated variables
-#Have to combine construction and reno because they are too correlated
-#could do rentership and recent movers together here
-
-##Because of the correlations above, I think it makes sense to simplify
-f1 <- "PercResTree + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2 <- "PercResTree + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f3 <- "PercResTree + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f1 <- "PercResTree + AvgBA + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2 <- "PercResTree + AvgBA + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3 <- "PercResTree + AvgBA + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
 
 
-########################### Simpson Diversity - species
-mods_m4 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2, f3))
+############################ Simpson Diversity - species
+mods_m1 <- paste(rep("SimpsonsDivSpp ~", 2), c(f1, f2, f3))
 
+f1mod.1 <- betareg(mods_m1[1], data=Seg_allData, weights=wts)
+bestf1mod.1 <- StepBeta(f1mod.1)
+f1sum.1 <- summary(bestf1mod.1)
+
+f1mod.2 <- betareg(mods_m1[2], data=Seg_allData, weights=wts)
+bestf1mod.2 <- StepBeta(f1mod.2)
+f1sum.2 <- summary(bestf1mod.2)
+
+f1mod.3 <- betareg(mods_m1[3], data=Seg_allData, weights=wts)
+bestf1mod.3 <- StepBeta(f1mod.3)
+f1sum.3 <- summary(bestf1mod.3)
+
+
+AIC(bestf1mod.1, bestf1mod.2, bestf1mod.3)
+
+##Results from AIC Run
+#             df       AIC
+# bestf1mod.1  6 -2593.319
+# bestf1mod.2  7 -2595.150
+# bestf1mod.3  6 -2593.319
+
+
+##Number of Trees
+#This model should be different because should not use number of residential
+##trees as a predictor here (use % of area rather than % of trees)
+f1.2 <- "PercRes_z  + AvgBA + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f2.2 <- "PercRes_z  + AvgBA + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+f3.2 <- "PercRes_z  + AvgBA + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
+
+mods_m2 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2, f3.2))
+
+f2mod.1 <- step(glm(mods_m2[1], family="poisson", data=Seg_allData))
+f2sum.1 <- summary(f2mod.1)
+
+f2mod.2 <- step(glm(mods_m2[2], family="poisson", data=Seg_allData))
+f2sum.2 <- summary(f2mod.2)
+
+f2mod.3 <- step(glm(mods_m2[3], family="poisson", data=Seg_allData))
+f2sum.3 <- summary(f2mod.3)
+
+AIC(f2mod.1, f2mod.2, f2mod.3)
+
+##Results from AIC Run
+#         df      AIC
+# f2mod.1  4 142.0212
+# f2mod.2  4 138.8917
+# f2mod.3  4 142.0212
+
+###Urban Tolerance
+mods_m3 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2, f3))
+
+f3mod.1 <- betareg(mods_m3[1], data=Seg_allData, weights=wts)
+bestf3mod.1 <- StepBeta(f3mod.1)
+f3sum.1 <- summary(bestf3mod.1)
+
+f3mod.2 <- betareg(mods_m3[2], data=Seg_allData, weights=wts)
+bestf3mod.2 <- StepBeta(f3mod.2)
+f3sum.2 <- summary(bestf3mod.2)
+
+f3mod.3 <- betareg(mods_m3[3], data=Seg_allData, weights=wts)
+bestf3mod.3 <- StepBeta(f3mod.3)
+f3sum.3 <- summary(bestf3mod.3)
+
+AIC(bestf3mod.1, bestf3mod.2, bestf3mod.3)
+
+##Results from AIC Run
+#             df       AIC
+# bestf3mod.1  6 -1985.569
+# bestf3mod.2  7 -1985.752
+# bestf3mod.3  8 -1999.153
+
+
+##########################################################Tree Stress
+
+###########################Discoloration
+mods_m4 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2, f3))
 
 f4mod.1 <- betareg(mods_m4[1], data=Seg_allData, weights=wts)
 bestf4mod.1 <- StepBeta(f4mod.1)
@@ -693,18 +742,18 @@ f4mod.3 <- betareg(mods_m4[3], data=Seg_allData, weights=wts)
 bestf4mod.3 <- StepBeta(f4mod.3)
 f4sum.3 <- summary(bestf4mod.3)
 
-
 AIC(bestf4mod.1, bestf4mod.2, bestf4mod.3)
 
+##Results from AIC Run
 #             df       AIC
-# bestf4mod.1  5 -3301.861
-# bestf4mod.2  5 -3301.861
-# bestf4mod.3  6 -3310.939
+# bestf4mod.1  7 -2845.292
+# bestf4mod.2  8 -2845.253
+# bestf4mod.3  7 -2854.339
 
-#write.csv(f4sum.2$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonSpp_Best_2mod4.csv")
 
-############################ Simpson Diversity - genus
-mods_m5 <- paste(rep("SimpsonsDivGen ~", 2), c(f1, f2, f3))
+
+###########################Dieback
+mods_m5 <- paste(rep("PercDBK5 ~", 2), c(f1, f2, f3))
 
 f5mod.1 <- betareg(mods_m5[1], data=Seg_allData, weights=wts)
 bestf5mod.1 <- StepBeta(f5mod.1)
@@ -721,176 +770,48 @@ f5sum.3 <- summary(bestf5mod.3)
 
 AIC(bestf5mod.1, bestf5mod.2, bestf5mod.3)
 
-#             df       AIC
-# bestf5mod.1  6 -2593.319
-# bestf5mod.2  7 -2595.150
-# bestf5mod.3  6 -2593.319
+##Results from AIC Run
+#              df       AIC
+# bestf5mod.1  6 -3002.676
+# bestf5mod.2  7 -3063.157
+# bestf5mod.3  8 -3239.208
 
-#write.csv(f5sum.1$coefficients$mean, "../04Outputs/Chicago/Chi_SimpsonGen_Best_2mod4.csv")
 
+###########################Crown Stress
+mods_m6 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2, f3))
 
-###AvgBA
-mods_m6 <- paste(rep("AvgBA ~", 2), c(f1, f2, f3))
-
-f6mod.1 <- lm(mods_m6[1], data=Seg_allData, weights=wts)
-bestf6mod.1 <- step(f6mod.1, direction="both")
+f6mod.1 <- betareg(mods_m6[1], data=Seg_allData, weights=wts)
+bestf6mod.1 <- StepBeta(f6mod.1)
 f6sum.1 <- summary(bestf6mod.1)
 
-f6mod.2 <- lm(mods_m6[2], data=Seg_allData, weights=wts)
-bestf6mod.2 <- step(f6mod.2, direction="both")
+f6mod.2 <- betareg(mods_m6[2], data=Seg_allData, weights=wts)
+bestf6mod.2 <- StepBeta(f6mod.2)
 f6sum.2 <- summary(bestf6mod.2)
 
-f6mod.3 <- lm(mods_m6[3], data=Seg_allData, weights=wts)
-bestf6mod.3 <- step(f6mod.3, direction="both")
+f6mod.3 <- betareg(mods_m6[3], data=Seg_allData, weights=wts)
+bestf6mod.3 <- StepBeta(f6mod.3)
 f6sum.3 <- summary(bestf6mod.3)
+
 
 AIC(bestf6mod.1, bestf6mod.2, bestf6mod.3)
 
-#             df       AIC
-# bestf6mod.1  4 -37.48325
-# bestf6mod.2  4 -37.48325
-# bestf6mod.3  6 -36.25222
-
-#write.csv(f6sum.1$coefficients, "../04Outputs/Chicago/Chi_AvgBA_Best_2mod4.csv")
-
-#This model should be different because should not use number of commercial
-##trees as a predictor here
-f1.2 <- "PercRes_z + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f2.2 <- "PercRes_z + SVI + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-f3.2 <- "PercRes_z + AllConst_since11 + Change_PWnHL + Change_MedHHI + Avg_Rmov"
-
-##Number of Trees
-mods_m7 <- paste(rep("totNumTrees ~", 2), c(f1.2, f2.2, f3.2))
-
-f7mod.1 <- step(glm(mods_m7[1], family="poisson", data=Seg_allData))
-f7sum.1 <- summary(f7mod.1)
-
-f7mod.2 <- step(glm(mods_m7[2], family="poisson", data=Seg_allData))
-f7sum.2 <- summary(f7mod.2)
-
-f7mod.3 <- step(glm(mods_m7[3], family="poisson", data=Seg_allData))
-f7sum.3 <- summary(f7mod.3)
-
-AIC(f7mod.1, f7mod.2, f7mod.3)
-
-#         df      AIC
-# f7mod.1  4 142.0212
-# f7mod.2  4 138.8917
-# f7mod.3  4 142.0212
-
-#write.csv(f7sum.1$coefficients, "../04Outputs/Chicago/Chi_NumTrees_Best_2mod4.csv")
-
-###Urban Tolerance
-mods_m8 <- paste(rep("PercUrbanApp ~", 2), c(f1, f2, f3))
-
-f8mod.1 <- betareg(mods_m8[1], data=Seg_allData, weights=wts)
-bestf8mod.1 <- StepBeta(f8mod.1)
-f8sum.1 <- summary(bestf8mod.1)
-
-f8mod.2 <- betareg(mods_m8[2], data=Seg_allData, weights=wts)
-bestf8mod.2 <- StepBeta(f8mod.2)
-f8sum.2 <- summary(bestf8mod.2)
-
-f8mod.3 <- betareg(mods_m8[3], data=Seg_allData, weights=wts)
-bestf8mod.3 <- StepBeta(f8mod.3)
-f8sum.3 <- summary(bestf8mod.3)
-
-AIC(bestf8mod.1, bestf8mod.2, bestf8mod.3)
-
-#             df       AIC
-# bestf8mod.1  5 -1520.500
-# bestf8mod.2  7 -1525.429
-# bestf8mod.3  7 -1705.139
-
-#write.csv(f8sum.2$coefficients, "../04Outputs/Chicago/Chi_UrbanApp_Best_2mod4.csv")
-
-##########################################################Tree Health
-
-###########################PercDisc3o4
-mods_m9 <- paste(rep("PercDisc3o4 ~", 2), c(f1, f2, f3))
-
-f9mod.1 <- betareg(mods_m9[1], data=Seg_allData, weights=wts)
-bestf9mod.1 <- StepBeta(f9mod.1)
-f9sum.1 <- summary(bestf9mod.1)
-
-f9mod.2 <- betareg(mods_m9[2], data=Seg_allData, weights=wts)
-bestf9mod.2 <- StepBeta(f9mod.2)
-f9sum.2 <- summary(bestf9mod.2)
-
-f9mod.3 <- betareg(mods_m9[3], data=Seg_allData, weights=wts)
-bestf9mod.3 <- StepBeta(f9mod.3)
-f9sum.3 <- summary(bestf9mod.3)
-
-AIC(bestf9mod.1, bestf9mod.2, bestf9mod.3)
-
-#             df       AIC
-# bestf9mod.1  6 -2413.713
-# bestf9mod.2  6 -2413.713
-# bestf9mod.3  6 -2567.886
-
-#write.csv(f9sum.2$coefficients, "../04Outputs/Chicago/Chi_Discol_Best_2mod4.csv")
-
-###########################PercDBK5
-mods_m10 <- paste(rep("PercDBK5 ~", 2), c(f1, f2, f3))
-
-f10mod.1 <- betareg(mods_m10[1], data=Seg_allData, weights=wts)
-bestf10mod.1 <- StepBeta(f10mod.1)
-f10sum.1 <- summary(bestf10mod.1)
-
-f10mod.2 <- betareg(mods_m10[2], data=Seg_allData, weights=wts)
-bestf10mod.2 <- StepBeta(f10mod.2)
-f10sum.2 <- summary(bestf10mod.2)
-
-f10mod.3 <- betareg(mods_m10[3], data=Seg_allData, weights=wts)
-bestf10mod.3 <- StepBeta(f10mod.3)
-f10sum.3 <- summary(bestf10mod.3)
-
-
-AIC(bestf10mod.1, bestf10mod.2, bestf10mod.3)
-
+##Results from AIC Run
 #              df       AIC
-# bestf10mod.1  5 -2998.044
-# bestf10mod.2  6 -3056.405
-# bestf10mod.3  6 -3132.195
+# bestf6mod.1  7 -2546.494
+# bestf6mod.2  8 -2560.262
+# bestf6mod.3  8 -2616.825
 
-#write.csv(f10sum.2$coefficients, "../04Outputs/Chicago/Chi_DBK_Best_2mod4.csv")
-
-###########################PercCS4o5
-mods_m11 <- paste(rep("PercCS4o5 ~", 2), c(f1, f2, f3))
-
-f11mod.1 <- betareg(mods_m11[1], data=Seg_allData, weights=wts)
-bestf11mod.1 <- StepBeta(f11mod.1)
-f11sum.1 <- summary(bestf11mod.1)
-
-f11mod.2 <- betareg(mods_m11[2], data=Seg_allData, weights=wts)
-bestf11mod.2 <- StepBeta(f11mod.2)
-f11sum.2 <- summary(bestf11mod.2)
-
-f11mod.3 <- betareg(mods_m11[3], data=Seg_allData, weights=wts)
-bestf11mod.3 <- StepBeta(f11mod.3)
-f11sum.3 <- summary(bestf11mod.3)
-
-
-AIC(bestf11mod.1, bestf11mod.2, bestf11mod.3)
-
-#              df       AIC
-# bestf11mod.1  6 -2386.875
-# bestf11mod.2  7 -2396.600
-# bestf11mod.3  6 -2567.360
-
-
-#write.csv(f11sum.2$coefficients, "../04Outputs/Chicago/Chi_CS_Best_2mod4.csv")
 
 ##store data from the "best" models
 cnms <- c("ModelType", "DepVar", "model", "R2")
-ModOverview <- as.data.frame(matrix(0, nrow=11, ncol=length(cnms)))
+ModOverview <- as.data.frame(matrix(0, nrow=6, ncol=length(cnms)))
 names(ModOverview) <- cnms
 
-modList <- list(f4sum.2, f5sum.1, f6sum.1, f7sum.2, f8sum.2, f9sum.2, f10sum.2, f11sum.2)
-modTyps <- c("beta", "beta", "lin", "pois", "beta", "beta", "beta", "beta")
-modDep <- c("SimpDivSpp", "SimpDivGen", "AvgBA", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
+modList <- list(f1sum.3, f2sum.2, f3sum.3, f4sum.3, f5sum.3, f6sum.3)
+modTyps <- c("beta", "pois", "beta", "beta", "beta", "beta")
+modDep <- c("SimpDivSpp", "NumTrees", "PercUrbanApp", "PercDisc", "PercDBK", "PercCS")
 
-for (m in 1:8){
+for (m in 1:6){
 
   mod <- modList[[m]]
   modT <- modTyps[m]
@@ -923,12 +844,12 @@ for (m in 1:8){
 
   ##printout the coefficient values
 
-  #write.csv(pm, paste("../01Data/Chicago/BetaVals", modDep[m], "since15_062824.csv", sep=""))
+  write.csv(pm, paste("../03Outputs/Chicago/", modDep[m], ".csv", sep=""))
 
 
 }
 
-write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults_2mod4.csv")
+write.csv(ModOverview, "../04Outputs/Chicago/Chi_ModelOverviewResults.csv")
 
 
 
