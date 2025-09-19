@@ -1,0 +1,198 @@
+---
+title: "Supplemental Soil Pilot"
+author: "Renata Poulton Kamakura"
+date: "2025-09-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+```
+
+# Pull in Data
+```{r pull in data}
+#compaction
+compaction <- read.csv("../01Data/PilotTesting/Compaction.csv")
+
+#electrical conductivity
+ec <- read.csv("../01Data/PilotTesting/ElectricalConductivity.csv")
+```
+
+# Compaction
+Things to look at:
+* the number of values that are 4.5+
+* the number of trees that are more than half 4.5+
+* the average per tree (set 4.5+ to 4.75 for the sake of something)
+* plot the distribution of all values
+* plot the distribution of mean values
+* color code the above by orientation to the street
+
+```{r compaction data cleaning}
+#clean up the max values
+transform_max <- function(x) str_replace(x, "4\\.5\\+\\.?", "4.75")
+compact_transform <- compaction[compaction$Compaction.Not.Possible == FALSE,]
+compact_transform$Compaction.5[compact_transform$Compaction.5 == "1 5"] <- 1.5
+
+compact_transform <- compact_transform %>%
+  mutate_at(vars(Compaction.1, Compaction.2, Compaction.3, Compaction.4, Compaction.5, Compaction.6), ~ as.numeric(transform_max(.)))
+
+#add new columns column
+compact_transform <- compact_transform %>%
+  rowwise() %>%
+  mutate(Compaction_Avg = mean(c_across(Compaction.1:Compaction.6), na.rm = TRUE)) %>%
+  mutate(
+    Count_Max = sum(c_across(Compaction.1:Compaction.6) == 4.75, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+#fix some errors in the dates
+compact_transform <- compact_transform %>%
+  mutate(Date = case_when(
+    Date == "6/7/2025" ~ "6/7/2022",
+    Date == "6/14/22" ~ "6/14/2022",
+    Date == "7/12/2022 change id on hthc" ~ "7/12/2022",
+    TRUE ~ Date  # keep original value if no match
+  ))
+
+#add rain info
+#https://www.wunderground.com/history/daily/us/il/chicago/KMDW/date/2022-6-26
+recentRain <- c("6/7/2022", "6/26/2022", "7/18/2022", "7/25/2022")
+activeRain <- c("7/5/2022", "7/6/2022")
+noRecentRain <- c("6/14/2022", "6/17/2022", "6/27/2022", "6/28/2022","7/12/2022", "7/19/2022")
+
+compact_transform <- compact_transform %>%
+  mutate(RainStatus = case_when(
+    Date %in% recentRain ~ "recentRain",
+    Date %in% activeRain ~ "activeRain",
+    Date %in% noRecentRain ~ "noRain",
+    TRUE ~ "unknown"
+  ))
+
+#deal with the order of the levels
+
+compact_transform$RainStatus <- factor(compact_transform$RainStatus,
+                                       levels = c("activeRain", "recentRain", "noRain"))
+```
+
+```{r compact summary}
+#quick summary
+CouldNotSample <- sum(compaction$Compaction.Not.Possible == TRUE)
+length(compact_transform$Tree.Number)
+MoreHalf_atMax <- sum(compact_transform$Count_Max > 3)/length(compact_transform$Tree.Number)
+OneorNone_atMax <- sum(compact_transform$Count_Max < 2)/length(compact_transform$Tree.Number)
+
+p_sitetype <- ggplot(compact_transform, aes(x=as.factor(Street.Segment), y=Compaction_Avg, color=Site.type)) + 
+  geom_boxplot() +
+  geom_point(position=position_jitterdodge())
+
+p_mulch <- ggplot(compact_transform, aes(x=as.factor(Street.Segment), y=Compaction_Avg, color=Mulch)) + 
+  geom_boxplot() +
+  geom_point(position=position_jitterdodge())  + 
+  scale_x_discrete(label = c("1", "12", "6", "4", "3")) +
+  xlab("Pilot Street Segments") +
+  ylab("Mean Soil Compaction (tons/ft2)") + 
+  scale_color_grey(start=0.8, end=0.2, labels = c("No Mulch", "Mulch"))  +
+  labs(color = "Mulch") + 
+  theme_minimal() + 
+  theme(legend.position = "top")
+
+#would be better to have rain/no rain
+p_date <- ggplot(compact_transform, aes(x=as.factor(Street.Segment), y=Compaction_Avg, color=Date)) + 
+  geom_boxplot() +
+  geom_point(position=position_jitterdodge())
+
+p_rain <- ggplot(compact_transform, aes(x=as.factor(Street.Segment), y=Compaction_Avg, color=RainStatus)) + 
+  geom_boxplot() +
+  geom_point(position=position_jitterdodge()) + 
+  scale_x_discrete(label = c("1", "12", "6", "4", "3")) +
+  xlab("Pilot Street Segments") +
+  ylab("Mean Soil Compaction (tons/ft2)") + 
+  scale_color_grey(start=0.8, end=0.2, labels = c("Raining", "Recent Rain", "No Rain")) +
+  labs(color = "Rain Status") + 
+  theme_minimal() + 
+  theme(legend.position = "top")
+
+
+#look at the plots
+print(p_sitetype)
+print(p_mulch)
+#print(p_date)
+print(p_rain)
+
+print(paste(CouldNotSample, "trees could not have compaction data collected"))
+print(paste(MoreHalf_atMax, "is the fraction of remaining trees that had more than half of compaction values at the maximum"))
+
+```
+
+# Electrical conductivity
+Things to look at
+* the average for each tree
+* the variance for each tree
+* boxplots for the values collected each day
+
+```{r ec}
+ec_transform <- ec %>% 
+  separate(EC..mS.cm....parallel.to.road, into=c("Road1", "Road2"), sep=",")
+
+ec_transform <- ec_transform[,c("Date", "Grid.Cell", "Species.ID.Code", "Land.Use.Type", "Site.type", "EC.Collection.Date", "Road1", "Road2", "EC..mS.cm....street.side", "EC..mS.cm....sidewalk.side")]
+
+names(ec_transform) <- c("Date", "Grid.Cell", "Species.ID.Code", "Land.Use.Type", "Site.type", "EC.Collection.Date", "Road1", "Road2", "Street", "Sidewalk")
+
+#get the mean
+ec_transform <- ec_transform%>%
+  mutate_at(vars(Road1:Sidewalk), ~ as.numeric(.))
+
+
+ec_transform <- ec_transform %>%
+  rowwise() %>%
+  mutate(EC_Avg = mean(c_across(Road1:Sidewalk), na.rm = TRUE)) %>%
+  ungroup()
+
+#get rid of the one without reasonable values
+ec_transform <- ec_transform[!is.nan(ec_transform$EC_Avg),]
+
+#basic visuals
+
+#do the same rain bit as for the other ones
+#https://www.wunderground.com/history/daily/us/il/chicago/KMDW/date/2022-6-26
+recentRain <- c("7/1/21")
+activeRain <- c("6/25/21", "6/26/21")
+noRecentRain <- c("7/2/21")
+
+ec_transform <- ec_transform %>%
+  mutate(RainStatus = case_when(
+    EC.Collection.Date %in% recentRain ~ "recentRain",
+    EC.Collection.Date %in% activeRain ~ "activeRain",
+    EC.Collection.Date %in% noRecentRain ~ "noRain",
+    TRUE ~ "unknown"
+  ))
+
+ec_transform$RainStatus <- factor(ec_transform$RainStatus,
+                                       levels = c("activeRain", "recentRain", "noRain"))
+```
+
+```{r ec summary}
+
+p_sitetype <- ggplot(ec_transform, aes(x=as.factor(Site.type), y=EC_Avg , color=Site.type)) + 
+  geom_boxplot() +
+  geom_point(position=position_jitterdodge())
+
+#would be better to have rain/no rain
+p_rain <- ggplot(ec_transform, aes(x=as.factor(RainStatus), y=EC_Avg)) + 
+  geom_boxplot() +
+  geom_jitter() + 
+  scale_x_discrete(label = c("Raining", "Recent Rain", "No Rain")) +
+  xlab("") +
+  ylab("Electrical Conductivity (mS/cm)") + theme_minimal() + 
+  theme(legend.position = "top")
+
+
+#look at the plots
+print(p_sitetype)
+print(p_rain)
+```

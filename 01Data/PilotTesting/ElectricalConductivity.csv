@@ -1,0 +1,92 @@
+Date,Grid Cell,Tree Number,Species ID Code,Genus,Species,ID Notes,Land Use Type,Site type,EC Collection Date,EC (mS/cm) - parallel to road,EC (mS/cm) - street side,EC (mS/cm) - sidewalk side,EC (mS/cm),Removed/Gone
+6/17/21,46,001,ACXFR,Acer,x fremanii,bark oddly smooth,COMM,SC,,,,,"0.37,0.41",TRUE
+6/17/21,46,002,GYDI,Gymnocladus,dioicus,,COMM,SC,6/25/21,"0.22, 0.20",0.53,0.69,"0.22P, 0.20P (70.9F), 0.53St, 0.69Si",FALSE
+6/17/21,46,003,MOAL,Morus,alba,"weird leaves like morus spp. but leaves are big, within 7in but different from in Douglass Park. No berries to use for ID",SFR-D,SP,6/25/21,"1.74, 0.42",0.42,0.88,"1.74P, 0.42P, 0.42St, ",FALSE
+6/17/21,46,004,PRCE,Prunus,cerasifera,deep purple leaves with brownish-purple berries,SFR-D,SP,6/25/21,"0.30, 0.77",0.64,0.33,"0.30P, 0.77P, 0.64St, 0.33Si",FALSE
+6/17/21,46,005,ULUNK,Ulmus,unknown,elm-like leaves but small. Dark bark with red/orange tinge to inner bark. Looks like Ulmus crassifolia but the bark is wrong,SFR-D,SP,6/25/21,"0.46, 0.71",0.43,1.34,"0.46P, 0.71P, 0.43St, 1.34Si",FALSE
+6/17/21,46,006,ACPL,Acer,platanoides,"Dark red veins on leaf + petiole, white bark with orange inner bark; likely Crimson King cultivar",SFR-D,SP,6/25/21,"0.39, 0.42",0.39,1.81,"0.39P, 0.42P, 0.39St, 1.81Si",FALSE
+6/17/21,46,007,PYCA,Pyrus,calleryana,"Looks like P. calleryana but no flowers, only one immature berry. Purplish brown bark with white/light inner wood. Heart-shaped to oval leaves with pointed tips and reddish-brown flecks on midvein",SFR-D,SP,6/25/21,"0.45, 1.03",0.18,0.53,"0.45P, 1.03P, 0.18St, 0.53Si",FALSE
+6/17/21,46,008,ACPL,Acer,platanoides,Dark bark with some grey bits and an orangey inner bark. Extra teeth on leaves but not extreme. Petiole is reddish but the veins are not,SFR-D,SP,6/25/21,"0.47, 0.13",0.31,0.35,"0.47P, 0.13P, 0.31St, 0.35Si",FALSE
+6/17/21,46,009,ACPL,Acer,platanoides ,same species as tree 008,SFR-D,SP,6/25/21,"0.27, 0.38",0.26,0.31,"0.27P, 0.38P, 0.26St, 0.31Si",FALSE
+6/17/21,46,010,PRCE,Prunus,cerasifera,,SFR-D,SP,6/25/21,"0.22, 0.42",0.63,0.65,"0.22P, 0.42P, 0.63St, 0.65Si",FALSE
+6/17/21,46,011,PRCE,Prunus,cerasifera,,SFR-D,SP,6/25/21,"0.17, 0.29",0.39,0.3,"0.17 (70.4 P), 0.29P, 0.39St, 0.30Si",FALSE
+6/17/21,46,012,FRUNK,Fraxinus,unknown,"Leaf with terminal leaflet. Fraxinus-style seed bundles. Bark ridges almost form waves on larger branches. Orange inner bark. Rounded seeds, narrow-ish leaflet shape",SFR-D,SP,6/25/21,"0.38, 0.72",0.45,0.65,"0.38P (inside fence, 69.9), 0.72P, 0.45St (inside cement), 0.65 Si",FALSE
+6/17/21,46,013,ACXFR,Acer,x freemanii,"Leaves are a little think for silver, kind of between that and freeman's maple",SFR-D,SP,6/25/21,"0.74, 0.78",0.72,0.61,"0.74P (70.5), 0.78P, 0.72st, 0.61Si",FALSE
+6/17/21,46,014,ACRU,Acer,rubrum,Looks like ACRU but double-check with photos. Petioles are not super red,SFR-D,SP,6/25/21,"0.5, 0.41",0.39,0.64,"0.5P (71.2), 0.41P, 0.39st, 0.64Si",FALSE
+6/17/21,46,015,TICO,Tilia,cordata,"leaves usually 3.5in or less, bunches of reddish hairs by vein branches on underside of leaf. Pointy leaf tip",INST,SP,6/25/21,"0.57, 1.05",1.04,1.26,"0.57P, 1.05P, 1.04St, 1.26Si",FALSE
+6/17/21,46,016,PRCE,Prunus,cerasifera,,SFR-D,SP,6/25/21,"2.15, 1.44",0.63,0.56,"2.15P, 1.44P, 0.63St, 0.56Si",FALSE
+6/17/21,46,017,CEOC,Celtis,occidentalis,,SFR-D,SP,6/25/21,"1.3, 1.78",0.98,0.76,"1.30P, 1.78P, 0.98St, 0.76Si",FALSE
+6/17/21,46,018,ALGL,Alnus,glutinosa,"Not in the HTHC app? Clearly alder catkins, leaves rouded, maybe rhombifolia? Orangey hairs on underside of leaf",SFR-D,SP,6/25/21,"0.16, 0.59",0.43,0.48,"0.16P, 0.59P, 0.43St, 0.48Si",FALSE
+6/17/21,46,019,CEOC,Celtis,occidentalis,"bark looks warty like C. occidentalis, some berries on far off branches",SFR-D,SP,6/25/21,"1.25, 2.12",0.71,0.5,"1.25P, 2.12P, 0.71St, 0.50Si",FALSE
+6/17/21,46,020,CEOC,Celtis,occidentalis,,SFR-D,SC,6/25/21,"1.28, 2.73",1.46,0.49,"1.28P, 2.73P, 1.46St, 0.49Si",FALSE
+6/17/21,46,021,ULUNK,Ulmus,unknown,"Looks kind of like ulmus crassifolia. Small, elm-like leaves. Bark is purplish-brown with orange-brown inner bark.",SFR-D,SP,6/25/21,"0.64, 0.24",0.81,0.51,"0.64P, 0.24P, 0.81St, 0.51Si",FALSE
+6/17/21,46,022,FRPE,Fraxinus,pennsylvanica,Looks like some kind of ash from buds and general leaf with terminal leaflet. Looks kind of like F. americana,SFR-D,SP,6/25/21,"0.39, 0.17",2.15,0.43,"0.39P, 0.17P, 2.15st, 0.43Si",FALSE
+6/18/21,46,023,AEUNK,Aesculus,unknown,"Brownish bark, with reddish brown inner bark, aesculus-like leaves but less pointy than yellow buckeye, no flowers or fruits visible. THe issue here really is that the bark is super wild, but ",SFR-D,SP,6/25/21,"0.40, 0.15",0.71,0.29,"0.40P, 0.15P, 0.71St, 0.29Si",FALSE
+6/18/21,46,024,AEFL,Aesculus,flava,"Like previous one but lighter bark with shallower ridges, leaves with more curvature to the point, leave slightly thinner. Looks like Ohio or yellow buckeye",SFR-D,SP,6/25/21,"0.53, 0.29",0.74,0.56,"0.53P, 0.29P, 0.74St, 0.56Si",FALSE
+6/18/21,46,025,ACRU,Acer,rubrum,3 lobed maple with reddish tinge to petioles ,SFR-D,SP,6/25/21,"0.41, 0.41",0.44,0.37,"0.41P, 0.41P, 0.44St, 0.37Si",FALSE
+6/18/21,46,026,FRPE,Fraxinus,pennsylvanica,"Leaf scar below bud and in semicircle shape, relatively thin leaves, rounded seeds, pinkish tinge to bark",SFR-D,SP,6/25/21,"0.19, 0.39",0.26,0.76,"0.19P, 0.39P, 0.26st, 0.76Si",FALSE
+6/18/21,46,027,ACXFR,Acer,x fremanii,"Mix of 3 and 5 lobed leaves, smooth bark with splotches, leaves do look a little too deeply lobed to be freemanii but unclear.",SFR-D,SP,6/25/21,"0.26, 0.94",0.81,0.67,"0.26P, 0.94P, 0.81St, 0.67Si",FALSE
+6/18/21,46,028,FRPE,Fraxinus,pennsylvanica,"Similar buds to other FRPE, leaves look a little wider but not much",SFR-D,SP,6/25/21,"0.53, 0.23",0.54,0.1,"0.53P, 0.23P, 0.54St, 0.10Si",FALSE
+6/18/21,46,029,FRPE,Fraxinus,pennsylvanica ,Leaves darker than last one?,SFR-D,SP,6/25/21,"0.38, 0.26",0.36,0.55,"0.38P, 0.26P, 0.36St, 0.55Si, ",FALSE
+6/18/21,46,030,ACPL,Acer,platanoides,"Seeds more of a giveaway, has the shallow sinuses and wide leaves plus the mild ski tracks in the bark",SFR-D,SP,6/25/21,"0.44, 0.54",0.57,0.44,"0.44P, 0.54P, 0.57St, 0.44Si",FALSE
+6/18/21,46,031,ACPL,Acer,platanoides,Does have that odd dark/light leaf coloration but same broad seeds,SFR-D,SP,6/25/21,"0.30, 0.70",0.51,0.7,"0.30P, 0.70P, 0.51St, 0.70Si",FALSE
+6/18/21,46,032,FRPE,Fraxinus,pennsylvanica ,"Has the right leaf scar, white hairs along vein on underside of leaf",SFR-D,SP,6/25/21,"0.51, 1.02",0.6,0.59,"0.51P, 1.02P, 0.60St, 0.59Si",FALSE
+6/18/21,46,033,FRPE,Fraxinus,pennsylvanica,"Small leaves, semicircle leaf scar below bud",COMM,SP,6/25/21,"0.86, 0.12",0.49,0.7,"0.86P, 0.12P, 0.49St, 0.70Si",FALSE
+6/18/21,46,034,FRPE,Fraxinus,pennsylvanica ,"Larger leaves, semicircular leaf scar below bud, deeply ridged bark in ski pattern",COMM,SP,6/25/21,"0.74, 0.78",0.51,0.99,"0.74P, 0.78P, 0.51St, 0.99Si",FALSE
+6/18/21,46,035,PRCE,Prunus,cerasifera,Unmistakable deep purple leaves,SFR-D,SP,6/25/21,"0.63, 0.42",0.17,0.76,"0.63P, 0.42P, 0.17St, 0.76Si",FALSE
+6/18/21,46,036,THOC,Thuja,occidentalis,Leaf scales ,MFR,SP,6/25/21,"0.67, 0.25",0.48,1.01,"0.67P, 0.25P, 0.48St, 1.01Si",FALSE
+6/18/21,46,037,MAUNK,Malus,unknown,Really mostly looking at the fruit; hard to figure out solid Id when there are a bunch of cultivars,MFR,SP,6/25/21,"0.72, 0.76",0.4,0.45,"0.72P, 0.76P, 0.40St, 0.45Si",FALSE
+6/18/21,46,038,TIAM,Tilia,americana,,MFR,SP,6/25/21,"1.00, 0.64",0.13,0.86,"1.00P, 0.64P, 0.13St, 0.86Si",FALSE
+6/18/21,46,039,PRUNK,Prunus,unknown,"Small purple berries, kind of like PRCE, but tiny leaves and delicate branching pattern",MFR,SP,6/25/21,"0.43, 0.78",1,0.76,"0.43P, 0.78P, 1.00St, 0.76Si",FALSE
+6/18/21,46,040,CASP,Catalpa,speciosa,,MFR,SP,6/25/21,"0.78, 0.23",0.93,0.55,"0.78P, 0.23P, 0.93St, 0.55Si",FALSE
+6/25/21,46,041,TICO,Tilia,cordata,Tilia with small leaves,SFR-D,SP,6/25/21,"0.77, 0.13",0.55,0.27,"0.77P, 0.13P, 0.55St, 0.27Si",FALSE
+6/25/21,46,042,TICO,Tilia,cordata,Tilia with very small leaves,SFR-D,SP,6/25/21,"0.24, 0.20",0.33,0.85,"0.24P, 0.20P, 0.33St, 0.85Si",FALSE
+6/25/21,46,043,CASP,Catalpa,speciosa,,SFR-D,SP,6/25/21,"0.23, 0.86",0.98,0.75,"0.23P, 0.86P, 0.98St, 0.75Si",FALSE
+6/25/21,46,044,FRUNK,Fraxinus,unknown,,SFR-D,SP,6/25/21,"0.42, 0.33",0.91,0.78,"0.42P, 0.33P, 0.78Si, 0.91St",FALSE
+6/25/21,46,045,FRUNK,Fraxinus,unknown,,SFR-D,SP,6/25/21,"0.78, 0.90",1.15,1.05,"0.78P, 0.90P, 1.05Si, 1.15St",FALSE
+6/25/21,46,046,CASP,Catalpa,speciosa,,SFR-D,SP,6/25/21,"0.54, 0.10",0.46,0.82,"0.54P, 0.10P, 0.46St, 0.82Si",FALSE
+6/25/21,46,047,PRCE,Prunus,cerasifera,,SFR-D,SP,6/25/21,"0.68, 0.84",0.86,1.48,"0.68P, 0.84P, 1.48Si, 0.86St",FALSE
+6/25/21,46,048,GLTR,Gleditsia,triacanthos,,SFR-D,SP,6/25/21,"0.79, 0.29",1.34,0.74,"0.79P, 0.29P, 1.34Si, 0.74St",FALSE
+6/25/21,46,049,CECA,Cercis,canadensis,Smaller leaves than speciosa,SFR-D,SP,6/25/21,"0.42, 0.65",1.2,0.68,"Taken from outside cement + flowers: 0.68Si, 1.20St, 0.42P, 0.65P",FALSE
+6/25/21,46,050,CECA,Cercis,canadensis,Same species as previous,SFR-D,SP,6/25/21,"0.86, 0.75",0.19,0.38,"Taken outside cement/flowers: 0.86P, 0.75P, 0.38Si, 0.19St",FALSE
+6/25/21,46,051,PRCE,Prunus,cerasifera ,,SFR-D,SP,6/25/21,"0.31, 0.11",0.02,0.49,"0.31P, 0.11P, 0.49Si, 0.02St",FALSE
+6/25/21,46,052,FRUNK,Fraxinus,unknown,,SFR-D,SP,6/25/21,"0.52, 0.84",0.37,0.74,"0.52P, 0.84P, 0.74Si, 0.37St",FALSE
+6/25/21,46,053,BEPA,Betula,papyrifera,"Just need to double check, bark looks a bit dark",SFR-D,SP,6/25/21,"0.52, 0.22",0.6,0.51,"0.52P, 0.22P, 0.51Si, 0.60St",FALSE
+6/25/21,46,054,GIBI,Ginkgo,biloba,,SFR-D,SP,6/25/21,"1.03, 0.35",0.62,1.22,"1.03P, 0.35P, 0.62St, 1.22Si",FALSE
+6/25/21,46,055,TICO,Tilia,cordata,Took Id from tag,SFR-D,SP,6/25/21,"0.08, 1.36",1.12,0.47,"0.08P, 1.36P, 1.12St, 0.47Si",FALSE
+6/25/21,46,056,ACPL,Acer,platanoides ,Took ID from tag,SFR-D,SP,6/25/21,"0.06, 0.70",0.22,0.05,"0.06P, 0.70P, 0.22St, 0.05Si",FALSE
+6/25/21,46,057,FRUNK,Fraxinus,unknown,,COMM,SP,6/25/21,"0.72, 0.37",0.07,0.78,"0.72P, 0.37P, 0.07St, 0.78Si",FALSE
+6/26/21,46,058,ULUNK,Ulmus,unknown ,ulmus crassifola but double check,MFR,SP,6/26/21,"0.90, 0.22",0.41,0.2,,FALSE
+6/26/21,46,059,CECA,Cercis,canadensis,common pear most likely; strained bark is the confusion,MFR,SP,6/26/21,"0.63, 0.74",0.68,0.57,,FALSE
+6/26/21,46,060,CECA,Cercis,canadensis,common pear maybe,MFR,SP,6/26/21,"0.58,0.45",0.6,0.57,,FALSE
+6/26/21,46,061,ULUNK,Ulmus,unknown ,,MFR,SP,6/26/21,"0.13,0.43",0.04,0.52,,FALSE
+6/26/21,46,062,FRUNK,Fraxinus,unknown ,,MFR,SP,6/26/21,"0.60, 0.70",0.5,0.62,,FALSE
+6/26/21,46,063,ACRU,Acer,rubrum,,MFR,SP,6/26/21,"0.12,0.48",0.89,0.72,,FALSE
+6/26/21,46,064,ACXFR,Acer,x freemanii,,MFR,SP,6/26/21,"0.60,0.58",0.91,0.52,,FALSE
+7/1/21,46,065,PRUNK,Prunus,unknown,,MFR,SP,7/1/21,"0.89, 0.45",1.06,0.63,,FALSE
+7/1/21,46,066,AIAL,Ailanthus,altissima,,MFR,SP,7/1/21,"0.51, 0.62",1.27,0.46,,FALSE
+7/1/21,46,067,AIAL,Ailanthus,altissima,,MFR,SP,7/1/21,"0.56, 0.64",0.8,0.4,,FALSE
+7/1/21,46,068,PIUNK,Picea,unknown,Picture this said Engelmann spruce,MFR,SP,7/1/21,"0.56, 0.64",0.8,0.4,,FALSE
+7/1/21,46,069,ULAM,Ulmus,americana,,MFR,SP,7/1/21,"0.83, 0.71",0.33,0.61,,FALSE
+7/1/21,46,070,ULUNK,Ulmus,unknown,,MFR,SP,7/1/21,"0.68, 0.77",0.69,0.93,,FALSE
+7/1/21,46,071,ULUNK,Ulmus,unknown,"Bark more like bark patches at bottom than ski tracks, rather odd",MFR,SP,7/1/21,"0.71, 0.92",1.06,1.82,,FALSE
+7/2/21,46,072,MOUNK,Malus,unknown,multi-stemmed,SFR-D,SP,7/2/21,"0.44,0.48",0.91,0.6,,FALSE
+7/2/21,46,073,ULUNK,Ulmus,unknown ,,SFR-D,SP,7/2/21,"0.35,0.51",0.52,0.42,,FALSE
+7/2/21,46,074,ULUNK,Ulmus,unknown,,SFR-D,SP,7/2/21,"0.39, 0.44",1.69,0.61,,FALSE
+7/2/21,46,075,ULUNK,Ulmus,unknown,,SFR-D,SP,7/2/21,"0.77,0.72",0.47,0.74,,FALSE
+7/2/21,46,076,MAGUNK,Magnolia,unknown,,SFR-D,SP,7/2/21,"0.56,0.22",0.57,0.57,,FALSE
+7/2/21,46,077,TIAM,Tilia,americana,,SFR-D,SP,7/2/21,"0.47, 0.55",1.09,1,,FALSE
+7/2/21,46,078,GLTR,Gleditsia,triacanthos ,,SFR-D,SP,7/2/21,"0.35,0.76",0.97,2.12,,FALSE
+7/2/21,46,079,TIAM,Tilia,americana,,SFR-D,SP,7/2/21,"0.74,0.69",1.27,1.42,,FALSE
+7/2/21,46,080,GLTR,Gleditsia,triacanthos,,SFR-D,SP,7/2/21,"0.57,0.58",1.18,0.79,,FALSE
+7/2/21,46,081,TIAM,Tilia,americana,,SFR-D,SP,7/2/21,"0.41, 0.63",1.32,0.41,,FALSE
+7/2/21,46,082,GLTR,Gleditsia,triacanthos,,SFR-D,SP,7/2/21,"0.55,0.57",1.29,0.88,,FALSE
+7/2/21,46,083,ULUNK,Ulmus,unknown,,SFR-D,SP,7/2/21,"1.40, 0.99",0.47,0.41,,FALSE
+7/2/21,46,084,ULUNK,Ulmus,unknown,,SFR-D,SP,7/2/21,"1.19,2.63",0.59,0.39,,FALSE
+7/2/21,46,085,AEFL,Aesculus,flava,,SFR-D,SP,7/2/21,"0.54, 0.35",0.91,0.92,,FALSE
+7/2/21,46,086,GYDI,Gymnocladus,dioecious,,SFR-D,SP,7/2/21,"0.94, 0.89",1.08,0.84,,FALSE
+7/2/21,46,087,PRSE,Prunus,serrulata,PictureThis app helped ID,SFR-D,SP,7/2/21,"0.55, 0.97",0.98,0.96,,FALSE
+7/2/21,46,088,THOC,Thuja,occidentalis,,SFR-D,SP,7/2/21,"0.67,0.98",0.84,0.68,,FALSE
+7/2/21,46,089,FRUNK,Fraxinus,unknown,"PictureThis app ID's as Oregon Ash, leaves threw us off but bark is similar",MFR,SP,7/2/21,"1.00,0.98",0.97,1.36,,FALSE
+7/2/21,46,090,ACPL,Acer,platanoides,,SFR-D,SP,7/2/21,"0.48, 2.43",0.6,0.54,,FALSE
+7/2/21,46,091,MAUNK,Malus,spp.,PictureThis says malus pumila- we are skeptical because fruit are so small,SFR-D,SP,7/2/21,"0.37, 0.55",0.33,0.97,,FALSE
